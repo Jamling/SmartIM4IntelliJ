@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="cn.ieclipse.smartqq.SmartQQWindow">
+  <grid id="27dc6" binding="mPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="517" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <splitpane id="9bf7b">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="200"/>
+          </grid>
+        </constraints>
+        <properties>
+          <dividerLocation value="207"/>
+          <dividerSize value="2"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="25c9" binding="mContactPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <splitpane position="left"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="d6116" class="javax.swing.JTextField" binding="tfContactSearch">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <tabbedpane id="e8aed" binding="tabbedContact">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="200" height="200"/>
+                  </grid>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <scrollpane id="ea486" binding="pRecent">
+                    <constraints>
+                      <tabbedpane title="" icon="recent2.png"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="dc433" class="javax.swing.JList" binding="tRecent">
+                        <constraints/>
+                        <properties/>
+                      </component>
+                    </children>
+                  </scrollpane>
+                  <scrollpane id="58bf1" binding="pFriend">
+                    <constraints>
+                      <tabbedpane title="" icon="friend.png"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="93870" class="javax.swing.JTree" binding="tFriend">
+                        <constraints/>
+                        <properties/>
+                      </component>
+                    </children>
+                  </scrollpane>
+                  <scrollpane id="f056b" binding="pGroup">
+                    <constraints>
+                      <tabbedpane title="" icon="group.png"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="30a1e" class="javax.swing.JList" binding="tGroup">
+                        <constraints/>
+                        <properties/>
+                      </component>
+                    </children>
+                  </scrollpane>
+                  <scrollpane id="bfb29" binding="pDiscuss">
+                    <constraints>
+                      <tabbedpane title="" icon="discuss2.png"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="73ef0" class="javax.swing.JList" binding="tDiscuss">
+                        <constraints/>
+                        <properties/>
+                      </component>
+                    </children>
+                  </scrollpane>
+                </children>
+              </tabbedpane>
+            </children>
+          </grid>
+          <tabbedpane id="dab04" binding="tabbedChat" custom-create="true">
+            <constraints>
+              <splitpane position="right"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </tabbedpane>
+        </children>
+      </splitpane>
+      <toolbar id="6a31b">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="2" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false">
+            <preferred-size width="24" height="-1"/>
+            <maximum-size width="32" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <borderPainted value="false"/>
+          <floatable value="false"/>
+          <orientation value="1"/>
+          <rollover value="false"/>
+        </properties>
+        <clientProperties>
+          <JToolBar.isRollover class="java.lang.Boolean" value="false"/>
+        </clientProperties>
+        <border type="none"/>
+        <children>
+          <component id="55018" class="javax.swing.JButton" binding="tbLogin">
+            <constraints/>
+            <properties>
+              <icon value="qrcode.png"/>
+              <text value=""/>
+              <toolTipText value="Login"/>
+            </properties>
+          </component>
+          <component id="364c9" class="javax.swing.JButton" binding="tbSetting">
+            <constraints/>
+            <properties>
+              <icon value="settings.png"/>
+              <text value=""/>
+              <toolTipText value="Settings"/>
+            </properties>
+          </component>
+          <component id="c6643" class="javax.swing.JButton" binding="tbTest">
+            <constraints/>
+            <properties>
+              <icon value="contact.png"/>
+              <text value=""/>
+            </properties>
+          </component>
+        </children>
+      </toolbar>
+    </children>
+  </grid>
+</form>

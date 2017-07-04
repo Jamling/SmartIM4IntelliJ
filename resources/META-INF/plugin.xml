@@ -1,17 +1,20 @@
 <idea-plugin version="2">
     <id>cn.ieclipse.smartqq.intellij</id>
     <name>SmartQQ</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <vendor email="li.jamling@gmail.com" url="https://github.com/Jamling/SmartQQ4Intellij">Jamling</vendor>
 
     <description><![CDATA[
-     An anti-boss plugin for you to chat with your QQ freinds privately.<br>
-     一个防Boss的QQ聊天插件，让老板以为你是在写代码，其实，你是在聊天，不过，做为程序猿，怎么可能有时间聊天，哈哈。
+     An anti-boss plugin for you to chat with your QQ friends privately.<br/>
+     一个防Boss的QQ聊天插件，让老板以为你是在写代码，其实，你是在聊天，不过，做为程序猿，怎么可能有时间聊天，哈哈。<br/>
      about more: https://github.com/Jamling/SmartQQ4Intelllij/
     ]]></description>
 
     <change-notes><![CDATA[
-     v1.0.0: chat only;
+    v1.0.1
+     <ul>
+        <li>add disconnect;</li>
+     </ul>
     ]]>
     </change-notes>
 

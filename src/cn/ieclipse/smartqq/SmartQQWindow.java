@@ -16,6 +16,7 @@ import com.scienjus.smartqq.callback.MessageCallback2;
 import com.scienjus.smartqq.client.SmartClient;
 import com.scienjus.smartqq.model.*;
 import icons.ImagesIcons;
+import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -52,13 +53,15 @@ public class SmartQQWindow implements ToolWindowFactory {
     private JList tDiscuss;
     private JScrollPane pRecent;
     private JScrollPane pFriend;
+    private JButton tbClose;
 
     //
     private SmartQQWindow window;
     private SmartClient client;
+    public static Logger LOG = Logger.getLogger("SmartQQ");
 
     public SmartClient getClient() {
-        if (client == null) {
+        if (client == null || client.isClose()) {
             client = new SmartClient();
         }
 
@@ -91,16 +94,26 @@ public class SmartQQWindow implements ToolWindowFactory {
                 dialog.setLocationRelativeTo(null);
                 dialog.pack();
                 dialog.setVisible(true);
+                LOG.info("login : " + getClient().isLogin());
                 if (getClient().isLogin()) {
                     new Thread() {
                         @Override
                         public void run() {
+                            LOG.info("load init data");
                             getClient().reload();
+                            LOG.info("load init data finished");
                             SwingUtilities.invokeLater(new Runnable() {
                                 @Override
                                 public void run() {
-                                    updateContact();
+                                    try {
+                                        LOG.info("update contact UI");
+                                        updateContact();
+                                    } catch (Exception e) {
+                                        LOG.error("update contact UI failed : " + e.getMessage());
+                                    }
+
                                     getClient().setCallback(callback);
+                                    LOG.info("start listen pull message");
                                     getClient().start();
                                 }
                             });
@@ -116,6 +129,12 @@ public class SmartQQWindow implements ToolWindowFactory {
                 Friend f = new Friend();
                 f.setMarkname("f " + System.currentTimeMillis());
                 openChat(f);
+            }
+        });
+        tbClose.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getClient().close();
             }
         });
     }
@@ -219,53 +238,21 @@ public class SmartQQWindow implements ToolWindowFactory {
     MessageCallback2 callback = new MessageCallback2() {
 
         @Override
-        public void onMessage(final Message message,
-                              final FriendFrom from) {
+        public void onReceiveMessage(DefaultMessage message, MessageFrom from) {
             ChatConsole console =
                     findConsole(from.getName(), false);
             Recent r = getClient().getRecent(0, message.getUserId());
-
             if (console != null) {
-                console.write(String.format("%s %s: %s",
-                        new SimpleDateFormat("HH:mm:ss")
-                                .format(message.getTime()),
+                String time = new SimpleDateFormat("HH:mm:ss")
+                        .format(message.getTime());
+                console.write(String.format("%s %s: %s", time,
                         from.getName(), message.getContent()));
             }
-            // Robot.answer(from, message, console);
         }
 
         @Override
-        public void onGroupMessage(final GroupMessage message,
-                                   final GroupFrom from) {
-            Group g = getClient().getGroup(message.getGroupId());
-            String name = from.getName();
-
-            ChatConsole console = findConsole(g.getName(),
-                    false);
-            if (console != null) {
-                console.write(String.format("%s %s: %s",
-                        new SimpleDateFormat("HH:mm:ss")
-                                .format(message.getTime()),
-                        name, message.getContent()));
-            }
-            //Robot.answer(from, message, console);
-        }
-
-        @Override
-        public void onDiscussMessage(final DiscussMessage message,
-                                     final DiscussFrom from) {
-            Discuss g = getClient().getDiscuss(message.getDiscussId());
-            String name = from.getName();
-
-            ChatConsole console = findConsole(g.getName(),
-                    false);
-            if (console != null) {
-                console.write(String.format("%s %s: %s",
-                        new SimpleDateFormat("HH:mm:ss")
-                                .format(message.getTime()),
-                        name, message.getContent()));
-            }
-            //Robot.answer(from, message, console);
+        public void onReceiveError(Throwable throwable) {
+            LOG.error("receive message failed : " + throwable);
         }
     };
 
@@ -282,6 +269,7 @@ public class SmartQQWindow implements ToolWindowFactory {
         }
         ChatConsole console = new ChatConsole(getClient(), obj);
         tabbedChat.addTab(name, console.getPanel());
+        console.initUI();
         consoles.put(name, console);
     }
 

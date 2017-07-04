@@ -27,7 +27,7 @@ public class FriendListCellRenderer extends DefaultListCellRenderer {
     }
 
     public String getDisplayName(Object obj) {
-        if (obj instanceof Recent && this.client != null) {
+        if (obj instanceof Recent && this.client != null && !this.client.isClose()) {
             Recent r = (Recent) obj;
             if (r.getType() == 0) {
                 Friend f = client.getFriend(r.getUin());

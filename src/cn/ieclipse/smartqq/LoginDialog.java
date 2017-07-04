@@ -1,15 +1,9 @@
 package cn.ieclipse.smartqq;
 
 import com.scienjus.smartqq.callback.LoginCallback;
-import com.scienjus.smartqq.model.UserInfo;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class LoginDialog extends JDialog {
     private JPanel contentPane;
@@ -18,6 +12,7 @@ public class LoginDialog extends JDialog {
     private JPanel lTip;
     private JPanel pContent;
     private JLabel lqrcode;
+    private JTextArea textArea1;
 
     public LoginDialog(SmartQQWindow window) {
         setContentPane(contentPane);
@@ -52,37 +47,48 @@ public class LoginDialog extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        window.getClient().login(new LoginCallback() {
+        new Thread() {
             @Override
-            public void onQrcode(final String s) {
-                SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                window.getClient().login(new LoginCallback() {
                     @Override
-                    public void run() {
-                        try {
-                            //Image image = ImageIO.read(new File(s));
-                            ImageIcon icon = new ImageIcon(s);
-                            icon.getImage().flush();
-                            lqrcode.setIcon(icon);
-                            pack();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    public void onQrcode(final String s) {
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    //Image image = ImageIO.read(new File(s));
+                                    ImageIcon icon = new ImageIcon(s);
+                                    icon.getImage().flush();
+                                    lqrcode.setIcon(icon);
+                                    pack();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                     }
-                });
-            }
 
-            @Override
-            public void onLogin(UserInfo userInfo) {
-                SwingUtilities.invokeLater(new Runnable() {
                     @Override
-                    public void run() {
-                        setVisible(false);
+                    public void onLogin(boolean ok, final Exception e) {
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (ok) {
+                                    setVisible(false);
+                                } else {
+                                    textArea1.setText(e.getMessage());
+                                }
+                            }
+                        });
                     }
                 });
             }
-        });
+        }.start();
+
+
         String txt = "";
-        if(window.getClient().isLogin()){
+        if (window.getClient().isLogin()) {
             txt = "logined";
         }
         lTip.setToolTipText(txt);

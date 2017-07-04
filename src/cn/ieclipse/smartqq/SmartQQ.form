@@ -145,6 +145,13 @@
               <toolTipText value="Settings"/>
             </properties>
           </component>
+          <component id="b0bc6" class="javax.swing.JButton" binding="tbClose">
+            <constraints/>
+            <properties>
+              <icon value="disconnect.png"/>
+              <text value=""/>
+            </properties>
+          </component>
           <component id="c6643" class="javax.swing.JButton" binding="tbTest">
             <constraints/>
             <properties>

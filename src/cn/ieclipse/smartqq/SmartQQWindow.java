@@ -139,7 +139,7 @@ public class SmartQQWindow implements ToolWindowFactory {
                 getClient().close();
                 int count = tabbedChat.getTabCount();
                 for (int i = 0; i < count; i++) {
-                    tabbedChat.remove(i);
+                    tabbedChat.remove(0);
                 }
             }
         });

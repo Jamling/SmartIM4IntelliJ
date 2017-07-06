@@ -174,6 +174,9 @@ public class SmartQQWindow implements ToolWindowFactory {
         tFriend.setModel(new DefaultTreeModel(root));
         tFriend.expandRow(0);
 
+        if (tRecent.getCellRenderer() instanceof FriendListCellRenderer) {
+            ((FriendListCellRenderer) tRecent.getCellRenderer()).setClient(getClient());
+        }
         tRecent.setListData(getClient().getRecentList().toArray());
 
         tGroup.setListData(getClient().getGroupList().toArray());
@@ -191,13 +194,13 @@ public class SmartQQWindow implements ToolWindowFactory {
         tFriend.setCellRenderer(new FriendTreeCellRenderer());
 
         tRecent.addMouseListener(listClick);
-        tRecent.setCellRenderer(new FriendListCellRenderer(getClient()));
+        tRecent.setCellRenderer(new FriendListCellRenderer());
 
         tGroup.addMouseListener(listClick);
-        tGroup.setCellRenderer(new FriendListCellRenderer(getClient()));
+        tGroup.setCellRenderer(new FriendListCellRenderer());
 
         tDiscuss.addMouseListener(listClick);
-        tDiscuss.setCellRenderer(new FriendListCellRenderer(getClient()));
+        tDiscuss.setCellRenderer(new FriendListCellRenderer());
 
         tFriend.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("请先登录")));
     }

@@ -18,6 +18,14 @@ public class FriendListCellRenderer extends DefaultListCellRenderer {
         this.client = client;
     }
 
+    public FriendListCellRenderer() {
+        super();
+    }
+
+    public void setClient(SmartClient client) {
+        this.client = client;
+    }
+
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object obj, int index, boolean isSelected, boolean cellHasFocus) {
         Component component = super.getListCellRendererComponent(list, obj, index, isSelected, cellHasFocus);

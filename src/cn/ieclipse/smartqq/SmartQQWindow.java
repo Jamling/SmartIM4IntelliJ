@@ -149,8 +149,7 @@ public class SmartQQWindow implements ToolWindowFactory {
                 boolean v = mContactPanel.isVisible();
                 if (v) {
                     mSplitDividerLocation = mSplitPanel.getDividerLocation();
-                }
-                else {
+                } else {
                     mSplitPanel.setDividerLocation(mSplitDividerLocation);
                 }
                 mContactPanel.setVisible(!v);
@@ -264,8 +263,17 @@ public class SmartQQWindow implements ToolWindowFactory {
 
         @Override
         public void onReceiveMessage(DefaultMessage message, MessageFrom from) {
+            Object target = null;
+            if (message instanceof Message) {
+                target = getClient().getFriend(message.getUserId());
+            } else if (message instanceof GroupMessage) {
+                target = getClient().getGroup(((GroupMessage) message).getGroupId());
+            } else if (message instanceof DiscussMessage) {
+                target = getClient().getDiscuss(((DiscussMessage) message).getDiscussId());
+            }
+
             ChatConsole console =
-                    findConsole(from.getName(), false);
+                    findConsole(SmartClient.getName(target), false);
             Recent r = getClient().getRecent(0, message.getUserId());
             if (console != null) {
                 String time = new SimpleDateFormat("HH:mm:ss")
@@ -282,7 +290,6 @@ public class SmartQQWindow implements ToolWindowFactory {
     };
 
     private void openChat(Object obj) {
-
         String name = SmartClient.getName(obj);
         int count = tabbedChat.getTabCount();
         for (int i = 0; i < count; i++) {
@@ -295,6 +302,7 @@ public class SmartQQWindow implements ToolWindowFactory {
         tabbedChat.addTab(name, console.getPanel());
         console.initUI(tabbedChat);
         consoles.put(name, console);
+        tabbedChat.setSelectedIndex(count);
     }
 
     private Map<String, ChatConsole> consoles = new HashMap<>();

@@ -31,7 +31,27 @@ public class FriendListCellRenderer extends DefaultListCellRenderer {
         Component component = super.getListCellRendererComponent(list, obj, index, isSelected, cellHasFocus);
         JLabel label = (JLabel) component;
         label.setText(getDisplayName(obj));
+        label.setIcon(getDisplayIcon(obj));
         return component;
+    }
+
+
+    public Icon getDisplayIcon(Object obj) {
+        if (obj instanceof Recent) {
+            Recent r = (Recent) obj;
+            if (r.getType() == 0) {
+                return MyIcons.friend;
+            } else if (r.getType() == 1) {
+                return MyIcons.group;
+            } else if (r.getType() == 2) {
+                return MyIcons.discuss;
+            }
+        } else if (obj instanceof Group) {
+            return MyIcons.group;
+        } else if (obj instanceof Discuss) {
+            return MyIcons.discuss;
+        }
+        return MyIcons.friend;
     }
 
     public String getDisplayName(Object obj) {

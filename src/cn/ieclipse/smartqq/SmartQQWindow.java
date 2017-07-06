@@ -3,11 +3,6 @@ package cn.ieclipse.smartqq;
 import com.alibaba.fastjson.JSONObject;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
-import com.intellij.openapi.project.ProjectUtil;
-import com.intellij.openapi.project.ex.ProjectManagerEx;
-import com.intellij.openapi.projectRoots.ex.ProjectRoot;
-import com.intellij.openapi.projectRoots.ex.ProjectRootContainer;
-import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
@@ -15,7 +10,6 @@ import com.intellij.ui.content.ContentFactory;
 import com.scienjus.smartqq.callback.MessageCallback2;
 import com.scienjus.smartqq.client.SmartClient;
 import com.scienjus.smartqq.model.*;
-import icons.ImagesIcons;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,6 +19,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -32,6 +27,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by Jamling on 2017/6/30.
@@ -55,6 +51,7 @@ public class SmartQQWindow implements ToolWindowFactory {
     private JScrollPane pFriend;
     private JButton tbClose;
     private JButton tbShow;
+    private JSplitPane mSplitPanel;
 
     //
     private SmartQQWindow window;
@@ -149,10 +146,20 @@ public class SmartQQWindow implements ToolWindowFactory {
         tbShow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mContactPanel.setVisible(!mContactPanel.isVisible());
+                boolean v = mContactPanel.isVisible();
+                if (v) {
+                    mSplitDividerLocation = mSplitPanel.getDividerLocation();
+                }
+                else {
+                    mSplitPanel.setDividerLocation(mSplitDividerLocation);
+                }
+                mContactPanel.setVisible(!v);
             }
         });
     }
+
+    private Dimension mContactPanelSize;
+    private int mSplitDividerLocation = 0;
 
     private void updateContact() {
         //tFriend.setShowsRootHandles(true);

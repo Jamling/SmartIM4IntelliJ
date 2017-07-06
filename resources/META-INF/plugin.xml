@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>cn.ieclipse.smartqq.intellij</id>
     <name>SmartQQ</name>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <vendor email="li.jamling@gmail.com" url="https://github.com/Jamling/SmartQQ4Intellij">Jamling</vendor>
 
     <description><![CDATA[
@@ -11,10 +11,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-    v1.0.1
-     <ul>
-        <li>add disconnect;</li>
-     </ul>
+    v1.0.2 2017-07-06, use okhttp, optimize the ui.<br/>
+    v1.0.1 add disconnect.<br/>
+    v1.0.0 add main chat function.<br/>
     ]]>
     </change-notes>
 

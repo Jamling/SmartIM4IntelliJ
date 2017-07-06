@@ -78,6 +78,7 @@ public class LoginDialog extends JDialog {
                                     setVisible(false);
                                 } else {
                                     textArea1.setText(e.getMessage());
+                                    pack();
                                 }
                             }
                         });

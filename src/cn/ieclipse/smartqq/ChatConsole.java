@@ -101,12 +101,12 @@ public class ChatConsole {
         });
     }
 
-    public void initUI() {
-        if (splitPane != null) {
-            double h = splitPane.getPreferredSize().getHeight();
-            double ih = textArea1.getMinimumSize().getHeight();
-            splitPane.setDividerLocation((int)(h - ih - splitPane.getDividerSize()));
-            splitPane.updateUI();
-        }
+    public void initUI(JTabbedPane container) {
+//        if (splitPane != null) {
+//            double h = splitPane.getSize().getHeight();
+//            double ih = textArea1.getMinimumSize().getHeight();
+//            splitPane.setDividerLocation((int)(h - ih - splitPane.getDividerSize()));
+//            splitPane.updateUI();
+//        }
     }
 }

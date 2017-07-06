@@ -54,6 +54,7 @@ public class SmartQQWindow implements ToolWindowFactory {
     private JScrollPane pRecent;
     private JScrollPane pFriend;
     private JButton tbClose;
+    private JButton tbShow;
 
     //
     private SmartQQWindow window;
@@ -100,7 +101,11 @@ public class SmartQQWindow implements ToolWindowFactory {
                         @Override
                         public void run() {
                             LOG.info("load init data");
-                            getClient().reload();
+                            try {
+                                getClient().reload();
+                            } catch (Exception e) {
+                                LOG.info("load init data failed", e);
+                            }
                             LOG.info("load init data finished");
                             SwingUtilities.invokeLater(new Runnable() {
                                 @Override
@@ -135,6 +140,16 @@ public class SmartQQWindow implements ToolWindowFactory {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getClient().close();
+                int count = tabbedChat.getTabCount();
+                for (int i = 0; i < count; i++) {
+                    tabbedChat.remove(i);
+                }
+            }
+        });
+        tbShow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mContactPanel.setVisible(!mContactPanel.isVisible());
             }
         });
     }
@@ -259,7 +274,6 @@ public class SmartQQWindow implements ToolWindowFactory {
     private void openChat(Object obj) {
 
         String name = SmartClient.getName(obj);
-        System.out.println(name);
         int count = tabbedChat.getTabCount();
         for (int i = 0; i < count; i++) {
             if (tabbedChat.getTitleAt(i).equals(name)) {
@@ -269,7 +283,7 @@ public class SmartQQWindow implements ToolWindowFactory {
         }
         ChatConsole console = new ChatConsole(getClient(), obj);
         tabbedChat.addTab(name, console.getPanel());
-        console.initUI();
+        console.initUI(tabbedChat);
         consoles.put(name, console);
     }
 

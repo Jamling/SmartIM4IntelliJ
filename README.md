@@ -12,6 +12,12 @@ Eclipse的插件请访问 https://github.com/Jamling/SmartQQ4Eclipse/
 - 点击Browser repositories...并输入SmartQQ执行搜索
 - 点击SmartQQ进行安装并重启
 
+## 使用
+
+- 安装成功后，会在底部栏出现一个Smart的tab（如果没有底部栏，则在菜单View中把ToolButtons勾选上）
+- 点击Smart中的二维码使用手机QQ扫码登录
+
+
 ## 说明
 
 Idea的插件开发好难入手啊，百度的示例只有添加一个action此类简单的插件，最后是硬着头皮看了官方的帮助，然后摸着石头过河，终于搞定了基本功能。欢迎熟悉idea插件开发和Swing开发同学对本插件进行优化。

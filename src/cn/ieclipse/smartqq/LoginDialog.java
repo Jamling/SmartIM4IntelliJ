@@ -1,6 +1,8 @@
 package cn.ieclipse.smartqq;
 
+import com.intellij.ui.components.JBScrollPane;
 import com.scienjus.smartqq.callback.LoginCallback;
+import com.scienjus.smartqq.client.SmartClient;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -9,12 +11,13 @@ public class LoginDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JPanel lTip;
     private JPanel pContent;
     private JLabel lqrcode;
-    private JTextArea textArea1;
+    private JTextArea errorText;
+    private JBScrollPane errorPane;
+    private int result;
 
-    public LoginDialog(SmartQQWindow window) {
+    public LoginDialog(SmartClient client) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -47,56 +50,61 @@ public class LoginDialog extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        new Thread() {
-            @Override
-            public void run() {
-                window.getClient().login(new LoginCallback() {
-                    @Override
-                    public void onQrcode(final String s) {
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    //Image image = ImageIO.read(new File(s));
-                                    ImageIcon icon = new ImageIcon(s);
-                                    icon.getImage().flush();
-                                    lqrcode.setIcon(icon);
-                                    pack();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+        if (client != null && !client.isLogin()) {
+            new Thread() {
+                @Override
+                public void run() {
+                    client.login(new LoginCallback() {
+                        @Override
+                        public void onQrcode(final String s) {
+                            SwingUtilities.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        //Image image = ImageIO.read(new File(s));
+                                        ImageIcon icon = new ImageIcon(s);
+                                        icon.getImage().flush();
+                                        lqrcode.setIcon(icon);
+                                        pack();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                            }
-                        });
-                    }
+                            });
+                        }
 
-                    @Override
-                    public void onLogin(boolean ok, final Exception e) {
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (ok) {
-                                    setVisible(false);
-                                } else {
-                                    textArea1.setText(e.getMessage());
-                                    pack();
+                        @Override
+                        public void onLogin(boolean ok, final Exception e) {
+                            SwingUtilities.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (ok) {
+                                        setVisible(false);
+                                    } else {
+                                        errorText.setText(e.getMessage());
+                                        pack();
+                                    }
                                 }
-                            }
-                        });
-                    }
-                });
-            }
-        }.start();
+                            });
+                        }
+                    });
+                }
+            }.start();
+        }
 
 
         String txt = "";
-        if (window.getClient().isLogin()) {
-            txt = "logined";
+        if (client.isLogin()) {
+            txt = "已登录，点击确定重新加载联系人列表";
+        } else {
+            txt = "使用手机QQ扫描上面的二维码进行登录";
         }
-        lTip.setToolTipText(txt);
+        errorText.setText(txt);
     }
 
     private void onOK() {
 // add your code here
+        result = 1;
         dispose();
     }
 

@@ -1,6 +1,7 @@
 package cn.ieclipse.smartqq;
 
 import com.scienjus.smartqq.client.SmartClient;
+import icons.SmartIcons;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -19,7 +20,7 @@ public class FriendTreeCellRenderer extends DefaultTreeCellRenderer {
             Object m = ((DefaultMutableTreeNode) value).getUserObject();
             JLabel label = (JLabel) component;
             if (leaf) {
-                label.setIcon(MyIcons.friend);
+                label.setIcon(SmartIcons.friend);
             }
             label.setText(SmartClient.getName(m));
         }

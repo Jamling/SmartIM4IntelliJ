@@ -1,29 +1,26 @@
 package cn.ieclipse.smartqq;
 
+import com.intellij.ui.ColoredTreeCellRenderer;
 import com.scienjus.smartqq.client.SmartClient;
 import com.scienjus.smartqq.model.Discuss;
 import com.scienjus.smartqq.model.Friend;
 import com.scienjus.smartqq.model.Group;
 import com.scienjus.smartqq.model.Recent;
 import icons.SmartIcons;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import java.awt.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
- * Created by Jamling on 2017/7/3.
+ * Created by Jamling on 2017/7/13.
  */
-public class FriendListCellRenderer extends DefaultListCellRenderer {
+public class ContactTreeCellRenderer extends ColoredTreeCellRenderer {
 
     SmartClient client;
 
-    public FriendListCellRenderer(SmartClient client) {
-        super();
+    public ContactTreeCellRenderer(SmartClient client) {
         this.client = client;
-    }
-
-    public FriendListCellRenderer() {
-        super();
     }
 
     public void setClient(SmartClient client) {
@@ -31,14 +28,12 @@ public class FriendListCellRenderer extends DefaultListCellRenderer {
     }
 
     @Override
-    public Component getListCellRendererComponent(JList<?> list, Object obj, int index, boolean isSelected, boolean cellHasFocus) {
-        Component component = super.getListCellRendererComponent(list, obj, index, isSelected, cellHasFocus);
-        JLabel label = (JLabel) component;
-        label.setText(getDisplayName(obj));
-        label.setIcon(getDisplayIcon(obj));
-        return component;
+    public void customizeCellRenderer(@NotNull JTree jTree, Object o, boolean b, boolean b1, boolean b2, int i, boolean b3) {
+        Object obj = o instanceof DefaultMutableTreeNode ? ((DefaultMutableTreeNode) o).getUserObject() : o;
+        setIcon(getDisplayIcon(obj));
+        String name = (getDisplayName(obj));
+        append(name == null ? "" : name);
     }
-
 
     public Icon getDisplayIcon(Object obj) {
         if (obj instanceof Recent) {

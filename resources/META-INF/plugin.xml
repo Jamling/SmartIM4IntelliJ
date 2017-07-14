@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>cn.ieclipse.smartqq.intellij</id>
     <name>SmartQQ</name>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <vendor email="li.jamling@gmail.com" url="https://github.com/Jamling/SmartQQ4Intellij">Jamling</vendor>
 
     <description><![CDATA[
@@ -11,6 +11,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
+    v1.0.3 2017-07-14, 美化界面，添加了异常提醒
     v1.0.2 2017-07-06, use okhttp, optimize the ui.<br/>
     v1.0.1 add disconnect.<br/>
     v1.0.0 add main chat function.<br/>
@@ -29,7 +30,7 @@
         <!-- Add your extensions here -->
         <toolWindow canCloseContents="true" anchor="bottom"
                     id="Smart"
-                    factoryClass="cn.ieclipse.smartqq.SmartQQWindow">
+                    factoryClass="cn.ieclipse.smartqq.SmartWindowFactory">
         </toolWindow>
     </extensions>
 

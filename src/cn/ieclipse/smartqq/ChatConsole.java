@@ -1,8 +1,7 @@
 package cn.ieclipse.smartqq;
 
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectLocator;
-import com.intellij.openapi.project.ProjectManager;
+import com.intellij.openapi.ui.SimpleToolWindowPanel;
+import com.intellij.ui.JBSplitter;
 import com.scienjus.smartqq.client.SmartClient;
 import com.scienjus.smartqq.model.Discuss;
 import com.scienjus.smartqq.model.Friend;
@@ -19,50 +18,38 @@ import java.util.Date;
 /**
  * Created by Jamling on 2017/7/1.
  */
-public class ChatConsole {
-    private JPanel panel;
-    private JTextArea textArea1;
-    private JEditorPane editorPane1;
-    private JScrollPane top;
-    private JScrollPane bottom;
-    private JSplitPane splitPane;
+public class ChatConsole extends SimpleToolWindowPanel {
 
     private SmartClient client;
     private static final String ENTER_KEY = "\n";
     private Object target;
 
     public ChatConsole(SmartClient client, Object target) {
+        super(false, false);
         this.client = client;
         this.target = target;
 
-        textArea1.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                super.keyPressed(e);
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    String input = textArea1.getText();
-                    if (!input.isEmpty()) {
-                        send(input);
-                        textArea1.setText("");
-                    }
-                    e.consume();
-                }
-            }
-        });
+        initUI();
     }
 
     public void send(String input) {
-        try {
-            String msg = String.format("%s me: %s", new SimpleDateFormat("HH:mm:ss").format(new Date()), input);
-            editorPane1.getDocument().insertString(editorPane1.getDocument().getLength(), msg + ENTER_KEY, null);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
+        if (target instanceof Friend) {
+            try {
+                String me = "我";
+                if (client.getAccountInfo() != null) {
+                    me = client.getAccountInfo().getNick();
+                }
+                String msg = String.format("%s %s: %s", new SimpleDateFormat("HH:mm:ss").format(new Date()), me, input);
+                historyWidget.getDocument().insertString(historyWidget.getDocument().getLength(), msg + ENTER_KEY, null);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
         }
         post(input);
     }
 
     public void post(final String msg) {
-        if (target == null) {
+        if (target == null || client == null) {
             return;
         }
         if (target instanceof Friend) {
@@ -77,15 +64,9 @@ public class ChatConsole {
         }
     }
 
-    public JPanel getPanel() {
-        return panel;
-    }
-
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
-        Dimension minimumSize = new Dimension(100, 50);
-        bottom.setMaximumSize(minimumSize);
+
     }
 
     public void write(String msg) {
@@ -93,7 +74,7 @@ public class ChatConsole {
             @Override
             public void run() {
                 try {
-                    editorPane1.getDocument().insertString(editorPane1.getDocument().getLength(), msg + ENTER_KEY, null);
+                    historyWidget.getDocument().insertString(historyWidget.getDocument().getLength(), msg + ENTER_KEY, null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -101,12 +82,43 @@ public class ChatConsole {
         });
     }
 
-    public void initUI(JTabbedPane container) {
-//        if (splitPane != null) {
-//            double h = splitPane.getSize().getHeight();
-//            double ih = textArea1.getMinimumSize().getHeight();
-//            splitPane.setDividerLocation((int)(h - ih - splitPane.getDividerSize()));
-//            splitPane.updateUI();
-//        }
+    JBSplitter splitter;
+    ChatHistoryPane top;
+    ChatInputPane bottom;
+    JEditorPane historyWidget;
+    JTextPane inputWidget;
+    JButton btnSend;
+
+    public void initUI() {
+        top = new ChatHistoryPane();
+        bottom = new ChatInputPane();
+        historyWidget = top.getEditorPane();
+        inputWidget = bottom.getTextPane();
+        btnSend = bottom.getBtnSend();
+        btnSend.setVisible(false);
+
+        splitter = new JBSplitter(true);
+        splitter.setSplitterProportionKey("chat.splitter.key");
+        splitter.setFirstComponent(top.getPanel());
+        splitter.setSecondComponent(bottom.getPanel());
+        setContent(splitter);
+        splitter.setPreferredSize(new Dimension(200, 200));
+        splitter.setProportion(0.85f);
+
+
+        inputWidget.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    String input = inputWidget.getText();
+                    if (!input.isEmpty()) {
+                        inputWidget.setText("");
+                        send(input);
+                    }
+                    e.consume();
+                }
+            }
+        });
     }
 }

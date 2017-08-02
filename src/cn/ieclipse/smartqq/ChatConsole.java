@@ -33,7 +33,8 @@ public class ChatConsole extends SimpleToolWindowPanel {
     }
 
     public void send(String input) {
-        if (target instanceof Friend) {
+        // if (target instanceof Friend)
+        {
             try {
                 String me = "我";
                 if (client.getAccountInfo() != null) {
@@ -41,6 +42,7 @@ public class ChatConsole extends SimpleToolWindowPanel {
                 }
                 String msg = String.format("%s %s: %s", new SimpleDateFormat("HH:mm:ss").format(new Date()), me, input);
                 historyWidget.getDocument().insertString(historyWidget.getDocument().getLength(), msg + ENTER_KEY, null);
+                // historyWidget.setCaretPosition(historyWidget.getDocument().getEndPosition().getOffset());
             } catch (BadLocationException e) {
                 e.printStackTrace();
             }

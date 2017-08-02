@@ -148,6 +148,9 @@ public class SmartPanel extends SimpleToolWindowPanel {
 
         @Override
         public void onReceiveError(Throwable throwable) {
+            if (throwable == null) {
+                // return;
+            }
             LOG.error("receive message failed : " + throwable);
             LOG.sendNotification("错误", throwable.getMessage());
         }

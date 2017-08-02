@@ -66,8 +66,8 @@ public class ContactPanel {
     private void init(SmartClient client, Tree... trees) {
         for (Tree tree : trees) {
             tree.setCellRenderer(new ContactTreeCellRenderer(null));
+            tree.setShowsRootHandles(false);
             tree.setRootVisible(false);
-            tree.setAutoscrolls(true);
             tree.addMouseListener(treeClick);
         }
     }

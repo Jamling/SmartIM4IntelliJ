@@ -21,6 +21,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by Jamling on 2017/7/11.
@@ -130,13 +131,13 @@ public class SmartPanel extends SimpleToolWindowPanel {
                 target = getClient().getDiscuss(((DiscussMessage) message).getDiscussId());
             }
 
-            ChatConsole console =
-                    findConsole(SmartClient.getName(target), false);
+            String name = SmartClient.getName(target);
+            ChatConsole console = findConsole(name, false);
             Recent r = getClient().getRecent(0, message.getUserId());
             if (console != null) {
                 int i = tabbedChat.indexOfComponent(console);
                 if (i >= 0 && tabbedChat instanceof ClosableTabHost) {
-                    ((ClosableTabHost) tabbedChat).bling(i);
+                    ((ClosableTabHost) tabbedChat).bling(i, name);
                 }
                 String time = new SimpleDateFormat("HH:mm:ss")
                         .format(message.getTime());
@@ -168,7 +169,19 @@ public class SmartPanel extends SimpleToolWindowPanel {
         return consoles.get(name);
     }
 
+    private void randBling(){
+        int size = tabbedChat.getComponentCount();
+        int i = new Random().nextInt(size);
+        String name = "Random";
+        if (i >= 0 && tabbedChat instanceof ClosableTabHost) {
+            ((ClosableTabHost) tabbedChat).bling(i, name);
+        }
+    }
+
     public void openChat(Object obj) {
+        if (obj instanceof Category) {
+            return;
+        }
         if (client.isClose()) {
             LOG.sendNotification("错误", "连接已断开，请重新登录");
             return;

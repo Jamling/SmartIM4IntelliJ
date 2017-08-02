@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,11 +18,12 @@ import java.awt.event.ActionListener;
 /**
  * Created by Jamling on 2017/7/3.
  */
-public class ClosableTabHost extends TabbedPaneImpl {
+public class ClosableTabHost extends TabbedPaneImpl implements ChangeListener {
     private Insets insets = new Insets(0, 0, 0, 0);
 
     public ClosableTabHost() {
         super(JTabbedPane.TOP);
+        addChangeListener(this);
     }
 
     @NotNull
@@ -32,6 +35,14 @@ public class ClosableTabHost extends TabbedPaneImpl {
     @Override
     public Border getBorder() {
         return BorderFactory.createEmptyBorder();
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        int index = getSelectedIndex();
+        if (index >= 0) {
+            setBackgroundAt(index, null);
+        }
     }
 
     @Override
@@ -53,11 +64,17 @@ public class ClosableTabHost extends TabbedPaneImpl {
         return panel;
     }
 
-    public void bling(int index) {
-        if (index >= 0 && index < getTabCount()) {
+    public void bling(final int index, String name) {
+        if (index >= 0 && index < getTabCount() && index != getSelectedIndex()) {
             Component tab = getTabComponentAt(index);
             if (tab != null) {
-                new BlingTimer(tab).start();
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        setBackgroundAt(index, UIManager.getColor("TabbedPane.selected"));
+                    }
+                });
+                new BlingTimer(tab, name).start();
             }
         }
     }
@@ -69,13 +86,16 @@ public class ClosableTabHost extends TabbedPaneImpl {
         Dimension d;
         int count = 4;
 
-        public BlingTimer(Component tab) {
-            super(500, null);
+        public BlingTimer(Component tab, String name) {
+            super(300, null);
             addActionListener(this);
             component = tab;
             if (component != null && component instanceof JPanel) {
                 label = (JLabel) ((JPanel) component).getComponent(0);
                 src = label.getText();
+                if (src == null || src.isEmpty()) {
+                    src = name;
+                }
                 d = label.getSize();
                 label.setPreferredSize(d);
             }
@@ -90,8 +110,14 @@ public class ClosableTabHost extends TabbedPaneImpl {
                     stop();
                 }
             } catch (Exception ex) {
-
+                ex.printStackTrace();
             }
+        }
+
+        @Override
+        public void stop() {
+            label.setText(src);
+            super.stop();
         }
     }
 

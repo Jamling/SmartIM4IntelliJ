@@ -1,6 +1,7 @@
 package cn.ieclipse.smartqq;
 
 import com.intellij.ui.treeStructure.Tree;
+import com.intellij.util.ui.tree.WideSelectionTreeUI;
 import com.scienjus.smartqq.client.SmartClient;
 
 import javax.swing.*;
@@ -40,6 +41,8 @@ public class ContactPanel {
     public void update(SmartClient client) {
         recentModel = new ContactTreeMode("recents");
         friendModel = new ContactTreeMode("friends");
+        groupModel = new ContactTreeMode("groups");
+        discussModel = new ContactTreeMode("discusses");
 
         recentModel.update(client);
         friendModel.update(client);
@@ -69,6 +72,9 @@ public class ContactPanel {
             tree.setShowsRootHandles(false);
             tree.setRootVisible(false);
             tree.addMouseListener(treeClick);
+            tree.setUI(new WideSelectionTreeUI(){
+
+            });
         }
     }
 

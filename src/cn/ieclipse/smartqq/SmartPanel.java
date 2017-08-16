@@ -182,6 +182,7 @@ public class SmartPanel extends SimpleToolWindowPanel {
     }
 
     public void openChat(Object obj) {
+        System.out.println("open chat for " + obj);
         if (obj instanceof Category) {
             return;
         }

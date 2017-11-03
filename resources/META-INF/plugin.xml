@@ -1,16 +1,17 @@
 <idea-plugin version="2">
     <id>cn.ieclipse.smartqq.intellij</id>
     <name>SmartQQ</name>
-    <version>1.0.5</version>
+    <version>2.0.0</version>
     <vendor email="li.jamling@gmail.com" url="https://github.com/Jamling/SmartQQ4Intellij">Jamling</vendor>
 
     <description><![CDATA[
-     An anti-boss plugin for you to chat with your QQ friends privately.<br/>
-     一个防Boss的QQ聊天插件，让老板以为你是在写代码，其实，你是在聊天，不过，做为程序猿，怎么可能有时间聊天，哈哈。<br/>
+     An anti-boss plugin for you to chat with your QQ/Wechat friends privately.<br/>
+     一个防Boss的QQ/微信聊天插件，让老板以为你是在写代码，其实，你是在聊天，不过，做为程序猿，怎么可能有时间聊天，哈哈。<br/>
      about more: <a href="https://github.com/Jamling/SmartQQ4Intellij/">https://github.com/Jamling/SmartQQ4Intellij/</a>
     ]]></description>
 
     <change-notes><![CDATA[
+    v2.0.0 2017-11-11, 基于SmartIM重构，支持微信<br/>
     v1.0.5 2017-08-16, 添加发送文件功能<br />
     v1.0.4 2017-08-02, 修复有时点击联系人无法打开聊天窗口的问题，修改聊天tab高亮方案<br/>
     v1.0.3 2017-07-14, 美化界面，添加了异常提醒<br/>
@@ -24,15 +25,16 @@
     <idea-version since-build="141.0"/>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
+         on how to contact different products -->
     <!-- uncomment to enable plugin in all products -->
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
         <toolWindow canCloseContents="true" anchor="bottom"
-                    id="Smart"
-                    factoryClass="cn.ieclipse.smartqq.SmartWindowFactory">
+                    id="SmartIM"
+                    factoryClass="cn.ieclipse.smartim.IMWindowFactory"
+                    icon="/icons/im.png">
         </toolWindow>
     </extensions>
 

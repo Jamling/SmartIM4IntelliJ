@@ -20,6 +20,8 @@ public class SmartIcons {
     public static Icon friend = IconLoader.getIcon("/icons/user.png");
     public static Icon discuss = IconLoader.getIcon("/icons/user-o.png");
 
+    public static Icon file = IconLoader.getIcon("/icons/File.png");
+
     public static void main(String[] args) {
         System.out.println(group);
     }

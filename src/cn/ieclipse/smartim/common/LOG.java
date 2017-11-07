@@ -90,7 +90,7 @@ public class LOG {
     }
 
     public static void sendNotification(String title, String content) {
-        Notification n = new Notification("smart", title, content, NotificationType.WARNING);
+        Notification n = new Notification("SmartIM", title, content, NotificationType.WARNING);
         Notifications.Bus.notify(n);
     }
 }

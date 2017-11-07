@@ -1,15 +1,20 @@
 package cn.ieclipse.smartim.views;
 
 import cn.ieclipse.smartim.SmartClient;
+import cn.ieclipse.smartim.actions.AbstractAction;
 import cn.ieclipse.smartim.actions.DisconnectAction;
 import cn.ieclipse.smartim.actions.HideContactAction;
 import cn.ieclipse.smartim.actions.LoginAction;
+import cn.ieclipse.smartim.common.Notifications;
 import cn.ieclipse.smartim.console.IMChatConsole;
 import cn.ieclipse.smartim.model.IContact;
 import cn.ieclipse.smartim.console.ClosableTabHost;
 import cn.ieclipse.smartim.common.LOG;
+import cn.ieclipse.smartim.settings.SmartSettingsPanel;
 import cn.ieclipse.smartqq.QQChatConsole;
+import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
@@ -58,6 +63,13 @@ public abstract class IMPanel extends SimpleToolWindowPanel {
         //group.add(new TestAction(this));
         AnAction action = new DisconnectAction(this);
         group.add(action);
+
+        group.add(new AbstractAction("Settings", "Settgins", AllIcons.General.Settings, this){
+            @Override
+            public void actionPerformed(AnActionEvent anActionEvent) {
+                ShowSettingsUtil.getInstance().editConfigurable(project, new SmartSettingsPanel(project));
+            }
+        });
 
         ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar("SmartQQ", group, false);
         // toolbar.getComponent().addFocusListener(createFocusListener());

@@ -22,6 +22,7 @@ import cn.ieclipse.smartim.common.LOG;
 import cn.ieclipse.smartim.common.Notifications;
 import cn.ieclipse.smartim.model.impl.AbstractFrom;
 import cn.ieclipse.smartim.model.impl.AbstractMessage;
+import cn.ieclipse.smartim.settings.SmartIMSettings;
 import io.github.biezhi.wechat.api.WechatClient;
 import io.github.biezhi.wechat.model.Contact;
 import io.github.biezhi.wechat.model.GroupFrom;
@@ -47,14 +48,14 @@ public class WXReceiveCallback implements ReceiveCallback {
     public void onReceiveMessage(AbstractMessage message, AbstractFrom from) {
         if (from != null && from.getContact() != null) {
             boolean unkown = false;
-            boolean notify = true;
+            boolean notify = SmartIMSettings.getInstance().getState().NOTIFY_MSG;;
             String uin = from.getContact().getUin();
             Contact contact = (Contact) from.getContact();
             contact.setLastMessage(message);
             if (from instanceof GroupFrom) {
                 GroupFrom gf = (GroupFrom) from;
                 unkown = gf.getMember() == null || gf.getMember().isUnknown();
-                notify = true;
+                notify = SmartIMSettings.getInstance().getState().NOTIFY_GROUP_MSG;
             }
             else {
                 unkown = from.getMember() == null;

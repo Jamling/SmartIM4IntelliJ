@@ -17,6 +17,7 @@ package cn.ieclipse.smartqq;
 
 import cn.ieclipse.smartim.common.LOG;
 import cn.ieclipse.smartim.common.Notifications;
+import cn.ieclipse.smartim.settings.SmartIMSettings;
 import com.scienjus.smartqq.client.SmartQQClient;
 import com.scienjus.smartqq.model.DiscussFrom;
 import com.scienjus.smartqq.model.FriendFrom;
@@ -49,7 +50,7 @@ public class QQReceiveCallback implements ReceiveCallback {
     public void onReceiveMessage(AbstractMessage message, AbstractFrom from) {
         if (from != null && from.getContact() != null) {
             boolean unkown = false;
-            boolean notify = true;
+            boolean notify = SmartIMSettings.getInstance().getState().NOTIFY_MSG;
             String uin = from.getContact().getUin();
             QQContact qqContact = null;
             if (from instanceof GroupFrom) {
@@ -57,7 +58,7 @@ public class QQReceiveCallback implements ReceiveCallback {
                 unkown = (gf.getGroupUser() == null
                         || gf.getGroupUser().isUnknown());
                 uin = gf.getGroup().getUin();
-                notify = true;
+                notify = SmartIMSettings.getInstance().getState().NOTIFY_GROUP_MSG;
                 qqContact = fContactView.getClient()
                         .getGroup(gf.getGroup().getId());
             } else if (from instanceof DiscussFrom) {
@@ -65,7 +66,7 @@ public class QQReceiveCallback implements ReceiveCallback {
                 unkown = (gf.getDiscussUser() == null
                         || gf.getDiscussUser().isUnknown());
                 uin = gf.getDiscuss().getUin();
-                notify = true;
+                notify = SmartIMSettings.getInstance().getState().NOTIFY_GROUP_MSG;
                 qqContact = fContactView.getClient()
                         .getGroup(gf.getDiscuss().getId());
             }

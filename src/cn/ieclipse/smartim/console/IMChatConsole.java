@@ -5,6 +5,7 @@ import cn.ieclipse.smartim.IMHistoryManager;
 import cn.ieclipse.smartim.SmartClient;
 import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.model.IContact;
+import cn.ieclipse.smartim.settings.SmartIMSettings;
 import cn.ieclipse.smartim.views.IMPanel;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.*;
@@ -159,17 +160,10 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         historyWidget = top.getEditorPane();
         inputWidget = bottom.getTextPane();
         btnSend = bottom.getBtnSend();
-        btnSend.setVisible(true);
-        btnSend.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String input = inputWidget.getText();
-                if (!input.isEmpty()) {
-                    inputWidget.setText("");
-                    send(input);
-                }
-            }
-        });
+        btnSend.setVisible(SmartIMSettings.getInstance().getState().SHOW_SEND);
+        btnSend.addActionListener(new SendAction());
+        inputWidget.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "Send");
+        inputWidget.getActionMap().put("Send", btnSend.getAction());
 
         splitter = new JBSplitter(true);
         splitter.setSplitterProportionKey("chat.splitter.key");
@@ -221,5 +215,16 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
             }
         };
         group.add(action);
+    }
+
+    public class SendAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String input = inputWidget.getText();
+            if (!input.isEmpty()) {
+                inputWidget.setText("");
+                send(input);
+            }
+        }
     }
 }

@@ -1,8 +1,11 @@
-package cn.ieclipse.smartqq;
+package cn.ieclipse.smartim.settings;
 
+import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SearchableConfigurable;
+import com.intellij.openapi.options.ShowSettingsUtil;
 import com.intellij.openapi.util.Disposer;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +31,6 @@ public class SmartConfigurable implements SearchableConfigurable, Disposable {
 
     @Override
     public void dispose() {
-
     }
 
     @NotNull

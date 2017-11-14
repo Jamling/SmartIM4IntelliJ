@@ -17,7 +17,8 @@ Eclipse的插件请访问 https://github.com/Jamling/SmartQQ4Eclipse/
 
 ## 更新日志
 
-- v2.0.0 2017-11-11, 基于SmartIM重构，支持微信。
+- v2.0.1 2017-11-17, 修复在某些IDE中，安装插件后，无法打开IDE设置的问题
+- v2.0.0 2017-11-11, 基于SmartIM重构，支持微信。 ***此版本在某些IDE上，会导致IDE的设置无法打开（参考[#10](https://github.com/Jamling/SmartQQ4IntelliJ/issues/10)），强烈建议升级到新版本***
 - v1.0.5/2017/08/16，乃们要的文件发送功能来了。
 - v1.0.3/2017/07/14，美化了UI，添加了异常通知。
 

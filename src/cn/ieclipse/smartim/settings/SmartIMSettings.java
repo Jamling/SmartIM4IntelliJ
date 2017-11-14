@@ -1,7 +1,6 @@
 package cn.ieclipse.smartim.settings;
 
 import com.intellij.openapi.components.*;
-import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -29,10 +28,10 @@ public class SmartIMSettings implements PersistentStateComponent<SmartIMSettings
         this.myState = state;
     }
 
-    public static SmartIMSettings getInstance(Project project) {
-        instance = ServiceManager.getService(project, SmartIMSettings.class);
-        return instance;
-    }
+//    public static SmartIMSettings getInstance(Project project) {
+//        instance = ServiceManager.getService(project, SmartIMSettings.class);
+//        return instance;
+//    }
 
     public static SmartIMSettings getInstance() {
         if (instance == null) {

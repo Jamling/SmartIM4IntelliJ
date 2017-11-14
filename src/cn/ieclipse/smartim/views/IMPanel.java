@@ -67,7 +67,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel {
         group.add(new AbstractAction("Settings", "Settgins", AllIcons.General.Settings, this){
             @Override
             public void actionPerformed(AnActionEvent anActionEvent) {
-                ShowSettingsUtil.getInstance().editConfigurable(project, new SmartSettingsPanel(project));
+                ShowSettingsUtil.getInstance().editConfigurable(project, new SmartSettingsPanel());
             }
         });
 

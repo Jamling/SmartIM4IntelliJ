@@ -15,6 +15,10 @@ Eclipse的插件请访问 https://github.com/Jamling/SmartQQ4Eclipse/
 - 收发文本消息
 - [发送文件](http://api.ieclipse.cn/smartqq)
 
+**微信**
+
+微信需加JVM运行参数，如快捷方式目标指向：`E:\Android\eclipse\eclipse.exe -nl=en -Djsse.enableSNIExtension=false`，注意，exe所在的路径不能带空格，比如如果你的路径为`"E:\Android\Android Studio\studio64.exe"`需要先改路径，消灭`Andnroid Studio`中的空格，然后再加`-Djsse.enableSNIExtension=false`参数。
+
 ## 更新日志
 
 - v2.0.1 2017-11-17, 修复在某些IDE中，安装插件后，无法打开IDE设置的问题

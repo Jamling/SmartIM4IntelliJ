@@ -17,7 +17,11 @@ Eclipse的插件请访问 https://github.com/Jamling/SmartQQ4Eclipse/
 
 **微信**
 
-微信需加JVM运行参数，如快捷方式目标指向：`E:\Android\eclipse\eclipse.exe -nl=en -Djsse.enableSNIExtension=false`，注意，exe所在的路径不能带空格，比如如果你的路径为`"E:\Android\Android Studio\studio64.exe"`需要先改路径，消灭`Andnroid Studio`中的空格，然后再加`-Djsse.enableSNIExtension=false`参数。
+微信需加JVM运行参数
+
+找到你的IDE所在的安装目录下的bin文件夹，打开，找到你的exe运行参数文件，如(idea64.exe.vmoptions，studio64.exe.vmoptions）使用文件编辑器打开此文件，在最后一行添加`-Djsse.enableSNIExtension=false`保存后重启IDE即可。
+
+也可以通过exe快捷方式添加参数，如快捷方式目标指向：`E:\Android\eclipse\eclipse.exe -nl=en -Djsse.enableSNIExtension=false`，注意这种方式要求exe所在的路径不能带空格。
 
 ## 更新日志
 

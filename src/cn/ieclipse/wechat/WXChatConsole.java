@@ -34,7 +34,7 @@ public class WXChatConsole extends IMChatConsole {
         WechatMessage m = (WechatMessage) getClient().handleMessage(raw);
         AbstractFrom from = getClient().getFrom(m);
         String name = from == null ? "未知用户" : from.getName();
-        String msg = IMUtils.formatMsg(m.getTime(), name, m.getText());
+        String msg = IMUtils.formatHtmlMsg(m.getTime(), name, m.getText());
         write(msg);
     }
 

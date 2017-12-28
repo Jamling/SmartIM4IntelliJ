@@ -31,52 +31,60 @@ import io.github.biezhi.wechat.model.WechatMessage;
 
 /**
  * 类/接口描述
- * 
+ *
  * @author Jamling
  * @date 2017年10月14日
- *       
  */
 public class WXReceiveCallback implements ReceiveCallback {
     private WXChatConsole lastConsole;
     private WechatPanel fContactView;
-    
+
     public WXReceiveCallback(WechatPanel fContactView) {
         this.fContactView = fContactView;
     }
-    
+
     @Override
     public void onReceiveMessage(AbstractMessage message, AbstractFrom from) {
         if (from != null && from.getContact() != null) {
-            boolean unkown = false;
-            boolean notify = SmartIMSettings.getInstance().getState().NOTIFY_MSG;;
+            boolean unknown = false;
+            boolean notify = SmartIMSettings.getInstance().getState().NOTIFY_MSG;
+            ;
             String uin = from.getContact().getUin();
             Contact contact = (Contact) from.getContact();
             contact.setLastMessage(message);
             if (from instanceof GroupFrom) {
                 GroupFrom gf = (GroupFrom) from;
-                unkown = gf.getMember() == null || gf.getMember().isUnknown();
+                unknown = gf.getMember() == null || gf.getMember().isUnknown();
                 notify = SmartIMSettings.getInstance().getState().NOTIFY_GROUP_MSG;
+            } else {
+                unknown = from.getMember() == null;
             }
-            else {
-                unkown = from.getMember() == null;
-            }
-            WechatClient client = fContactView.getClient();
-            if (!unkown) {
-                IMHistoryManager.getInstance().save(client, uin,
+            if (!unknown) {
+                IMHistoryManager.getInstance().save(fContactView.getClient(), uin,
                         message.getRaw());
             }
-            
+
             // IMHistoryManager.getInstance().save(client, uin,
             // message.getRaw());
-            
+
             if (notify) {
-                CharSequence content = (from instanceof UserFrom)
-                        ? message.getText()
-                        : from.getName() + ":" + message.getText();
-                Notifications.notify(fContactView, from.getContact(),
-                        from.getContact().getName(), content);
+                boolean hide = unknown && !SmartIMSettings.getInstance().getState().NOTIFY_UNKNOWN;
+                try {
+                    hide = hide || from.getMember().getUin().equals(
+                            fContactView.getClient().getAccount().getUin());
+                } catch (Exception e) {
+                }
+                if (hide) {
+                    //don't notify
+                } else {
+                    CharSequence content = (from instanceof UserFrom)
+                            ? message.getText()
+                            : from.getName() + ":" + message.getText();
+                    Notifications.notify(fContactView, from.getContact(),
+                            from.getContact().getName(), content);
+                }
             }
-            
+
             WXChatConsole console = (WXChatConsole) fContactView
                     .findConsole(from.getContact(), false);
             if (console != null) {
@@ -85,19 +93,18 @@ public class WXReceiveCallback implements ReceiveCallback {
                 String msg = null;
                 if (message instanceof WechatMessage) {
                     WechatMessage m = (WechatMessage) message;
-                    msg = IMUtils.formatMsg(m.CreateTime, name, m.getText());
+                    msg = IMUtils.formatHtmlMsg(m.CreateTime, name, m.getText());
                 }
                 console.write(msg);
                 fContactView.highlight(console);
-            }
-            else {
+            } else {
                 contact.increaceUnRead();
             }
-            
+
             fContactView.notifyUpdateContacts(0, false);
         }
     }
-    
+
     @Override
     public void onReceiveError(Throwable e) {
         if (e == null) {
@@ -105,11 +112,10 @@ public class WXReceiveCallback implements ReceiveCallback {
         }
         if (lastConsole != null) {
             lastConsole.error(e);
-        }
-        else {
+        } else {
             LOG.error("微信接收异常" + e);
             LOG.sendNotification("错误", e.getMessage());
         }
     }
-    
+
 }

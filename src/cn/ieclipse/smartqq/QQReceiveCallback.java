@@ -49,13 +49,13 @@ public class QQReceiveCallback implements ReceiveCallback {
     @Override
     public void onReceiveMessage(AbstractMessage message, AbstractFrom from) {
         if (from != null && from.getContact() != null) {
-            boolean unkown = false;
+            boolean unknown = false;
             boolean notify = SmartIMSettings.getInstance().getState().NOTIFY_MSG;
             String uin = from.getContact().getUin();
             QQContact qqContact = null;
             if (from instanceof GroupFrom) {
                 GroupFrom gf = (GroupFrom) from;
-                unkown = (gf.getGroupUser() == null
+                unknown = (gf.getGroupUser() == null
                         || gf.getGroupUser().isUnknown());
                 uin = gf.getGroup().getUin();
                 notify = SmartIMSettings.getInstance().getState().NOTIFY_GROUP_MSG;
@@ -63,25 +63,33 @@ public class QQReceiveCallback implements ReceiveCallback {
                         .getGroup(gf.getGroup().getId());
             } else if (from instanceof DiscussFrom) {
                 DiscussFrom gf = (DiscussFrom) from;
-                unkown = (gf.getDiscussUser() == null
+                unknown = (gf.getDiscussUser() == null
                         || gf.getDiscussUser().isUnknown());
                 uin = gf.getDiscuss().getUin();
                 notify = SmartIMSettings.getInstance().getState().NOTIFY_GROUP_MSG;
                 qqContact = fContactView.getClient()
                         .getGroup(gf.getDiscuss().getId());
             }
-            if (!unkown) {
-                SmartQQClient client = IMClientFactory.getInstance()
-                        .getQQClient();
-                IMHistoryManager.getInstance().save(client, uin,
+            if (!unknown) {
+                IMHistoryManager.getInstance().save(fContactView.getClient(), uin,
                         message.getRaw());
             }
             if (notify) {
-                CharSequence content = (from instanceof FriendFrom)
-                        ? message.getText()
-                        : from.getName() + ":" + message.getText();
-                Notifications.notify(fContactView, from.getContact(),
-                        from.getContact().getName(), content);
+                boolean hide = unknown && !SmartIMSettings.getInstance().getState().NOTIFY_UNKNOWN;
+                try {
+                    hide = hide || from.getMember().getUin().equals(
+                            fContactView.getClient().getAccount().getUin());
+                } catch (Exception e) {
+                }
+                if (hide) {
+                    //don't notify
+                } else {
+                    CharSequence content = (from instanceof FriendFrom)
+                            ? message.getText()
+                            : from.getName() + ":" + message.getText();
+                    Notifications.notify(fContactView, from.getContact(),
+                            from.getContact().getName(), content);
+                }
             }
             if (qqContact != null) {
                 qqContact.setLastMessage(message);
@@ -94,7 +102,7 @@ public class QQReceiveCallback implements ReceiveCallback {
                 String msg = null;
                 if (message instanceof QQMessage) {
                     QQMessage m = (QQMessage) message;
-                    msg = IMUtils.formatMsg(m.getTime(), name, m.getContent());
+                    msg = IMUtils.formatHtmlMsg(m.getTime(), name, m.getContent());
                 }
                 console.write(msg);
                 fContactView.highlight(console);

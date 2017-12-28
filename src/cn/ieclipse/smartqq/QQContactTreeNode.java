@@ -25,7 +25,9 @@ public class QQContactTreeNode extends ContactTreeNode {
         if ("recent".equals(name)) {
             List<QQContact> list = client.getRecents2();
             if (list != null) {
-                Collections.sort(list);
+                synchronized(this) {
+                    Collections.sort(list);
+                }
                 for (QQContact target : list) {
                     DefaultMutableTreeNode cn = new DefaultMutableTreeNode(target);
                     root.add(cn);

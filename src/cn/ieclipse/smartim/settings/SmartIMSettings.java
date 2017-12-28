@@ -50,5 +50,8 @@ public class SmartIMSettings implements PersistentStateComponent<SmartIMSettings
         public boolean NOTIFY_MSG = true;
         public boolean NOTIFY_GROUP_MSG = false;
         public boolean NOTIFY_UNREAD = true;
+
+        public boolean NOTIFY_UNKNOWN = false;
+        public boolean HIDE_MY_INPUT = true;
     }
 }

@@ -20,6 +20,8 @@ import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.common.LOG;
 import cn.ieclipse.smartim.common.Notifications;
 import cn.ieclipse.smartim.console.IMChatConsole;
+import cn.ieclipse.smartim.exception.HttpException;
+import cn.ieclipse.smartim.exception.LogicException;
 import cn.ieclipse.smartim.views.IMPanel;
 
 /**
@@ -51,7 +53,7 @@ public class IMSendCallback implements SendCallback {
         if (client instanceof AbstractSmartClient) {
             String name = client.getAccount().getName();
             IMHistoryManager.getInstance().save((AbstractSmartClient) client, targetId,
-                    IMUtils.formatMsg(System.currentTimeMillis(), name, msg));
+                    IMUtils.formatHtmlMyMsg(System.currentTimeMillis(), name, msg));
         }
     }
 
@@ -60,13 +62,22 @@ public class IMSendCallback implements SendCallback {
         String s = IMUtils.isEmpty(msg) ? ""
                 : (msg.length() > 20 ? msg.toString().substring(0, 20) + "..."
                 : msg.toString());
-        IMChatConsole console = getIMPanel().findConsoleById(targetId,
-                true);
+        IMChatConsole console = getIMPanel().findConsoleById(targetId, true);
+        String code = "";
+        if (t != null) {
+            if (t instanceof LogicException) {
+                code = String.format("api code=%d",
+                        ((LogicException) t).getCode());
+            } else if (t instanceof HttpException) {
+                code = String.format("http code=%d",
+                        ((HttpException) t).getCode());
+            }
+        }
         if (console != null) {
-            console.error(String.format("%s 发送失败！", s));
+            console.error(String.format("%s 发送失败！%s", msg, code));
         } else {
-            LOG.error(String.format("发送到%s的信息（%s）", targetId, s), t);
-            Notifications.notify("发送失败", String.format("%s 发送失败！", s));
+            LOG.error(String.format("发送到%s的信息（%s）", targetId, msg), t);
+            Notifications.notify("发送失败", String.format("%s 发送失败！%s", s, code));
         }
     }
 

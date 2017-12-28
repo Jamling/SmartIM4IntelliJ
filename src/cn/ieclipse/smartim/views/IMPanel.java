@@ -159,6 +159,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel {
         IMChatConsole console = findConsoleById(contact.getUin(), true);
         if (console == null) {
             console = createConsoleUI(contact);
+            console.setName(contact.getName());
             tabbedChat.addTab(contact.getName(), console);
             consoles.put(console.getUin(), console);
             tabbedChat.setSelectedComponent(console);

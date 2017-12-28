@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>cn.ieclipse.smartqq.intellij</id>
     <name>SmartQQ</name>
-    <version>2.0.1</version>
+    <version>2.1.0</version>
     <vendor email="li.jamling@gmail.com" url="https://github.com/Jamling/SmartQQ4Intellij">Jamling</vendor>
 
     <description><![CDATA[
@@ -11,6 +11,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
+    v2.1.0 2018-01-01, 聊天内容支持富文本，优化微信聊天<br/>
     v2.0.1 2017-11-17, 修复在某些IDE中，安装插件后，无法打开IDE设置的问题 （此issue会影响IDE的使用，请尽快升级到2.0.1以上）<br/>
     v2.0.0 2017-11-11, 基于SmartIM重构，支持微信<br/>
     v1.0.5 2017-08-16, 添加发送文件功能<br />

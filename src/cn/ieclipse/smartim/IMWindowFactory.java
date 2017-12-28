@@ -34,44 +34,46 @@ public class IMWindowFactory implements ToolWindowFactory {
         toolWindow.setToHideOnEmptyContent(true);
         createContents(project, toolWindow);
         ToolWindowManager manager = ToolWindowManager.getInstance(project);
-        ((ToolWindowManagerEx) manager).addToolWindowManagerListener(new ToolWindowManagerListener() {
-            @Override
-            public void toolWindowRegistered(@NotNull String id) {
-            }
+        if (manager instanceof ToolWindowManagerEx) {
+            ToolWindowManagerEx managerEx = ((ToolWindowManagerEx) manager);
+            managerEx.addToolWindowManagerListener(new ToolWindowManagerListener() {
+                @Override
+                public void toolWindowRegistered(@NotNull String id) {
+                }
 
-            @Override
-            public void stateChanged() {
-                ToolWindow window = ToolWindowManager.getInstance(project).getToolWindow(IMWindowFactory.TOOL_WINDOW_ID);
-                if (window != null) {
-                    boolean visible = window.isVisible();
-                    if (visible && toolWindow.getContentManager().getContentCount() == 0) {
-                        System.out.println("need init");
-                        createContents(project, window);
+                @Override
+                public void stateChanged() {
+                    ToolWindow window = ToolWindowManager.getInstance(project).getToolWindow(IMWindowFactory.TOOL_WINDOW_ID);
+                    if (window != null) {
+                        boolean visible = window.isVisible();
+                        if (visible && toolWindow.getContentManager().getContentCount() == 0) {
+                            createContents(project, window);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
 
-        Disposer.register(project, new Disposable() {
-            @Override
-            public void dispose() {
-                if (panel != null && panel.isEnabled()) {
-                    panel.setEnabled(false);
-                    panel = null;
-                }
-            }
-        });
+//        Disposer.register(project, new Disposable() {
+//            @Override
+//            public void dispose() {
+//                if (panel != null && panel.isEnabled()) {
+//                    panel.setEnabled(false);
+//                    panel = null;
+//                }
+//            }
+//        });
     }
 
     private void createContents(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         SmartQQPanel qqPanel = new SmartQQPanel(project, toolWindow);
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
         Content content = contentFactory.createContent(qqPanel, "SmartQQ", false);
-        toolWindow.getContentManager().addContent(content,0);
+        toolWindow.getContentManager().addContent(content, 0);
 
         WechatPanel wechatPanel = new WechatPanel(project, toolWindow);
         content = contentFactory.createContent(wechatPanel, "Wechat", false);
-        toolWindow.getContentManager().addContent(content,1);
+        toolWindow.getContentManager().addContent(content, 1);
     }
 
     private Content createContentPanel(Project project, ToolWindow toolWindow) {
@@ -99,7 +101,12 @@ public class IMWindowFactory implements ToolWindowFactory {
         return dir;
     }
 
+    public Project getProject() {
+        return project;
+    }
+
     private static IMWindowFactory instance;
+
     public static IMWindowFactory getDefault() {
         return instance;
     }

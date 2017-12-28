@@ -29,7 +29,9 @@ public class WXContactTreeNode extends ContactTreeNode {
         if ("recent".equals(name)) {
             List<Contact> list = client.getRecentList();
             if (list != null) {
-                Collections.sort(list);
+                synchronized (this) {
+                    Collections.sort(list);
+                }
                 for (Contact target : list) {
                     DefaultMutableTreeNode cn = new DefaultMutableTreeNode(
                             target);
@@ -40,13 +42,16 @@ public class WXContactTreeNode extends ContactTreeNode {
             List<VirtualCategory<Contact>> categories = getContactGroup(
                     client.getMemberList());
             if (categories != null) {
+                categories.add(0, new VirtualCategory<>("groups", client.getGroupList()));
                 for (VirtualCategory<Contact> c : categories) {
                     DefaultMutableTreeNode cn = new DefaultMutableTreeNode(c);
                     root.add(cn);
-                    for (Contact f : c.list) {
-                        DefaultMutableTreeNode fn = new DefaultMutableTreeNode(
-                                f);
-                        cn.add(fn);
+                    if (c.list != null) {
+                        for (Contact f : c.list) {
+                            DefaultMutableTreeNode fn = new DefaultMutableTreeNode(
+                                    f);
+                            cn.add(fn);
+                        }
                     }
                 }
             }

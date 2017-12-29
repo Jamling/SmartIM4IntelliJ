@@ -279,7 +279,8 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         historyWidget.setEditorKit(kit);
         historyWidget.setDocument(doc);
         // historyWidget.setText(initText);
-        // historyWidget.setEditable(false);
+        historyWidget.setEditable(false);
+        historyWidget.setBackground(null);
         historyWidget.addHyperlinkListener(new HyperlinkListener() {
 
             @Override

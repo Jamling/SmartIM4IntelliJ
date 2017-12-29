@@ -15,9 +15,12 @@
  */
 package cn.ieclipse.smartim.common;
 
+import cn.ieclipse.util.FileUtils;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -141,7 +144,12 @@ public class IMUtils {
                     }
                 }
                 sb.delete(pos, offset + e);
-                String ng = String.format("<a href=\"%s\">%s</a>", g, g);
+                String ng = g;
+                if (IMG_EXTS.indexOf(FileUtils.getExtension(g).toLowerCase()) >= 0) {
+                    ng = String.format("<a href=\"%s\"><img src=\"%s\" alt=\"%s\"/></a>", g, g, g);
+                } else {
+                    ng = String.format("<a href=\"%s\">%s</a>", g, g);
+                }
                 sb.insert(pos, ng);
                 offset += ng.length() - g.length();
             }
@@ -150,6 +158,7 @@ public class IMUtils {
         return input;
     }
 
+    public static final List<String> IMG_EXTS = Arrays.asList("png", "jpg", "gif", "webp");
     public static final String CODE_REGEX = "Code: [\\S ]+:[\\d]+ ?";
     public static final String LINK_REGEX = "(https?|ftp|file)://(([\\w-~]+).)+([\\w-~\\/])+(((?!\\.)(\\S))+(\\.\\w+(\\?(\\w+=\\S&?)*)?)?)?";
 }

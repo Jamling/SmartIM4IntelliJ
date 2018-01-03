@@ -5,6 +5,7 @@ import cn.ieclipse.smartim.IMHistoryManager;
 import cn.ieclipse.smartim.SmartClient;
 import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.common.WrapHTMLFactory;
+import cn.ieclipse.smartim.idea.EditorUtils;
 import cn.ieclipse.smartim.model.IContact;
 import cn.ieclipse.smartim.settings.SmartIMSettings;
 import cn.ieclipse.smartim.views.IMPanel;
@@ -312,6 +313,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
                 line--;
             }
             // TODO open file in editor and located to line
+            EditorUtils.openFile(file, line);
         } else {
             BareBonesBrowserLaunch.openURL(desc);
         }

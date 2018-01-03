@@ -5,24 +5,22 @@ import cn.ieclipse.smartim.actions.AbstractAction;
 import cn.ieclipse.smartim.actions.DisconnectAction;
 import cn.ieclipse.smartim.actions.HideContactAction;
 import cn.ieclipse.smartim.actions.LoginAction;
-import cn.ieclipse.smartim.common.Notifications;
+import cn.ieclipse.smartim.common.LOG;
+import cn.ieclipse.smartim.console.ClosableTabHost;
 import cn.ieclipse.smartim.console.IMChatConsole;
 import cn.ieclipse.smartim.model.IContact;
-import cn.ieclipse.smartim.console.ClosableTabHost;
-import cn.ieclipse.smartim.common.LOG;
 import cn.ieclipse.smartim.settings.SmartSettingsPanel;
-import cn.ieclipse.smartqq.QQChatConsole;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.options.ShowSettingsUtil;
-import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.JBSplitter;
 import com.intellij.ui.components.JBTabbedPane;
-import icons.SmartIcons;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -30,7 +28,7 @@ import java.util.Random;
 /**
  * Created by Jamling on 2017/7/11.
  */
-public abstract class IMPanel extends SimpleToolWindowPanel {
+public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableTabHost.Callback {
 
     protected ToolWindow toolWindow;
     protected JBTabbedPane tabbedChat;
@@ -64,12 +62,14 @@ public abstract class IMPanel extends SimpleToolWindowPanel {
         AnAction action = new DisconnectAction(this);
         group.add(action);
 
-        group.add(new AbstractAction("Settings", "Settgins", AllIcons.General.Settings, this){
+        group.add(new AbstractAction("Settings", "Settgins", AllIcons.General.Settings, this) {
             @Override
             public void actionPerformed(AnActionEvent anActionEvent) {
                 ShowSettingsUtil.getInstance().editConfigurable(project, new SmartSettingsPanel());
             }
         });
+
+        // group.add(new TestAction(this));
 
         ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar("SmartQQ", group, false);
         // toolbar.getComponent().addFocusListener(createFocusListener());
@@ -79,7 +79,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel {
         left = createContactsUI();
         left.onLoadContacts(false);
 
-        tabbedChat = new ClosableTabHost();
+        tabbedChat = new ClosableTabHost(this);
 
         splitter = new JBSplitter(false);
         splitter.setSplitterProportionKey("main.splitter.key");
@@ -106,6 +106,10 @@ public abstract class IMPanel extends SimpleToolWindowPanel {
     public abstract IMChatConsole createConsoleUI(IContact contact);
 
     private Map<String, IMChatConsole> consoles = new HashMap<>();
+
+    public Map<String, IMChatConsole> getConsoles() {
+        return consoles;
+    }
 
     public IMChatConsole findConsole(IContact contact, boolean add) {
         return consoles.get(contact.getUin());
@@ -145,7 +149,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel {
 
     public void onDoubleClick(Object obj) {
         SmartClient client = getClient();
-        if (client.isClose()) {
+        if (client.isClose() || !client.isLogin()) {
             LOG.sendNotification("错误", "连接已断开，请重新登录");
             return;
         }
@@ -166,6 +170,12 @@ public abstract class IMPanel extends SimpleToolWindowPanel {
         }
     }
 
+    public void addConsole(IMChatConsole console) {
+        tabbedChat.addTab(console.getName(), console);
+        consoles.put(console.getUin(), console);
+        tabbedChat.setSelectedComponent(console);
+    }
+
     public void close() {
         getClient().close();
         closeAllChat();
@@ -178,6 +188,31 @@ public abstract class IMPanel extends SimpleToolWindowPanel {
             tabbedChat.remove(0);
         }
         consoles.clear();
+    }
+
+    @Override
+    public void removeTabAt(int index) {
+        IMChatConsole console = null;
+        Component comp = tabbedChat.getComponentAt(index);
+        if (comp instanceof IMChatConsole) {
+            console = (IMChatConsole) comp;
+            consoles.remove(console.getUin());
+        }
+        tabbedChat.removeTabAt(index);
+    }
+
+    public java.util.List<IMChatConsole> getConsoleList() {
+        java.util.List<IMChatConsole> list = new ArrayList<>();
+        if (tabbedChat != null) {
+            int count = tabbedChat.getTabCount();
+            for (int i = 0; i < count; i++) {
+                if (tabbedChat.getComponentAt(i) instanceof IMChatConsole) {
+                    IMChatConsole t = (IMChatConsole) tabbedChat.getComponentAt(i);
+                    list.add(t);
+                }
+            }
+        }
+        return list;
     }
 
     public void initContacts() {

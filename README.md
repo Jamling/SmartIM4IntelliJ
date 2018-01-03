@@ -12,8 +12,10 @@ Eclipse的插件请访问 https://github.com/Jamling/SmartQQ4Eclipse/
 
 **注：IntelliJ插件版本功能没有Eclipse插件版本功能多**
 
-- 收发文本消息
-- [发送文件](http://api.ieclipse.cn/smartqq)
+- [x] 收发文本消息
+- [x] [发送文件](http://api.ieclipse.cn/smartqq) **微信不能发文件**
+- [x] Code Review 发送代码位置及评语
+- [x] 超链接点击
 
 **微信**
 

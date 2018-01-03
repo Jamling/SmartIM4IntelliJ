@@ -16,6 +16,7 @@
 package cn.ieclipse.smartim.common;
 
 import cn.ieclipse.util.FileUtils;
+import cn.ieclipse.util.StringUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -72,12 +73,21 @@ public class IMUtils {
         return String.format("%s %s: %s\n", s1, name, msg);
     }
 
+    public static String encodeHtml(String msg) {
+        if (StringUtils.isEmpty(msg)) {
+            return "";
+        }
+        else {
+            return msg.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        }
+    }
+
     public static String formatHtmlMsg(long time, String name,
                                        CharSequence msg) {
         String s1 = new SimpleDateFormat("HH:mm:ss").format(time);
         return String.format(
                 "<div><span class=\"time\">%s</span> <a href=\"user://%s\">%s</a>: %s</div>",
-                s1, name, name, autoLink(autoReviewLink(msg.toString())));
+                s1, name, name, autoLink(autoReviewLink(encodeHtml(msg.toString()))));
     }
 
     public static String formatHtmlMyMsg(long time, String name,
@@ -85,7 +95,7 @@ public class IMUtils {
         String s1 = new SimpleDateFormat("HH:mm:ss").format(time);
         return String.format(
                 "<div class=\"my\"><span class=\"time\">%s</span> <a href=\"user://%s\">%s</a>: %s</div>",
-                s1, name, name, autoLink(autoReviewLink(msg.toString())));
+                s1, name, name, autoLink(autoReviewLink(encodeHtml(msg.toString()))));
     }
 
     public static boolean isMySendMsg(String raw) {

@@ -156,7 +156,7 @@ public class IMUtils {
                 sb.delete(pos, offset + e);
                 String ng = g;
                 if (IMG_EXTS.indexOf(FileUtils.getExtension(g).toLowerCase()) >= 0) {
-                    ng = String.format("<a href=\"%s\"><img src=\"%s\" alt=\"%s\"/></a>", g, g, g);
+                    ng = String.format("<a href=\"%s\"><img src=\"%s\" alt=\"%s\" border=\"0\"/></a>", g, g, g);
                 } else {
                     ng = String.format("<a href=\"%s\">%s</a>", g, g);
                 }

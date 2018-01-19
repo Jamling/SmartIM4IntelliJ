@@ -1,8 +1,13 @@
 package cn.ieclipse.smartim.settings;
 
+import cn.ieclipse.smartim.IMWindowFactory;
 import cn.ieclipse.smartim.common.LOG;
 import com.google.gson.Gson;
+import com.intellij.ide.plugins.IdeaPluginDescriptor;
+import com.intellij.ide.plugins.PluginManager;
 import com.intellij.notification.Notifications;
+import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
@@ -42,20 +47,7 @@ public class SmartSettingsPanel implements Configurable {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                try {
-                    okhttp3.Request.Builder builder = (new okhttp3.Request.Builder()).url(update_url).get();
-                    Request request = builder.build();
-                    Call call = new OkHttpClient().newCall(request);
-                    Response response = call.execute();
-                    String json = response.body().string();
-                    LOG.info(json);
-                    if (response.code() == 200) {
-                        UpdateInfo info = new Gson().fromJson(json, UpdateInfo.class);
-                        cn.ieclipse.smartim.common.Notifications.notify(info.latest, info.desc);
-                    }
-                } catch (Exception ex) {
-                    LOG.error("检查SmartIM最新版本", ex);
-                }
+                checkUpdate();
             }
         });
         linkAbout.addMouseListener(new MouseAdapter() {
@@ -119,5 +111,42 @@ public class SmartSettingsPanel implements Configurable {
     @Override
     public void disposeUIResources() {
 
+    }
+
+    private void checkUpdate() {
+        new Thread() {
+            public void run() {
+                try {
+                    okhttp3.Request.Builder builder = (new okhttp3.Request.Builder())
+                            .url(update_url).get();
+                    Request request = builder.build();
+                    Call call = new OkHttpClient().newCall(request);
+                    Response response = call.execute();
+                    String json = response.body().string();
+                    //LOG.info(json);
+                    if (response.code() == 200) {
+                        final UpdateInfo info = new Gson().fromJson(json,
+                                UpdateInfo.class);
+                        final IdeaPluginDescriptor descriptor = PluginManager.getPlugin(PluginId.findId("cn.ieclipse.smartqq.intellij"));
+
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (descriptor != null && descriptor.getVersion().equals(info.latest)) {
+                                    JOptionPane.showConfirmDialog(null, "已是最新版本");
+                                    return;
+                                }
+                                cn.ieclipse.smartim.common.Notifications.notify(info.latest, info.desc);
+                                JOptionPane.showConfirmDialog(null, "发现新版本" + info.latest + "请在File->Settings->Plugins插件页中更新SmartQQ");
+                            }
+                        });
+                    }
+                } catch (Exception ex) {
+                    LOG.error("检查SmartIM最新版本", ex);
+                }
+            }
+
+            ;
+        }.start();
     }
 }

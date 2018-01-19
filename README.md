@@ -1,4 +1,7 @@
 [![GitHub release](https://img.shields.io/github/release/jamling/SmartQQ4Intellij.svg?maxAge=3600)](https://github.com/Jamling/SmartQQ4Intellij)
+[![JetBrains Plugins](https://img.shields.io/jetbrains/plugin/v/9816-smartqq.svg)](https://plugins.jetbrains.com/plugin/9816-smartqq)
+[![JetBrains plugins](https://img.shields.io/jetbrains/plugin/d/9816-smartqq.svg)](https://plugins.jetbrains.com/plugin/9816-smartqq)
+
 
 ## 简介
 

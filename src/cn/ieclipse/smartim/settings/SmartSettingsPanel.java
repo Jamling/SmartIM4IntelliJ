@@ -1,12 +1,9 @@
 package cn.ieclipse.smartim.settings;
 
-import cn.ieclipse.smartim.IMWindowFactory;
 import cn.ieclipse.smartim.common.LOG;
 import com.google.gson.Gson;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
-import com.intellij.notification.Notifications;
-import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
@@ -133,11 +130,11 @@ public class SmartSettingsPanel implements Configurable {
                             @Override
                             public void run() {
                                 if (descriptor != null && descriptor.getVersion().equals(info.latest)) {
-                                    JOptionPane.showConfirmDialog(null, "已是最新版本");
+                                    JOptionPane.showMessageDialog(null, "已是最新版本");
                                     return;
                                 }
                                 cn.ieclipse.smartim.common.Notifications.notify(info.latest, info.desc);
-                                JOptionPane.showConfirmDialog(null, "发现新版本" + info.latest + "请在File->Settings->Plugins插件页中更新SmartQQ");
+                                JOptionPane.showMessageDialog(null, "发现新版本" + info.latest + "请在File->Settings->Plugins插件页中更新SmartQQ");
                             }
                         });
                     }

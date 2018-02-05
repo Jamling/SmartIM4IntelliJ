@@ -21,6 +21,9 @@ public class SmartIcons {
     public static Icon discuss = IconLoader.getIcon("/icons/user-o.png");
 
     public static Icon file = IconLoader.getIcon("/icons/File.png");
+    public static Icon image = IconLoader.getIcon("/icons/image.png");
+    public static Icon face = IconLoader.getIcon("/icons/face.png");
+    public static Icon lock = IconLoader.getIcon("/icons/lock_co.png");
 
     public static void main(String[] args) {
         System.out.println(group);

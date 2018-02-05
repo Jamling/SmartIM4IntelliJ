@@ -3,6 +3,9 @@ package cn.ieclipse.smartim.console;
 import cn.ieclipse.smartim.AbstractSmartClient;
 import cn.ieclipse.smartim.IMHistoryManager;
 import cn.ieclipse.smartim.SmartClient;
+import cn.ieclipse.smartim.actions.ScrollLockAction;
+import cn.ieclipse.smartim.actions.SendFileAction;
+import cn.ieclipse.smartim.actions.SendImageAction;
 import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.common.WrapHTMLFactory;
 import cn.ieclipse.smartim.idea.EditorUtils;
@@ -11,12 +14,11 @@ import cn.ieclipse.smartim.settings.SmartIMSettings;
 import cn.ieclipse.smartim.views.IMPanel;
 import cn.ieclipse.util.BareBonesBrowserLaunch;
 import cn.ieclipse.util.StringUtils;
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.project.DumbAwareAction;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.ActionToolbar;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.ui.JBSplitter;
-import com.intellij.ui.ToggleActionButton;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -29,7 +31,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -108,7 +109,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
             error("连接已关闭，请重新登录");
             return;
         }
-        String name = getClient().getAccount().getName();
+        String name = client.getAccount().getName();
         String msg = IMUtils.formatHtmlMyMsg(System.currentTimeMillis(), name, input);
         if (!hideMyInput()) {
             insertDocument(msg);
@@ -206,36 +207,9 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
     }
 
     protected void initToolBar(DefaultActionGroup group) {
-        AnAction action = new DumbAwareAction("Send", "Send file", AllIcons.FileTypes.Any_type) {
-            @Override
-            public void actionPerformed(AnActionEvent anActionEvent) {
-                if (!enableUpload()) {
-                    return;
-                }
-                JFileChooser chooser = new JFileChooser();
-                chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                chooser.showDialog(new JLabel(), "选择要发送的文件");
-                File f = chooser.getSelectedFile();
-                if (f != null) {
-                    sendFile(f.getAbsolutePath());
-                }
-            }
-        };
-        group.add(action);
-
-        AnAction scroll = new ToggleActionButton("Auto Scroll", AllIcons.RunConfigurations.Scroll_down) {
-
-            @Override
-            public boolean isSelected(AnActionEvent anActionEvent) {
-                return !scrollLock;
-            }
-
-            @Override
-            public void setSelected(AnActionEvent anActionEvent, boolean b) {
-                scrollLock = !b;
-            }
-        };
-        group.add(scroll);
+        group.add(new SendImageAction(this));
+        group.add(new SendFileAction(this));
+        group.add(new ScrollLockAction(this));
     }
 
     public class SendAction extends AbstractAction {
@@ -252,8 +226,16 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
     protected boolean scrollLock = false;
     protected boolean uploadLock = false;
 
-    protected boolean enableUpload() {
+    public boolean enableUpload() {
         return !uploadLock;
+    }
+
+    public void setScrollLock(boolean scrollLock) {
+        this.scrollLock = scrollLock;
+    }
+
+    public boolean isScrollLock() {
+        return scrollLock;
     }
 
     protected void initHistoryWidget() {

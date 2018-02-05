@@ -78,24 +78,28 @@ public class IMUtils {
             return "";
         }
         else {
-            return msg.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+            return StringUtils.encodeXml(msg);
         }
     }
 
     public static String formatHtmlMsg(long time, String name,
                                        CharSequence msg) {
-        String s1 = new SimpleDateFormat("HH:mm:ss").format(time);
-        return String.format(
-                "<div><span class=\"time\">%s</span> <a href=\"user://%s\">%s</a>: %s</div>",
-                s1, name, name, autoLink(autoReviewLink(encodeHtml(msg.toString()))));
+        return formatHtmlMsg(false, true, time, name, msg.toString());
     }
 
     public static String formatHtmlMyMsg(long time, String name,
                                          CharSequence msg) {
-        String s1 = new SimpleDateFormat("HH:mm:ss").format(time);
+        return formatHtmlMsg(true, true, time, name, msg.toString());
+    }
+
+    public static String formatHtmlMsg(boolean my, boolean encodeHtml,
+                                       long time, String name, String msg) {
+        String t = new SimpleDateFormat("HH:mm:ss").format(time);
+        String clz = my ? "my" : "";
+        String content = encodeHtml ? autoLink(autoReviewLink(encodeHtml(msg))) : msg;
         return String.format(
-                "<div class=\"my\"><span class=\"time\">%s</span> <a href=\"user://%s\">%s</a>: %s</div>",
-                s1, name, name, autoLink(autoReviewLink(encodeHtml(msg.toString()))));
+                "<div class=\"%s\"><span class=\"time\">%s</span> <a href=\"user://%s\">%s</a>: %s</div>",
+                clz, t, name, name, content);
     }
 
     public static boolean isMySendMsg(String raw) {

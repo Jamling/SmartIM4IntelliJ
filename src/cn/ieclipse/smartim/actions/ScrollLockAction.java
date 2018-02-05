@@ -10,6 +10,7 @@ public class ScrollLockAction extends ToggleActionButton {
 
     public ScrollLockAction(IMChatConsole console) {
         super("禁止滚动", SmartIcons.lock);
+        this.console = console;
     }
 
     @Override

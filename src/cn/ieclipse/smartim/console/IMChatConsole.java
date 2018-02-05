@@ -7,6 +7,7 @@ import cn.ieclipse.smartim.actions.ScrollLockAction;
 import cn.ieclipse.smartim.actions.SendFileAction;
 import cn.ieclipse.smartim.actions.SendImageAction;
 import cn.ieclipse.smartim.common.IMUtils;
+import cn.ieclipse.smartim.common.LOG;
 import cn.ieclipse.smartim.common.WrapHTMLFactory;
 import cn.ieclipse.smartim.idea.EditorUtils;
 import cn.ieclipse.smartim.model.IContact;
@@ -80,9 +81,9 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
 
     public void loadHistories() {
         SmartClient client = getClient();
-        if (client != null && client instanceof AbstractSmartClient) {
+        if (client != null) {
             List<String> ms = IMHistoryManager.getInstance()
-                    .load((AbstractSmartClient) client, getHistoryFile());
+                    .load(client, getHistoryFile());
             for (String raw : ms) {
                 if (!IMUtils.isEmpty(raw)) {
                     try {
@@ -99,20 +100,28 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         return false;
     }
 
-    public void send(final String input) {
-        SmartClient client = getClient();
+    public boolean checkClient(SmartClient client) {
         if (client == null || client.isClose()) {
             error("连接已关闭");
-            return;
+            return false;
         }
         if (!client.isLogin()) {
-            error("连接已关闭，请重新登录");
+            error("请先登录");
+            return false;
+        }
+        return true;
+    }
+
+    public void send(final String input) {
+        SmartClient client = getClient();
+        if (!checkClient(client)) {
             return;
         }
         String name = client.getAccount().getName();
         String msg = IMUtils.formatHtmlMyMsg(System.currentTimeMillis(), name, input);
         if (!hideMyInput()) {
             insertDocument(msg);
+            IMHistoryManager.getInstance().save(client, getUin(), msg);
         }
         new Thread() {
             @Override
@@ -123,6 +132,24 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
     }
 
     public void sendFile(final String file) {
+        new Thread() {
+            public void run() {
+                uploadLock = true;
+                try {
+                    sendFileInternal(file);
+                } catch (Exception e) {
+                    LOG.error("发送文件失败 : " + e);
+                    LOG.sendNotification("发送文件失败",
+                            String.format("文件：%s(%s)", file, e.getMessage()));
+                } finally {
+                    uploadLock = false;
+                }
+            }
+        }.start();
+    }
+
+    protected void sendFileInternal(final String file) throws Exception{
+
     }
 
     public void error(Throwable e) {

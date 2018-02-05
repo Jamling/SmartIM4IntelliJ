@@ -1,20 +1,12 @@
 package cn.ieclipse.smartqq;
 
-import cn.ieclipse.smartim.IMClientFactory;
 import cn.ieclipse.smartim.common.IMUtils;
-import cn.ieclipse.smartim.common.LOG;
-import cn.ieclipse.smartim.console.ChatHistoryPane;
-import cn.ieclipse.smartim.console.ChatInputPane;
 import cn.ieclipse.smartim.console.IMChatConsole;
 import cn.ieclipse.smartim.model.IContact;
 import cn.ieclipse.smartim.model.impl.AbstractFrom;
 import cn.ieclipse.smartim.settings.SmartIMSettings;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.project.DumbAwareAction;
-import com.intellij.ui.JBSplitter;
 import com.scienjus.smartqq.QNUploader;
 import com.scienjus.smartqq.client.SmartQQClient;
 import com.scienjus.smartqq.handler.msg.DiscussMessageHandler;
@@ -24,9 +16,6 @@ import com.scienjus.smartqq.model.Friend;
 import com.scienjus.smartqq.model.QQMessage;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.io.File;
 
 /**
@@ -38,46 +27,35 @@ public class QQChatConsole extends IMChatConsole {
         super(target, imPanel);
     }
 
-    public void sendFile(final String file) {
+    public void sendFileInternal(final String file) throws Exception {
         final File f = new File(file);
-        new Thread() {
-            public void run() {
-                uploadLock = true;
-                try {
-                    QNUploader uploader = new QNUploader();
-                    String ak = "";
-                    String sk = "";
-                    String bucket = "";
-                    String domain = "";
-                    String qq = getClient()
-                            .getAccount().getAccount();
-                    boolean enable = false;
-                    boolean ts = false;
-                    if (!enable) {
-                        ak = "";
-                        sk = "";
-                    }
-                    QNUploader.UploadInfo info = uploader.upload(qq, f, ak, sk, bucket,
-                            null);
-                    String url = info.getUrl(domain, ts);
+        QNUploader uploader = new QNUploader();
+        String ak = "";
+        String sk = "";
+        String bucket = "";
+        String domain = "";
+        String qq = getClient()
+                .getAccount().getAccount();
+        boolean enable = false;
+        boolean ts = false;
+        if (!enable) {
+            ak = "";
+            sk = "";
+        }
+        QNUploader.UploadInfo info = uploader.upload(qq, f, ak, sk, bucket,
+                null);
+        String url = info.getUrl(domain, ts);
 
-                    String msg = String.format(
-                            "来自SmartQQ的文件: %s (大小%s), 点击链接 %s 查看",
-                            IMUtils.getName(file),
-                            IMUtils.formatFileSize(info.fsize), url);
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            send(msg);
-                        }
-                    });
-                } catch (Exception e) {
-                    LOG.error("发送文件失败 : " + e);
-                    LOG.sendNotification("发送文件失败", String.format("文件：%s(%s)", file, e.getMessage()));
-                }
-                uploadLock = false;
+        String msg = String.format(
+                "来自SmartQQ的文件: %s (大小%s), 点击链接 %s 查看",
+                IMUtils.getName(file),
+                IMUtils.formatFileSize(info.fsize), url);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                send(msg);
             }
-        }.start();
+        });
     }
 
     @Override

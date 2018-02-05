@@ -4,6 +4,7 @@ import cn.ieclipse.smartim.console.IMChatConsole;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.DumbAwareAction;
+import icons.SmartIcons;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -18,7 +19,7 @@ public class SendFileAction extends DumbAwareAction {
     protected FileFilter filter;
     
     public SendFileAction(IMChatConsole console) {
-        super("发送", "发送文件", AllIcons.FileTypes.Any_type);
+        super("发送", "发送文件", SmartIcons.file);
         this.console = console;
         this.dialogTitle = "请选择要发送的文件";
     }
@@ -30,6 +31,7 @@ public class SendFileAction extends DumbAwareAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         if (!console.enableUpload()) {
+            console.error("文件发送中，请勿频繁操作");
             return;
         }
         JFileChooser chooser = new JFileChooser();

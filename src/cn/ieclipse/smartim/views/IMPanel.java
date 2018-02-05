@@ -1,10 +1,7 @@
 package cn.ieclipse.smartim.views;
 
 import cn.ieclipse.smartim.SmartClient;
-import cn.ieclipse.smartim.actions.AbstractAction;
-import cn.ieclipse.smartim.actions.DisconnectAction;
-import cn.ieclipse.smartim.actions.HideContactAction;
-import cn.ieclipse.smartim.actions.LoginAction;
+import cn.ieclipse.smartim.actions.*;
 import cn.ieclipse.smartim.common.LOG;
 import cn.ieclipse.smartim.console.ClosableTabHost;
 import cn.ieclipse.smartim.console.IMChatConsole;
@@ -54,21 +51,16 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
         initUI();
     }
 
+    public Project getProject() {
+        return project;
+    }
+
     private void initUI() {
         DefaultActionGroup group = new DefaultActionGroup();
         group.add(new LoginAction(this, toolWindow));
         group.add(new HideContactAction(this));
-        //group.add(new TestAction(this));
-        AnAction action = new DisconnectAction(this);
-        group.add(action);
-
-        group.add(new AbstractAction("Settings", "Settgins", AllIcons.General.Settings, this) {
-            @Override
-            public void actionPerformed(AnActionEvent anActionEvent) {
-                ShowSettingsUtil.getInstance().editConfigurable(project, new SmartSettingsPanel());
-            }
-        });
-
+        group.add(new DisconnectAction(this));
+        group.add(new SettingAction(this));
         // group.add(new TestAction(this));
 
         ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar("SmartQQ", group, false);

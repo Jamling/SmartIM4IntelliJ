@@ -40,7 +40,7 @@ public class IMHistoryManager {
         return instance;
     }
     
-    private FileStorage get(AbstractSmartClient client, String uin) {
+    private FileStorage get(SmartClient client, String uin) {
         FileStorage fs = stores.get(uin);
         if (fs == null) {
             File f = new File(client.getWorkDir("history"), uin);
@@ -50,12 +50,12 @@ public class IMHistoryManager {
         return fs;
     }
     
-    public List<String> load(AbstractSmartClient client, String uin) {
+    public List<String> load(SmartClient client, String uin) {
         FileStorage fs = get(client, uin);
         return fs.getLast(max);
     }
     
-    public boolean save(AbstractSmartClient client, String uin, String rawMsg) {
+    public boolean save(SmartClient client, String uin, String rawMsg) {
         FileStorage fs = get(client, uin);
         boolean ret = fs.append(rawMsg);
         ret = ret && fs.isPersistent() && fs.flush();

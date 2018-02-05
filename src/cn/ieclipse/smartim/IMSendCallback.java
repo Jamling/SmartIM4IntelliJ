@@ -49,12 +49,11 @@ public class IMSendCallback implements SendCallback {
     }
 
     protected void onSuccess(int type, String targetId, CharSequence msg) {
-        SmartClient client = getIMPanel().getClient();
-        if (client instanceof AbstractSmartClient) {
-            String name = client.getAccount().getName();
-            IMHistoryManager.getInstance().save((AbstractSmartClient) client, targetId,
-                    IMUtils.formatHtmlMyMsg(System.currentTimeMillis(), name, msg));
-        }
+//        SmartClient client = getIMPanel().getClient();
+//        String name = client.getAccount().getName();
+//        IMHistoryManager.getInstance().save(client, targetId,
+//                IMUtils.formatHtmlMyMsg(System.currentTimeMillis(), name, msg));
+        imPanel.notifyUpdateContacts(0, true);
     }
 
     protected void onFailure(int type, String targetId, CharSequence msg,

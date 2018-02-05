@@ -1,5 +1,6 @@
 package icons;
 
+import com.intellij.icons.AllIcons;
 import com.intellij.openapi.util.IconLoader;
 
 import javax.swing.*;
@@ -20,10 +21,11 @@ public class SmartIcons {
     public static Icon friend = IconLoader.getIcon("/icons/user.png");
     public static Icon discuss = IconLoader.getIcon("/icons/user-o.png");
 
-    public static Icon file = IconLoader.getIcon("/icons/File.png");
+    public static Icon file = AllIcons.FileTypes.Any_type;//IconLoader.getIcon("/icons/File.png");
     public static Icon image = IconLoader.getIcon("/icons/image.png");
     public static Icon face = IconLoader.getIcon("/icons/face.png");
-    public static Icon lock = IconLoader.getIcon("/icons/lock_co.png");
+    public static Icon lock = AllIcons.RunConfigurations.Scroll_down;
+    public static Icon settings = AllIcons.General.Settings;
 
     public static void main(String[] args) {
         System.out.println(group);

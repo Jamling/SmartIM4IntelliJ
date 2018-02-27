@@ -7,9 +7,9 @@ import icons.SmartIcons;
 /**
  * Created by Jamling on 2017/11/1.
  */
-public class DisconnectAction extends AbstractAction {
+public class DisconnectAction extends IMPanelAction {
     public DisconnectAction(IMPanel panel) {
-        super("Close", "Close the connection", SmartIcons.close, panel);
+        super(panel, "Close", "Close the connection", SmartIcons.close);
     }
 
     @Override

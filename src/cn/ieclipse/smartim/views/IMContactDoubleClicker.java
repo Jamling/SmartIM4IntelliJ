@@ -25,7 +25,7 @@ public class IMContactDoubleClicker extends MouseAdapter {
         if (selRow != -1 && selPath != null) {
             DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) selPath
                     .getLastPathComponent();
-            if (selectedNode.getChildCount() > 1) {
+            if (selectedNode.getChildCount() > 0) {
                 if (tree.isExpanded(selPath)) {
                     tree.collapsePath(selPath);
                 }

@@ -3,7 +3,6 @@ package cn.ieclipse.smartim.views;
 import cn.ieclipse.smartim.model.IContact;
 import com.intellij.ui.ColoredTreeCellRenderer;
 import com.scienjus.smartqq.model.Discuss;
-import com.scienjus.smartqq.model.Friend;
 import com.scienjus.smartqq.model.Group;
 import com.scienjus.smartqq.model.Recent;
 import icons.SmartIcons;

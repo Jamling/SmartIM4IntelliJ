@@ -41,7 +41,7 @@
                     factoryClass="cn.ieclipse.smartim.IMWindowFactory"
                     icon="/icons/im.png">
         </toolWindow>
-        <applicationConfigurable instance="cn.ieclipse.smartim.settings.SmartSettingsPanel"/>
+        <applicationConfigurable instance="cn.ieclipse.smartim.settings.GeneralPanel"/>
         <applicationService serviceImplementation="cn.ieclipse.smartim.settings.SmartIMSettings"/>
     </extensions>
     <actions>

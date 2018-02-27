@@ -49,10 +49,6 @@ public class IMSendCallback implements SendCallback {
     }
 
     protected void onSuccess(int type, String targetId, CharSequence msg) {
-//        SmartClient client = getIMPanel().getClient();
-//        String name = client.getAccount().getName();
-//        IMHistoryManager.getInstance().save(client, targetId,
-//                IMUtils.formatHtmlMyMsg(System.currentTimeMillis(), name, msg));
         imPanel.notifyUpdateContacts(0, true);
     }
 
@@ -61,7 +57,6 @@ public class IMSendCallback implements SendCallback {
         String s = IMUtils.isEmpty(msg) ? ""
                 : (msg.length() > 20 ? msg.toString().substring(0, 20) + "..."
                 : msg.toString());
-        IMChatConsole console = getIMPanel().findConsoleById(targetId, true);
         String code = "";
         if (t != null) {
             if (t instanceof LogicException) {
@@ -72,6 +67,7 @@ public class IMSendCallback implements SendCallback {
                         ((HttpException) t).getCode());
             }
         }
+        IMChatConsole console = getIMPanel().findConsoleById(targetId, true);
         if (console != null) {
             console.error(String.format("%s 发送失败！%s", msg, code));
         } else {

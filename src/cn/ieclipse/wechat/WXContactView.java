@@ -1,13 +1,11 @@
 package cn.ieclipse.wechat;
 
-import cn.ieclipse.smartim.IMClientFactory;
 import cn.ieclipse.smartim.IMSendCallback;
 import cn.ieclipse.smartim.common.LOG;
 import cn.ieclipse.smartim.views.ContactTreeMode;
 import cn.ieclipse.smartim.views.IMContactView;
 import com.intellij.ui.components.JBTabbedPane;
 import com.intellij.ui.treeStructure.Tree;
-import com.scienjus.smartqq.client.SmartQQClient;
 import io.github.biezhi.wechat.api.WechatClient;
 
 import javax.swing.*;

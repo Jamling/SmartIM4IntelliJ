@@ -1,19 +1,18 @@
 package cn.ieclipse.smartim.console;
 
-import cn.ieclipse.smartim.AbstractSmartClient;
 import cn.ieclipse.smartim.IMHistoryManager;
 import cn.ieclipse.smartim.SmartClient;
-import cn.ieclipse.smartim.actions.ScrollLockAction;
-import cn.ieclipse.smartim.actions.SendFileAction;
-import cn.ieclipse.smartim.actions.SendImageAction;
+import cn.ieclipse.smartim.actions.*;
 import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.common.LOG;
 import cn.ieclipse.smartim.common.WrapHTMLFactory;
 import cn.ieclipse.smartim.idea.EditorUtils;
 import cn.ieclipse.smartim.model.IContact;
+import cn.ieclipse.smartim.model.impl.AbstractContact;
 import cn.ieclipse.smartim.settings.SmartIMSettings;
 import cn.ieclipse.smartim.views.IMPanel;
 import cn.ieclipse.util.BareBonesBrowserLaunch;
+import cn.ieclipse.util.EncodeUtils;
 import cn.ieclipse.util.StringUtils;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;
@@ -52,9 +51,12 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         this.uin = target.getUin();
         this.imPanel = imPanel;
         initUI();
-        loadHistories();
+        new Thread() {
+            public void run() {
+                loadHistories();
+            }
+        }.start();
     }
-
 
     public SmartClient getClient() {
         return imPanel.getClient();
@@ -65,7 +67,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
     public abstract void post(final String msg);
 
     public String getHistoryFile() {
-        return uin;
+        return EncodeUtils.getMd5(contact.getName());
     }
 
     public String getUin() {
@@ -96,6 +98,17 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         }
     }
 
+    public void clearHistories() {
+        IMHistoryManager.getInstance().clear(getClient(), getHistoryFile());
+        historyWidget.setText("");
+    }
+
+    public void clearUnread() {
+        if (contact != null && contact instanceof AbstractContact) {
+            ((AbstractContact) contact).clearUnRead();
+        }
+    }
+
     public boolean hideMyInput() {
         return false;
     }
@@ -121,7 +134,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         String msg = IMUtils.formatHtmlMyMsg(System.currentTimeMillis(), name, input);
         if (!hideMyInput()) {
             insertDocument(msg);
-            IMHistoryManager.getInstance().save(client, getUin(), msg);
+            IMHistoryManager.getInstance().save(client, getHistoryFile(), msg);
         }
         new Thread() {
             @Override
@@ -141,6 +154,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
                     LOG.error("发送文件失败 : " + e);
                     LOG.sendNotification("发送文件失败",
                             String.format("文件：%s(%s)", file, e.getMessage()));
+                    error(String.format("发送文件失败：%s(%s)", file, e.getMessage()));
                 } finally {
                     uploadLock = false;
                 }
@@ -157,12 +171,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
     }
 
     public void error(final String msg) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                insertDocument(String.format("<div class=\"error\">%s</div>", msg));
-            }
-        });
+        insertDocument(String.format("<div class=\"error\">%s</div>", msg));
     }
 
     private void createUIComponents() {
@@ -170,12 +179,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
     }
 
     public void write(final String msg) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                insertDocument(msg);
-            }
-        });
+        insertDocument(msg);
     }
 
     protected JBSplitter splitter;
@@ -236,7 +240,10 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
     protected void initToolBar(DefaultActionGroup group) {
         group.add(new SendImageAction(this));
         group.add(new SendFileAction(this));
+        // group.add(new SendProjectFileAction(this));
+        group.add(new SendProjectFileAction2(this));
         group.add(new ScrollLockAction(this));
+        group.add(new ClearHistoryAction(this));
     }
 
     public class SendAction extends AbstractAction {
@@ -329,20 +336,25 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         return false;
     }
 
-    protected void insertDocument(String msg) {
-        try {
-            HTMLEditorKit kit = (HTMLEditorKit) historyWidget.getEditorKit();
-            HTMLDocument doc = (HTMLDocument) historyWidget.getDocument();
-            // historyWidget.getDocument().insertString(len - offset,
-            // trimMsg(msg), null);
-            // Element root = doc.getDefaultRootElement();
-            // Element body = root.getElement(1);
-            // doc.insertBeforeEnd(body, msg);
-            int pos = historyWidget.getCaretPosition();
-            kit.insertHTML(doc, doc.getLength(), msg, 0, 0, null);
-            historyWidget.setCaretPosition(scrollLock ? pos : doc.getLength());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    protected void insertDocument(final String msg) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HTMLEditorKit kit = (HTMLEditorKit) historyWidget.getEditorKit();
+                    HTMLDocument doc = (HTMLDocument) historyWidget.getDocument();
+                    // historyWidget.getDocument().insertString(len - offset,
+                    // trimMsg(msg), null);
+                    // Element root = doc.getDefaultRootElement();
+                    // Element body = root.getElement(1);
+                    // doc.insertBeforeEnd(body, msg);
+                    int pos = historyWidget.getCaretPosition();
+                    kit.insertHTML(doc, doc.getLength(), msg, 0, 0, null);
+                    historyWidget.setCaretPosition(scrollLock ? pos : doc.getLength());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

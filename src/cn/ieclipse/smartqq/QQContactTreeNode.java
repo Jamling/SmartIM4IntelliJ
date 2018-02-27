@@ -5,7 +5,6 @@ import cn.ieclipse.smartim.views.IMPanel;
 import com.scienjus.smartqq.client.SmartQQClient;
 import com.scienjus.smartqq.model.*;
 
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,13 +13,17 @@ import java.util.List;
  */
 public class QQContactTreeNode extends ContactTreeNode {
 
+    public QQContactTreeNode(Object userObject) {
+        super(userObject);
+    }
+
     public QQContactTreeNode(boolean check, String name, IMPanel imPanel) {
         super(check, name, imPanel);
     }
 
     public void update() {
         SmartQQClient client = (SmartQQClient) imPanel.getClient();
-        DefaultMutableTreeNode root = (DefaultMutableTreeNode) getRoot();
+        QQContactTreeNode root = (QQContactTreeNode) getRoot();
         root.removeAllChildren();
         if ("recent".equals(name)) {
             List<QQContact> list = client.getRecents2();
@@ -29,7 +32,7 @@ public class QQContactTreeNode extends ContactTreeNode {
                     Collections.sort(list);
                 }
                 for (QQContact target : list) {
-                    DefaultMutableTreeNode cn = new DefaultMutableTreeNode(target);
+                    QQContactTreeNode cn = new QQContactTreeNode(target);
                     root.add(cn);
                 }
             }
@@ -37,10 +40,10 @@ public class QQContactTreeNode extends ContactTreeNode {
             List<Category> categories = client.getFriendListWithCategory();
             if (categories != null) {
                 for (Category c : categories) {
-                    DefaultMutableTreeNode cn = new DefaultMutableTreeNode(c);
+                    QQContactTreeNode cn = new QQContactTreeNode(c);
                     root.add(cn);
                     for (Friend f : c.getFriends()) {
-                        DefaultMutableTreeNode fn = new DefaultMutableTreeNode(f);
+                        QQContactTreeNode fn = new QQContactTreeNode(f);
                         cn.add(fn);
                     }
                 }
@@ -49,7 +52,7 @@ public class QQContactTreeNode extends ContactTreeNode {
             List<Group> list = client.getGroupList();
             if (list != null) {
                 for (Group r : list) {
-                    DefaultMutableTreeNode cn = new DefaultMutableTreeNode(r);
+                    QQContactTreeNode cn = new QQContactTreeNode(r);
                     root.add(cn);
                 }
             }
@@ -57,7 +60,7 @@ public class QQContactTreeNode extends ContactTreeNode {
             List<Discuss> list = client.getDiscussList();
             if (list != null) {
                 for (Discuss r : list) {
-                    DefaultMutableTreeNode cn = new DefaultMutableTreeNode(r);
+                    QQContactTreeNode cn = new QQContactTreeNode(r);
                     root.add(cn);
                 }
             }

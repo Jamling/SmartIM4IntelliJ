@@ -3,21 +3,16 @@ package cn.ieclipse.smartim.actions;
 import cn.ieclipse.smartim.console.MockChatConsole;
 import cn.ieclipse.smartim.model.impl.AbstractContact;
 import cn.ieclipse.smartim.views.IMPanel;
-import cn.ieclipse.smartqq.SmartQQPanel;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.project.DumbAwareAction;
-import com.scienjus.smartqq.model.Friend;
 import icons.SmartIcons;
 
 /**
  * Created by Jamling on 2017/7/12.
  */
-public class TestAction extends DumbAwareAction {
-    IMPanel panel;
+public class MockConsoleAction extends IMPanelAction {
 
-    public TestAction(IMPanel panel) {
-        super("Test", "Test", SmartIcons.test);
-        this.panel = panel;
+    public MockConsoleAction(IMPanel panel) {
+        super(panel, "Test", "Test", SmartIcons.test);
     }
 
     @Override
@@ -34,8 +29,8 @@ public class TestAction extends DumbAwareAction {
             }
         };
 
-        MockChatConsole console = new MockChatConsole(contact, panel);
+        MockChatConsole console = new MockChatConsole(contact, imPanel);
         console.setName(contact.getName());
-        panel.addConsole(console);
+        imPanel.addConsole(console);
     }
 }

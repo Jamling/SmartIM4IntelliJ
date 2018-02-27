@@ -4,8 +4,6 @@ import cn.ieclipse.smartim.callback.ModificationCallback;
 import cn.ieclipse.smartim.model.IContact;
 import io.github.biezhi.wechat.model.Contact;
 
-import com.scienjus.smartqq.model.QQContact;
-
 /**
  * Created by Jamling on 2017/11/1.
  */

@@ -1,9 +1,7 @@
 package cn.ieclipse.smartqq;
 
-import cn.ieclipse.smartim.IMClientFactory;
 import cn.ieclipse.smartim.IMSendCallback;
 import cn.ieclipse.smartim.common.LOG;
-import cn.ieclipse.smartim.views.ContactTabHost;
 import cn.ieclipse.smartim.views.ContactTreeMode;
 import cn.ieclipse.smartim.views.IMContactView;
 import com.intellij.ui.components.JBTabbedPane;
@@ -11,9 +9,6 @@ import com.intellij.ui.treeStructure.Tree;
 import com.scienjus.smartqq.client.SmartQQClient;
 
 import javax.swing.*;
-import javax.swing.plaf.TabbedPaneUI;
-import javax.swing.plaf.basic.BasicTabbedPaneUI;
-import java.awt.*;
 
 /**
  * Created by Jamling on 2017/7/11.
@@ -42,7 +37,7 @@ public class QQContactView extends IMContactView {
 
         receiveCallback = new QQReceiveCallback(imPanel);
         sendCallback = new IMSendCallback(imPanel);
-        robotCallback = null;
+        robotCallback = new QQRobotCallback(imPanel);
         modificationCallback = new QQModificationCallback(imPanel);
 
         root1 = new QQContactTreeNode(false, "recent", imPanel);
@@ -74,11 +69,6 @@ public class QQContactView extends IMContactView {
         friendTree.setModel(friendModel);
         groupTree.setModel(groupModel);
         discussTree.setModel(discussModel);
-    }
-
-    @Override
-    protected void initTree(Tree tree) {
-        super.initTree(tree);
     }
 
     @Override

@@ -1,6 +1,9 @@
 package cn.ieclipse.smartim.settings;
 
-import com.intellij.openapi.components.*;
+import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.components.Storage;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -53,5 +56,23 @@ public class SmartIMSettings implements PersistentStateComponent<SmartIMSettings
 
         public boolean NOTIFY_UNKNOWN = false;
         public boolean HIDE_MY_INPUT = true;
+        public boolean LOG_HISTORY = true;
+
+        public boolean ROBOT_ENABLE = false;
+        public String ROBOT_NAME = "";
+        public int ROBOT_TYPE = 0;
+        public String ROBOT_KEY = "";
+        public String ROBOT_GROUP_WELCOME = "欢迎{user} {memo}";
+        public boolean ROBOT_GROUP_ANY = false;
+        public boolean ROBOT_FRIEND_ANY = false;
+        public String ROBOT_REPLY_EMPTY = "";
+
+        public boolean QN_ENABLE = false;
+        public String QN_BUCKET = "";
+        public int QN_ZONE = 0;
+        public String QN_DOMAIN = "";
+        public String QN_AK = "";
+        public String QN_SK = "";
+        public boolean QN_TS = false;
     }
 }

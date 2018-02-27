@@ -2,10 +2,8 @@ package cn.ieclipse.smartim;
 
 import cn.ieclipse.smartqq.SmartQQPanel;
 import cn.ieclipse.wechat.WechatPanel;
-import com.intellij.openapi.Disposable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
-import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.openapi.wm.ToolWindowManager;

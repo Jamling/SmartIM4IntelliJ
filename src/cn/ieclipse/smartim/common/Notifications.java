@@ -6,7 +6,6 @@ import cn.ieclipse.util.StringUtils;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationDisplayType;
 import com.intellij.notification.NotificationType;
-import com.intellij.openapi.ui.popup.Balloon;
 
 /**
  * Created by Jamling on 2017/10/31.

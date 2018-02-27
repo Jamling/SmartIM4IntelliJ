@@ -1,7 +1,6 @@
 package cn.ieclipse.wechat;
 
 import cn.ieclipse.smartim.IMHistoryManager;
-import cn.ieclipse.smartim.SmartClient;
 import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.console.IMChatConsole;
 import cn.ieclipse.smartim.model.IContact;
@@ -59,6 +58,16 @@ public class WXChatConsole extends IMChatConsole {
     }
 
     @Override
+    protected boolean hyperlinkActivated(String desc) {
+        if (desc.startsWith("weixin://")) {
+            JOptionPane.showInternalMessageDialog(null,
+                    desc + "为微信专用协议，请使用手机微信打开");
+            return false;
+        }
+        return super.hyperlinkActivated(desc);
+    }
+
+    @Override
     public void sendFileInternal(final String file) {
         // error("暂不支持，敬请关注 https://github.com/Jamling/SmartIM 或
         // https://github.com/Jamling/SmartQQ4IntelliJ 最新动态");
@@ -76,12 +85,10 @@ public class WXChatConsole extends IMChatConsole {
         if (Arrays.asList("png", "jpg", "jpeg", "bmp").contains(ext)) {
             type = WechatMessage.MSGTYPE_IMAGE;
             media = "pic";
-        }
-        else if ("gif".equals(ext)) {
+        } else if ("gif".equals(ext)) {
             type = WechatMessage.MSGTYPE_EMOTICON;
             media = "doc";
-        }
-        else {
+        } else {
             type = WechatMessage.MSGTYPE_FILE;
             media = "doc";
         }
@@ -93,21 +100,23 @@ public class WXChatConsole extends IMChatConsole {
             return;
         }
         String link = StringUtils.file2url(file);
+        String label = file.replace('\\', '/');
         String input = null;
         if (type == WechatMessage.MSGTYPE_EMOTICON
                 || type == WechatMessage.MSGTYPE_IMAGE) {
             input = String.format("<img src=\"%s\" border=\"0\" alt=\"%s\"",
-                    link, file);
+                    link, label);
             if (uploadInfo.CDNThumbImgWidth > 0) {
                 input += " width=\"" + uploadInfo.CDNThumbImgWidth + "\"";
             }
             if (uploadInfo.CDNThumbImgHeight > 0) {
                 input += " height=\"" + uploadInfo.CDNThumbImgHeight + "\"";
             }
-        }
-        else {
             input = String.format("<a href=\"%s\" title=\"%s\">%s</a>", link,
-                    file, file);
+                    link, input);
+        } else {
+            input = String.format("<a href=\"%s\" title=\"%s\">%s</a>", link,
+                    label, label);
             content = client.createFileMsgContent(f, uploadInfo.MediaId);
         }
 
@@ -116,17 +125,12 @@ public class WXChatConsole extends IMChatConsole {
         m.MediaId = uploadInfo.MediaId;
 
         client.sendMessage(m, contact);
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                if (!hideMyInput()) {
-                    String name = client.getAccount().getName();
-                    String msg = IMUtils.formatHtmlMsg(true, false,
-                            System.currentTimeMillis(), name, m.text);
-                    insertDocument(msg);
-                    IMHistoryManager.getInstance().save(client, getUin(), msg);
-                }
-            }
-        });
+        if (!hideMyInput()) {
+            String name = client.getAccount().getName();
+            String msg = IMUtils.formatHtmlMsg(true, false,
+                    System.currentTimeMillis(), name, m.text);
+            insertDocument(msg);
+            IMHistoryManager.getInstance().save(client, getHistoryFile(), msg);
+        }
     }
 }

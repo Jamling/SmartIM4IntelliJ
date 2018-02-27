@@ -16,6 +16,7 @@
 package cn.ieclipse.smartim.common;
 
 import cn.ieclipse.util.FileUtils;
+import cn.ieclipse.util.Patterns;
 import cn.ieclipse.util.StringUtils;
 
 import java.io.File;
@@ -29,19 +30,16 @@ import java.util.regex.Pattern;
 
 /**
  * 类/接口描述
- * 
+ *
  * @author Jamling
  * @date 2017年8月14日
- *       
  */
 public class IMUtils {
-    
+
     /**
      * Get file name from file path
      *
-     * @param path
-     *            file path
-     *            
+     * @param path file path
      * @return file name
      */
     public static String getName(String path) {
@@ -49,37 +47,41 @@ public class IMUtils {
         String name = f.getName();
         return name;
     }
-    
+
     public static String formatFileSize(long length) {
         if (length > (1 << 20)) {
             return length / (1 << 20) + "M";
-        }
-        else if (length > (1 << 10)) {
+        } else if (length > (1 << 10)) {
             return length / (1 << 10) + "K";
         }
         return length + "B";
     }
-    
+
     public static boolean isEmpty(CharSequence text) {
         return text == null || text.length() == 0;
     }
-    
+
     public static boolean isEmpty(Collection<?> list) {
         return list == null || list.isEmpty();
     }
-    
+
+
+    public static String encodeHtml(String msg) {
+        if (StringUtils.isEmpty(msg)) {
+            return "";
+        } else {
+            return StringUtils.encodeXml(msg);
+        }
+    }
+
     public static String formatMsg(long time, String name, CharSequence msg) {
         String s1 = new SimpleDateFormat("HH:mm:ss").format(time);
         return String.format("%s %s: %s\n", s1, name, msg);
     }
 
-    public static String encodeHtml(String msg) {
-        if (StringUtils.isEmpty(msg)) {
-            return "";
-        }
-        else {
-            return StringUtils.encodeXml(msg);
-        }
+    public static boolean isMySendMsg(String raw) {
+        return raw.matches("^\\d{2}:\\d{2}:\\d{2} [.\\s\\S]*")
+                || raw.startsWith("<div");
     }
 
     public static String formatHtmlMsg(long time, String name,
@@ -102,11 +104,6 @@ public class IMUtils {
                 clz, t, name, name, content);
     }
 
-    public static boolean isMySendMsg(String raw) {
-        return raw.matches("^\\d{2}:\\d{2}:\\d{2} [.\\s\\S]*")
-                || raw.startsWith("<div");
-    }
-
     private static String autoReviewLink(String input) {
         Matcher m = Pattern.compile(CODE_REGEX, Pattern.MULTILINE)
                 .matcher(input);
@@ -125,7 +122,7 @@ public class IMUtils {
     }
 
     private static String autoLink(String input) {
-        Pattern p = Pattern.compile(LINK_REGEX, Pattern.MULTILINE);
+        Pattern p = Patterns.WEB_URL;// Pattern.compile(LINK_REGEX, Pattern.MULTILINE);
         Matcher m = p.matcher(input);
 
         List<String> groups = new ArrayList<>();
@@ -152,8 +149,7 @@ public class IMUtils {
                         if (c == '=') {
                             continue;
                         }
-                    }
-                    else if (c == '>') {
+                    } else if (c == '>') {
                         continue;
                     }
                 }

@@ -9,6 +9,7 @@ import cn.ieclipse.smartim.model.impl.AbstractFrom;
 import cn.ieclipse.smartim.model.impl.AbstractMessage;
 import cn.ieclipse.smartim.settings.SmartIMSettings;
 import cn.ieclipse.smartim.views.IMPanel;
+import cn.ieclipse.util.EncodeUtils;
 
 public abstract class IMReceiveCallback implements ReceiveCallback {
     protected IMChatConsole lastConsole;
@@ -31,7 +32,7 @@ public abstract class IMReceiveCallback implements ReceiveCallback {
         String msg = getMsgContent(message, from);
         if (!unknown) {
             IMHistoryManager.getInstance().save(client,
-                    from.getContact().getUin(), msg);
+                    EncodeUtils.getMd5(contact.getName()), msg);
         }
         
         if (notify) {

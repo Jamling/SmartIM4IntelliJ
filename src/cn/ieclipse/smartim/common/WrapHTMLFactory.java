@@ -15,7 +15,7 @@
  */
 package cn.ieclipse.smartim.common;
 
-import javax.swing.SizeRequirements;
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
 import javax.swing.text.GlyphView;

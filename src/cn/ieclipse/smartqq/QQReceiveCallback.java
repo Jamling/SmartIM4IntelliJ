@@ -15,25 +15,18 @@
  */
 package cn.ieclipse.smartqq;
 
-import com.scienjus.smartqq.client.SmartQQClient;
-import com.scienjus.smartqq.model.DiscussFrom;
-import com.scienjus.smartqq.model.FriendFrom;
-import com.scienjus.smartqq.model.GroupFrom;
-import com.scienjus.smartqq.model.QQContact;
-import com.scienjus.smartqq.model.QQMessage;
-
-import cn.ieclipse.smartim.IMClientFactory;
-import cn.ieclipse.smartim.IMHistoryManager;
 import cn.ieclipse.smartim.IMReceiveCallback;
 import cn.ieclipse.smartim.common.IMUtils;
-import cn.ieclipse.smartim.common.LOG;
-import cn.ieclipse.smartim.common.Notifications;
 import cn.ieclipse.smartim.model.IContact;
 import cn.ieclipse.smartim.model.impl.AbstractContact;
 import cn.ieclipse.smartim.model.impl.AbstractFrom;
 import cn.ieclipse.smartim.model.impl.AbstractMessage;
 import cn.ieclipse.smartim.settings.SmartIMSettings;
-import cn.ieclipse.smartim.views.IMPanel;
+import com.scienjus.smartqq.client.SmartQQClient;
+import com.scienjus.smartqq.model.DiscussFrom;
+import com.scienjus.smartqq.model.FriendFrom;
+import com.scienjus.smartqq.model.GroupFrom;
+import com.scienjus.smartqq.model.QQMessage;
 
 /**
  * 类/接口描述
@@ -85,6 +78,7 @@ public class QQReceiveCallback extends IMReceiveCallback {
         if (message instanceof QQMessage) {
             QQMessage m = (QQMessage) message;
             msg = IMUtils.formatHtmlMsg(m.getTime(), name, m.getContent());
+            msg = QQUtils.decodeEmoji(msg);
         }
         return msg;
     }

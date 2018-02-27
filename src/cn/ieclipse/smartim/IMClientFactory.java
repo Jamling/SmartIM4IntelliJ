@@ -15,13 +15,12 @@
  */
 package cn.ieclipse.smartim;
 
+import com.scienjus.smartqq.client.SmartQQClient;
+import io.github.biezhi.wechat.api.WechatClient;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.scienjus.smartqq.client.SmartQQClient;
-
-import io.github.biezhi.wechat.api.WechatClient;
 
 /**
  * 类/接口描述

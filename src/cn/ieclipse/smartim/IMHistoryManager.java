@@ -15,12 +15,13 @@
  */
 package cn.ieclipse.smartim;
 
+import cn.ieclipse.smartim.helper.FileStorage;
+import cn.ieclipse.smartim.settings.SmartIMSettings;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import cn.ieclipse.smartim.helper.FileStorage;
 
 /**
  * 类/接口描述
@@ -45,6 +46,8 @@ public class IMHistoryManager {
         if (fs == null) {
             File f = new File(client.getWorkDir("history"), uin);
             fs = new FileStorage(size, f.getAbsolutePath());
+            boolean persistent = SmartIMSettings.getInstance().getState().LOG_HISTORY;
+            fs.setPersistent(persistent);
             stores.put(uin, fs);
         }
         return fs;
@@ -60,5 +63,11 @@ public class IMHistoryManager {
         boolean ret = fs.append(rawMsg);
         ret = ret && fs.isPersistent() && fs.flush();
         return ret;
+    }
+
+    public boolean clear(SmartClient client, String uin) {
+        FileStorage fs = get(client, uin);
+        fs.release();
+        return true;
     }
 }

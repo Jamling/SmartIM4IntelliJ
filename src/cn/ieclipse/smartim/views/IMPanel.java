@@ -6,10 +6,9 @@ import cn.ieclipse.smartim.common.LOG;
 import cn.ieclipse.smartim.console.ClosableTabHost;
 import cn.ieclipse.smartim.console.IMChatConsole;
 import cn.ieclipse.smartim.model.IContact;
-import cn.ieclipse.smartim.settings.SmartSettingsPanel;
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.options.ShowSettingsUtil;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.ActionToolbar;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.wm.ToolWindow;
@@ -57,11 +56,12 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
 
     private void initUI() {
         DefaultActionGroup group = new DefaultActionGroup();
-        group.add(new LoginAction(this, toolWindow));
+        group.add(new LoginAction(this));
         group.add(new HideContactAction(this));
         group.add(new DisconnectAction(this));
+        createBroadcastAction(group);
         group.add(new SettingAction(this));
-        // group.add(new TestAction(this));
+        //group.add(new MockConsoleAction(this));
 
         ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar("SmartQQ", group, false);
         // toolbar.getComponent().addFocusListener(createFocusListener());
@@ -96,6 +96,8 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
     public abstract IMContactView createContactsUI();
 
     public abstract IMChatConsole createConsoleUI(IContact contact);
+
+    public abstract BroadcastAction createBroadcastAction(DefaultActionGroup group);
 
     private Map<String, IMChatConsole> consoles = new HashMap<>();
 

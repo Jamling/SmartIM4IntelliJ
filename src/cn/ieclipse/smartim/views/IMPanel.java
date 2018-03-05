@@ -61,7 +61,8 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
         group.add(new DisconnectAction(this));
         createBroadcastAction(group);
         group.add(new SettingAction(this));
-        //group.add(new MockConsoleAction(this));
+        MockConsoleAction test = new MockConsoleAction(this);
+        //group.add(test);
 
         ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar("SmartQQ", group, false);
         // toolbar.getComponent().addFocusListener(createFocusListener());

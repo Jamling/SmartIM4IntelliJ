@@ -284,14 +284,14 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
             }
         };
         StyleSheet styleSheet = kit.getStyleSheet();
-        styleSheet.addRule("body {text-align: left;}");
+        styleSheet.addRule("body {text-align: left; overflow-x: hidden;}");
         styleSheet.addRule(
                 ".my {font-size: 1 em; font-style: italic; float: left;}");
         styleSheet.addRule("div.error {color: red;}");
         styleSheet.addRule("img {max-width: 100%; display: block;}");
         styleSheet.addRule(".sender {display: inline; float: left;}");
         styleSheet.addRule(
-                ".content {display: inline-block; white-space: pre; padding-left: 4px;}");
+                ".content {display: inline-block; white-space: pre-wrap; padding-left: 4px;}");
         styleSheet.addRule(
                 ".br {height: 1px; line-height: 1px; min-height: 1px;}");
         try {

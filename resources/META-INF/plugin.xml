@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>cn.ieclipse.smartqq.intellij</id>
     <name>SmartQQ</name>
-    <version>2.3.1</version>
+    <version>2.3.2</version>
     <vendor email="li.jamling@gmail.com" url="https://github.com/Jamling/SmartQQ4Intellij">Jamling</vendor>
 
     <description><![CDATA[
@@ -11,7 +11,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
-    v2.3.1 2018-03-05, 优化链接自动识别，优化聊天记录
+    v2.3.2 2018-03-05, 优化链接自动识别，优化聊天记录
     v2.3.0 2018-02-27, 添加发送工程中的文件，图灵机器人，消息群发等功能<br/>
     v2.2.0 2018-02-06, 添加微信发送文件，接收动画表情、文件、图片功能<br/>
     v2.1.2 2018-01-06, 添加Code Review，修复已知Issue<br/>

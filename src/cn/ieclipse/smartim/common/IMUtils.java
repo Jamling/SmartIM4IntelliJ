@@ -84,6 +84,20 @@ public class IMUtils {
                 || raw.startsWith("<div");
     }
 
+    public static String formatHtmlMsg(String msg, boolean encodeHtml) {
+        // TODO only replace the non-html tag space;
+        String m = encodeHtml(msg);
+        m = m.replaceAll("\r?\n", "<br/>");
+        String content;
+        if (encodeHtml) {
+            content = autoLink(autoReviewLink(m).replace(" ", "&nbsp;"));
+        }
+        else {
+            content = m.replace(" ", "&nbsp;");
+        }
+        return content;
+    }
+
     public static String formatHtmlMsg(long time, String name,
                                        CharSequence msg) {
         return formatHtmlMsg(false, true, time, name, msg.toString());
@@ -97,11 +111,9 @@ public class IMUtils {
     public static String formatHtmlMsg(boolean my, boolean encodeHtml,
                                        long time, String name, String msg) {
         String t = new SimpleDateFormat("HH:mm:ss").format(time);
-        String clz = my ? "my" : "";
-        String content = encodeHtml ? autoLink(autoReviewLink(encodeHtml(msg))) : msg;
-        return String.format(
-                "<div class=\"%s\"><span class=\"time\">%s</span> <a href=\"user://%s\">%s</a>: %s</div>",
-                clz, t, name, name, content);
+        String clz = my ? "my" : "sender";
+        String content = formatHtmlMsg(msg, encodeHtml);
+        return String.format(DIV_ROW_FORMAT, clz, t, name, name, content);
     }
 
     private static String autoReviewLink(String input) {
@@ -140,6 +152,17 @@ public class IMUtils {
                 int s = starts.get(i);
                 int e = ends.get(i);
                 String g = groups.get(i);
+                String http = null;
+                if (!g.matches(Patterns.PROTOCOL)) {
+                    boolean f = g.startsWith("www.") || g.endsWith(".com")
+                            || g.endsWith(".cn");
+                    if (!f) {
+                        continue;
+                    }
+                    else {
+                        http = "http://";
+                    }
+                }
 
                 int pos = offset + s;
                 if (pos > 2) {
@@ -168,6 +191,10 @@ public class IMUtils {
         return input;
     }
 
+    public static final String DIV_SENDER_FORMAT = "<span class=\"%s\"><span class=\"time\">%s</span> <a href=\"user://%s\">%s</a>: </span>";
+    public static final String DIV_CONTENT_FORMAT = "<span class=\"content\">%s</span>";
+    public static final String DIV_ROW_FORMAT = String.format("<div>%s%s</div>",
+            DIV_SENDER_FORMAT, DIV_CONTENT_FORMAT);
     public static final List<String> IMG_EXTS = Arrays.asList("png", "jpg", "gif", "webp");
     public static final String CODE_REGEX = "Code: [\\S ]+:[\\d]+ ?";
     public static final String LINK_REGEX = "(https?|ftp|file)://(([\\w-~]+).)+([\\w-~\\/])+(((?!\\.)(\\S))+(\\.\\w+(\\?(\\w+=\\S&?)*)?)?)?";

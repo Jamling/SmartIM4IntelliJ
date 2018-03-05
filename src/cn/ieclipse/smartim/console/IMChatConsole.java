@@ -23,6 +23,7 @@ import com.intellij.ui.JBSplitter;
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.ViewFactory;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
@@ -86,7 +87,9 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         if (client != null) {
             List<String> ms = IMHistoryManager.getInstance()
                     .load(client, getHistoryFile());
-            for (String raw : ms) {
+            int size = ms.size();
+            for (int i=0; i < size; i++) {
+                String raw = ms.get(i);
                 if (!IMUtils.isEmpty(raw)) {
                     try {
                         loadHistory(raw);
@@ -106,6 +109,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
     public void clearUnread() {
         if (contact != null && contact instanceof AbstractContact) {
             ((AbstractContact) contact).clearUnRead();
+            imPanel.notifyUpdateContacts(0, true);
         }
     }
 
@@ -186,7 +190,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
     protected ChatHistoryPane top;
     protected ChatInputPane bottom;
     protected JEditorPane historyWidget;
-    protected JTextPane inputWidget;
+    protected JTextComponent inputWidget;
     protected JButton btnSend;
 
     public void initUI() {
@@ -281,18 +285,25 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         };
         StyleSheet styleSheet = kit.getStyleSheet();
         styleSheet.addRule("body {text-align: left;}");
-        styleSheet.addRule("div.my {font-size: 1.2rem; font-style: italic;}");
+        styleSheet.addRule(
+                ".my {font-size: 1 em; font-style: italic; float: left;}");
         styleSheet.addRule("div.error {color: red;}");
-        styleSheet.addRule("img {max-width: 100%;}");
+        styleSheet.addRule("img {max-width: 100%; display: block;}");
+        styleSheet.addRule(".sender {display: inline; float: left;}");
+        styleSheet.addRule(
+                ".content {display: inline-block; white-space: pre; padding-left: 4px;}");
+        styleSheet.addRule(
+                ".br {height: 1px; line-height: 1px; min-height: 1px;}");
         try {
             styleSheet.importStyleSheet(
-                    new URL("http://dl.ieclipse.cn/r/smartim.css"));
+                    new URL("http://dl.ieclipse.cn/r/smartim-min.css"));
         } catch (MalformedURLException e1) {
             e1.printStackTrace();
         }
         HTMLDocument doc = (HTMLDocument) kit.createDefaultDocument();
         String initText = String.format(
                 "<html><head></head><body>%s</body></html>", "欢迎使用SmartIM");
+        historyWidget.setContentType("text/html");
         historyWidget.setEditorKit(kit);
         historyWidget.setDocument(doc);
         // historyWidget.setText(initText);

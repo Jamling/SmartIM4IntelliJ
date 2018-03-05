@@ -15,11 +15,14 @@
  */
 package cn.ieclipse.smartim.common;
 
-import javax.swing.*;
+import javax.swing.SizeRequirements;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
 import javax.swing.text.GlyphView;
+import javax.swing.text.LabelView;
+import javax.swing.text.StyleConstants;
 import javax.swing.text.View;
+import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.InlineView;
 import javax.swing.text.html.ParagraphView;
@@ -37,6 +40,17 @@ public class WrapHTMLFactory extends HTMLEditorKit.HTMLFactory {
     @Override
     public View create(Element elem) {
         View v = super.create(elem);
+        if (v instanceof LabelView) {
+            // the javax.swing.text.html.BRView (representing <br> tag) is a
+            // LabelView but must not be handled
+            // by a WrapLabelView. As BRView is private, check the html tag from
+            // elem attribute
+            Object o = elem.getAttributes()
+                    .getAttribute(StyleConstants.NameAttribute);
+            if ((o instanceof HTML.Tag) && o == HTML.Tag.BR) {
+                return new BRView(elem);
+            }
+        }
         if (v instanceof InlineView) {
             return new WrapInlineView(elem);
         }
@@ -44,6 +58,38 @@ public class WrapHTMLFactory extends HTMLEditorKit.HTMLFactory {
             return new WrapParagraphView(elem);
         }
         return v;
+    }
+    
+    /**
+     * Processes the &lt;BR&gt; tag. In other words, forces a line break.
+     *
+     * @author Sunita Mani
+     */
+    class BRView extends InlineView {
+        
+        /**
+         * Creates a new view that represents a &lt;BR&gt; element.
+         *
+         * @param elem
+         *            the element to create a view for
+         */
+        public BRView(Element elem) {
+            super(elem);
+        }
+        
+        /**
+         * Forces a line break.
+         *
+         * @return View.ForcedBreakWeight
+         */
+        public int getBreakWeight(int axis, float pos, float len) {
+            if (axis == X_AXIS) {
+                return ForcedBreakWeight;
+            }
+            else {
+                return super.getBreakWeight(axis, pos, len);
+            }
+        }
     }
     
     class WrapInlineView extends InlineView {
@@ -66,8 +112,8 @@ public class WrapHTMLFactory extends HTMLEditorKit.HTMLFactory {
                 }
                 try {
                     // if the view contains line break char return forced break
-                    if (getDocument().getText(p0, p1 - p0)
-                            .indexOf(WrapHTMLFactory.SEPARATOR) >= 0) {
+                    String text = getDocument().getText(p0, p1 - p0);
+                    if (text.indexOf(WrapHTMLFactory.SEPARATOR) >= 0) {
                         return View.ForcedBreakWeight;
                     }
                 } catch (BadLocationException ex) {

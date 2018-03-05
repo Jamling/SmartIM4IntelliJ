@@ -31,8 +31,8 @@ public abstract class IMReceiveCallback implements ReceiveCallback {
         SmartClient client = fContactView.getClient();
         String msg = getMsgContent(message, from);
         if (!unknown) {
-            IMHistoryManager.getInstance().save(client,
-                    EncodeUtils.getMd5(contact.getName()), msg);
+            String hf = EncodeUtils.getMd5(from.getContact().getName());
+            IMHistoryManager.getInstance().save(client, hf, msg);
         }
         
         if (notify) {
@@ -43,24 +43,24 @@ public abstract class IMReceiveCallback implements ReceiveCallback {
                         .equals(fContactView.getClient().getAccount().getUin());
             } catch (Exception e) {
             }
-            if (hide) {
+            if (hide || fContactView.isCurrent(contact)) {
                 // don't notify
             }
             else {
                 CharSequence content = getNotifyContent(message, from);
-                Notifications.notify(fContactView, from.getContact(),
-                        from.getContact().getName(), content);
+                Notifications.notify(fContactView, contact, contact.getName(),
+                        content);
             }
         }
         
-        IMChatConsole console = fContactView.findConsole(from.getContact(),
+        IMChatConsole console = fContactView.findConsoleById(contact.getUin(),
                 false);
         if (console != null) {
             lastConsole = console;
             console.write(msg);
             fContactView.highlight(console);
         }
-        else {
+        if (!fContactView.isCurrent(console)) {
             if (contact != null) {
                 contact.increaceUnRead();
             }

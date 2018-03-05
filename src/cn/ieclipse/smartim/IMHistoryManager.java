@@ -34,7 +34,8 @@ public class IMHistoryManager {
     private Map<String, FileStorage> stores = new HashMap<>();
     private static final int max = 30;
     private static final int size = 500;
-    
+    private long ts = System.currentTimeMillis();
+
     private static IMHistoryManager instance = new IMHistoryManager();
     
     public static IMHistoryManager getInstance() {
@@ -61,7 +62,11 @@ public class IMHistoryManager {
     public boolean save(SmartClient client, String uin, String rawMsg) {
         FileStorage fs = get(client, uin);
         boolean ret = fs.append(rawMsg);
-        ret = ret && fs.isPersistent() && fs.flush();
+        ret = ret && fs.isPersistent();
+        if (System.currentTimeMillis() - ts > 1000 * 120) {
+            flush();
+            ts = System.currentTimeMillis();
+        }
         return ret;
     }
 
@@ -69,5 +74,16 @@ public class IMHistoryManager {
         FileStorage fs = get(client, uin);
         fs.release();
         return true;
+    }
+
+    public void flush() {
+        if (!stores.isEmpty()) {
+            for (FileStorage fs : stores.values()) {
+                if (fs.isPersistent()) {
+                    fs.flush();
+                }
+            }
+            stores.clear();
+        }
     }
 }

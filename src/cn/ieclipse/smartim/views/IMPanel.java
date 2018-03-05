@@ -125,6 +125,26 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
         }
     }
 
+    public boolean isCurrent(final IMChatConsole console) {
+        if (console != null) {
+            if (console == tabbedChat.getSelectedComponent()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isCurrent(final IContact contact) {
+        if (contact != null) {
+            Object o = tabbedChat.getSelectedComponent();
+            IMChatConsole console = (IMChatConsole) o;
+            if (o != null && o instanceof IMChatConsole) {
+                return contact.getUin().equals(console.getUin());
+            }
+        }
+        return false;
+    }
+
     public IMChatConsole findConsoleById(String id, boolean show) {
         int count = tabbedChat.getTabCount();
         for (int i = 0; i < count; i++) {
@@ -162,6 +182,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
             consoles.put(console.getUin(), console);
             tabbedChat.setSelectedComponent(console);
         }
+        console.clearUnread();
     }
 
     public void addConsole(IMChatConsole console) {

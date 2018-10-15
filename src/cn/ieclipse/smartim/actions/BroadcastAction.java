@@ -23,7 +23,8 @@ public class BroadcastAction extends IMPanelAction {
             openDialog();
         }
         else {
-            JOptionPane.showInternalMessageDialog(null, "已断开连接，请重新登录成功后再试");
+            // fix #52
+            JOptionPane.showMessageDialog(null, "已断开连接，请重新登录成功后再试");
         }
     }
     

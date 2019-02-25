@@ -3,9 +3,11 @@ package cn.ieclipse.smartim.views;
 import cn.ieclipse.smartim.SmartClient;
 import cn.ieclipse.smartim.actions.*;
 import cn.ieclipse.smartim.common.LOG;
+import cn.ieclipse.smartim.common.RestUtils;
 import cn.ieclipse.smartim.console.ClosableTabHost;
 import cn.ieclipse.smartim.console.IMChatConsole;
 import cn.ieclipse.smartim.model.IContact;
+import cn.ieclipse.util.StringUtils;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
@@ -32,6 +34,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
     protected JBSplitter splitter;
 
     protected Project project;
+    protected String welcome;
 
     public IMPanel(boolean vertical) {
         super(vertical);
@@ -60,9 +63,9 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
         group.add(new HideContactAction(this));
         group.add(new DisconnectAction(this));
         createBroadcastAction(group);
-        group.add(new SettingAction(this));
+        group.add(new SettingsAction(this));
         MockConsoleAction test = new MockConsoleAction(this);
-        //group.add(test);
+        group.add(test);
 
         ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar("SmartQQ", group, false);
         // toolbar.getComponent().addFocusListener(createFocusListener());
@@ -178,8 +181,11 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
         IMChatConsole console = findConsoleById(contact.getUin(), true);
         if (console == null) {
             console = createConsoleUI(contact);
-            console.setName(contact.getName());
-            tabbedChat.addTab(contact.getName(), console);
+            if (StringUtils.isEmpty(console.getName())) {
+                // TODO set name in console
+                console.setName(contact.getName());
+            }
+            tabbedChat.addTab(console.getName(), console);
             consoles.put(console.getUin(), console);
             tabbedChat.setSelectedComponent(console);
         }
@@ -237,5 +243,21 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
 
     public void notifyUpdateContacts(int index, boolean force) {
         left.notifyUpdateContacts(index, force);
+    }
+
+    public void loadWelcome(final String im) {
+        new Thread() {
+            @Override
+            public void run() {
+                welcome = RestUtils.getWelcome(im);
+            }
+        }.start();
+    }
+
+    public String getWelcome() {
+        if (welcome == null) {
+            return "";
+        }
+        return welcome;
     }
 }

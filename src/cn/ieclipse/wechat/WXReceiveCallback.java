@@ -50,8 +50,6 @@ public class WXReceiveCallback extends IMReceiveCallback {
             if (from instanceof GroupFrom) {
                 GroupFrom gf = (GroupFrom) from;
                 unknown = gf.getMember() == null || gf.getMember().isUnknown();
-                notify = SmartIMSettings.getInstance()
-                        .getState().NOTIFY_GROUP_MSG;
             }
             else {
                 unknown = from.getMember() == null;
@@ -71,33 +69,9 @@ public class WXReceiveCallback extends IMReceiveCallback {
     
     @Override
     protected String getMsgContent(AbstractMessage message, AbstractFrom from) {
-        String name = from.isOut() ? from.getTarget().getName()
-                : from.getName();
-        String msg = null;
         if (message instanceof WechatMessage) {
-            WechatMessage m = (WechatMessage) message;
-            String text = m.getText() == null ? null : m.getText().toString();
-            boolean encodeHtml = true;
-            boolean my = from.isOut() ? true : false;
-            if (m.MsgType != WechatMessage.MSGTYPE_TEXT) {
-                encodeHtml = false;
-                if (m.MsgType == WechatMessage.MSGTYPE_APP
-                        && m.AppMsgType == WechatMessage.APPMSGTYPE_ATTACH) {
-                    if (m.AppMsgInfo != null) {
-
-                    }
-                }
-            }
-            else {
-                if (from instanceof UserFrom) {
-                    Contact c = (Contact) from.getContact();
-                    encodeHtml = !c.isPublic();
-                }
-            }
-            msg = IMUtils.formatHtmlMsg(my, encodeHtml, m.CreateTime, name,
-                    text);
-            msg = WXUtils.decodeEmoji(msg);
+            return WXUtils.formatHtmlIncoming((WechatMessage) message, from);
         }
-        return msg;
+        return message.getClass().getName();
     }
 }

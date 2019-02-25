@@ -17,6 +17,7 @@ import io.github.biezhi.wechat.api.WechatClient;
 public class WechatPanel extends IMPanel {
     public WechatPanel(Project project, ToolWindow toolWindow) {
         super(project, toolWindow);
+        loadWelcome("wechat");
     }
 
     @Override
@@ -31,7 +32,9 @@ public class WechatPanel extends IMPanel {
 
     @Override
     public IMChatConsole createConsoleUI(IContact contact) {
-        return new WXChatConsole(contact, this);
+        IMChatConsole console = new WXChatConsole(contact, this);
+        console.setName(WXUtils.getPureName(contact.getName()));
+        return console;
     }
 
     @Override

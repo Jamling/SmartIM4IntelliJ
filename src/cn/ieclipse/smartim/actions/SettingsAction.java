@@ -9,8 +9,8 @@ import icons.SmartIcons;
 /**
  * Created by Jamling on 2017/7/11.
  */
-public class SettingAction extends IMPanelAction {
-    public SettingAction(IMPanel panel) {
+public class SettingsAction extends IMPanelAction {
+    public SettingsAction(IMPanel panel) {
         super(panel, "设置", "首选项及设置", SmartIcons.settings);
         this.imPanel = panel;
     }

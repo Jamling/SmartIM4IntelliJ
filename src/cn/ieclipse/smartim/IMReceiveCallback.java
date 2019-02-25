@@ -32,7 +32,7 @@ public abstract class IMReceiveCallback implements ReceiveCallback {
         String msg = getMsgContent(message, from);
         if (!unknown) {
             String hf = EncodeUtils.getMd5(from.getContact().getName());
-            IMHistoryManager.getInstance().save(client, hf, msg);
+            IMHistoryManager.getInstance().save(client.getWorkDir(IMHistoryManager.HISTORY_NAME), hf, msg);
         }
         
         if (notify) {

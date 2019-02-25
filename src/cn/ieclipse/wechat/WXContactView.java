@@ -2,6 +2,7 @@ package cn.ieclipse.wechat;
 
 import cn.ieclipse.smartim.IMSendCallback;
 import cn.ieclipse.smartim.common.LOG;
+import cn.ieclipse.smartim.handler.MessageInterceptor;
 import cn.ieclipse.smartim.views.ContactTreeMode;
 import cn.ieclipse.smartim.views.IMContactView;
 import com.intellij.ui.components.JBTabbedPane;
@@ -29,13 +30,15 @@ public class WXContactView extends IMContactView {
     private ContactTreeMode groupModel;
     private ContactTreeMode discussModel;
 
+    private MessageInterceptor interceptor;
     public WXContactView(WechatPanel imPanel) {
         super(imPanel);
 
         receiveCallback = new WXReceiveCallback(imPanel);
         sendCallback = new IMSendCallback(imPanel);
-        robotCallback = null;
+        robotCallback = new WXRobotCallback(imPanel);
         modificationCallback = new WXModificationCallback(imPanel);
+        interceptor = new WXMessageInterceptor();
 
         root1 = new WXContactTreeNode(false, "recent", imPanel);
         root2 = new WXContactTreeNode(false, "friend", imPanel);
@@ -91,6 +94,7 @@ public class WXContactView extends IMContactView {
                 client.addReceiveCallback(robotCallback);
                 client.setSendCallback(sendCallback);
                 client.setModificationCallbacdk(modificationCallback);
+                client.addMessageInterceptor(interceptor);
                 client.start();
             } catch (Exception e) {
                 LOG.error("微信初始化失败", e);

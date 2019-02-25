@@ -25,6 +25,14 @@ public class WXContactTreeNode extends ContactTreeNode {
     }
 
     @Override
+    public String toString() {
+        if (userObject instanceof Contact) {
+            return WXUtils.getPureName(((Contact) userObject).getName());
+        }
+        return super.toString();
+    }
+
+    @Override
     public void update() {
         WechatClient client = (WechatClient) imPanel.getClient();
         WXContactTreeNode root = (WXContactTreeNode) getRoot();

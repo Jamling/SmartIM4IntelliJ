@@ -49,6 +49,7 @@ public class SmartIMSettings implements PersistentStateComponent<SmartIMSettings
     private static SmartIMSettings instance;
 
     public static class State {
+        public String KEY_SEND = "Enter";
         public boolean SHOW_SEND = false;
         public boolean NOTIFY_MSG = true;
         public boolean NOTIFY_GROUP_MSG = false;

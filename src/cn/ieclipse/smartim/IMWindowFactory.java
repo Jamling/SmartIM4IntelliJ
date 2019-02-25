@@ -64,14 +64,22 @@ public class IMWindowFactory implements ToolWindowFactory {
     }
 
     private void createContents(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        SmartQQPanel qqPanel = new SmartQQPanel(project, toolWindow);
+        File dir = new File(getWorkDir(), "SmartIM");
+        if (dir.exists()) {
+            dir.mkdirs();
+        }
+        System.setProperty("log.home", dir.getAbsolutePath());
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
-        Content content = contentFactory.createContent(qqPanel, "SmartQQ", false);
-        toolWindow.getContentManager().addContent(content, 0);
+        Content content = null;
 
         WechatPanel wechatPanel = new WechatPanel(project, toolWindow);
         content = contentFactory.createContent(wechatPanel, "Wechat", false);
+        toolWindow.getContentManager().addContent(content, 0);
+
+        SmartQQPanel qqPanel = new SmartQQPanel(project, toolWindow);
+        content = contentFactory.createContent(qqPanel, "SmartQQ", false);
         toolWindow.getContentManager().addContent(content, 1);
+
     }
 
     private Content createContentPanel(Project project, ToolWindow toolWindow) {

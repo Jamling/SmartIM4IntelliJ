@@ -15,20 +15,19 @@
  */
 package cn.ieclipse.smartim;
 
-import cn.ieclipse.smartim.helper.FileStorage;
-import cn.ieclipse.smartim.settings.SmartIMSettings;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.ieclipse.util.FileStorage;
+import cn.ieclipse.smartim.settings.SmartIMSettings;
+
 /**
  * 类/接口描述
- * 
+ *
  * @author Jamling
  * @date 2017年10月23日
- *       
  */
 public class IMHistoryManager {
     private Map<String, FileStorage> stores = new HashMap<>();
@@ -37,15 +36,16 @@ public class IMHistoryManager {
     private long ts = System.currentTimeMillis();
 
     private static IMHistoryManager instance = new IMHistoryManager();
-    
+    public static final String HISTORY_NAME = "history";
+
     public static IMHistoryManager getInstance() {
         return instance;
     }
-    
-    private FileStorage get(SmartClient client, String uin) {
+
+    private FileStorage get(File dir, String uin) {
         FileStorage fs = stores.get(uin);
         if (fs == null) {
-            File f = new File(client.getWorkDir("history"), uin);
+            File f = new File(dir, uin);
             fs = new FileStorage(size, f.getAbsolutePath());
             boolean persistent = SmartIMSettings.getInstance().getState().LOG_HISTORY;
             fs.setPersistent(persistent);
@@ -53,14 +53,14 @@ public class IMHistoryManager {
         }
         return fs;
     }
-    
-    public List<String> load(SmartClient client, String uin) {
-        FileStorage fs = get(client, uin);
+
+    public List<String> load(File dir, String uin) {
+        FileStorage fs = get(dir, uin);
         return fs.getLast(max);
     }
-    
-    public boolean save(SmartClient client, String uin, String rawMsg) {
-        FileStorage fs = get(client, uin);
+
+    public boolean save(File dir, String uin, String rawMsg) {
+        FileStorage fs = get(dir, uin);
         boolean ret = fs.append(rawMsg);
         ret = ret && fs.isPersistent();
         if (System.currentTimeMillis() - ts > 1000 * 120) {
@@ -70,8 +70,8 @@ public class IMHistoryManager {
         return ret;
     }
 
-    public boolean clear(SmartClient client, String uin) {
-        FileStorage fs = get(client, uin);
+    public boolean clear(File dir, String uin) {
+        FileStorage fs = get(dir, uin);
         fs.release();
         return true;
     }

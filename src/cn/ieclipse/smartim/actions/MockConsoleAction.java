@@ -3,6 +3,8 @@ package cn.ieclipse.smartim.actions;
 import cn.ieclipse.smartim.console.MockChatConsole;
 import cn.ieclipse.smartim.model.impl.AbstractContact;
 import cn.ieclipse.smartim.views.IMPanel;
+import cn.ieclipse.wechat.WXChatConsoleMock;
+import cn.ieclipse.wechat.WechatPanel;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import icons.SmartIcons;
 
@@ -29,8 +31,16 @@ public class MockConsoleAction extends IMPanelAction {
             }
         };
 
-        MockChatConsole console = new MockChatConsole(contact, imPanel);
+        MockChatConsole console = null;
+        if (imPanel instanceof WechatPanel) {
+            console = new WXChatConsoleMock(contact, imPanel);
+        }
+        else {
+            console = new MockChatConsole(contact, imPanel);
+        }
         console.setName(contact.getName());
         imPanel.addConsole(console);
+        imPanel.randBling();
+        console.initMockMsg();
     }
 }

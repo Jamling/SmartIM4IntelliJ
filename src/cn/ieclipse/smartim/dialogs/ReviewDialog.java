@@ -1,8 +1,11 @@
 package cn.ieclipse.smartim.dialogs;
 
 import cn.ieclipse.smartim.IMWindowFactory;
+import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.console.IMChatConsole;
+import cn.ieclipse.smartim.console.MockChatConsole;
 import cn.ieclipse.smartim.views.IMPanel;
+import cn.ieclipse.wechat.WXUtils;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.wm.ToolWindow;
@@ -103,7 +106,11 @@ public class ReviewDialog extends JDialog {
         String msg = String.format("%s(Reviews: %s)", text.getText(),
                 styledText.getText());
         for (IMChatConsole console : consoles) {
-            console.send(msg);
+            // console.send(msg);
+            String name = console instanceof MockChatConsole ? "me" : console.getClient().getAccount().getName();
+            String msg2 = WXUtils.formatHtmlOutgoing(name, IMUtils.autoReviewLink(msg), false);
+            console.sendWithoutPost(msg2, true);
+            console.post(msg);
         }
         if (openGerritReviewCheckBox.isSelected()) {
             AnAction action = ActionManager.getInstance().getActionOrStub("");

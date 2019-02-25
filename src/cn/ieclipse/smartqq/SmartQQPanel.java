@@ -19,6 +19,7 @@ public class SmartQQPanel extends IMPanel {
 
     public SmartQQPanel(Project project, ToolWindow toolWindow) {
         super(project, toolWindow);
+        loadWelcome("qq");
     }
 
     @Override

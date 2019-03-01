@@ -58,6 +58,7 @@ public class WXRobotCallback extends IMRobotCallback {
                     String c = m.Content;
                     if (c.contains("加入了群聊")) {
                         String n = c.replaceFirst(".*\"(.+)\".*", "$1");
+                        n = WXUtils.getPureName(n);
                         GroupFrom gf = (GroupFrom) from;
                         String robotName = getRobotName();
                         String welcome = SmartIMSettings.getInstance()
@@ -121,7 +122,7 @@ public class WXRobotCallback extends IMRobotCallback {
                     if (gf.getMember() != null) {
                         input = input.replace("{memo}", "");
                         input = input.replace("{user}",
-                                gf.getMember().getName());
+                                WXUtils.getPureName(gf.getMember().getName()));
                     }
                     input = robotName + input;
                     send(from, input);

@@ -10,6 +10,7 @@ import com.intellij.ui.treeStructure.Tree;
 import io.github.biezhi.wechat.api.WechatClient;
 
 import javax.swing.*;
+import javax.swing.tree.TreeCellRenderer;
 
 /**
  * Created by Jamling on 2017/7/11.
@@ -75,6 +76,11 @@ public class WXContactView extends IMContactView {
     @Override
     protected void initTree(Tree tree) {
         super.initTree(tree);
+    }
+
+    @Override
+    protected TreeCellRenderer getContactRenderer() {
+        return new WXContactTreeCellRenderer();
     }
 
     @Override

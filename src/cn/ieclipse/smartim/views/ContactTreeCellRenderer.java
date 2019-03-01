@@ -28,20 +28,6 @@ public class ContactTreeCellRenderer extends ColoredTreeCellRenderer {
     }
 
     public Icon getDisplayIcon(Object obj) {
-        if (obj instanceof Recent) {
-            Recent r = (Recent) obj;
-            if (r.getType() == 0) {
-                return SmartIcons.friend;
-            } else if (r.getType() == 1) {
-                return SmartIcons.group;
-            } else if (r.getType() == 2) {
-                return SmartIcons.discuss;
-            }
-        } else if (obj instanceof Group) {
-            return SmartIcons.group;
-        } else if (obj instanceof Discuss) {
-            return SmartIcons.discuss;
-        }
         return SmartIcons.friend;
     }
 

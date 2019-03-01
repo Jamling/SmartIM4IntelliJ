@@ -123,11 +123,13 @@ public class IMUtils {
             String linkText = m.group().substring(6).trim();
             int s = m.start() + 6;
             int e = s + linkText.length();
-            StringBuilder sb = new StringBuilder(input);
+            StringBuilder sb = new StringBuilder(m.group());
             sb.delete(s, e);
             String url = String.format("<a href=\"code://%s\">%s</a>", linkText,
                     linkText);
             sb.insert(s, url);
+            String reviews = StringUtils.encodeXml(input.substring(m.end()));
+            sb.append(reviews);
             return sb.toString();
         }
         return input;

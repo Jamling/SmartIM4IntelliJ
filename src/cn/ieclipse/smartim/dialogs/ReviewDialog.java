@@ -91,7 +91,6 @@ public class ReviewDialog extends JDialog {
                         IMPanel panel = (IMPanel) content.getComponent();
                         List<IMChatConsole> chats = panel.getConsoleList();
                         if (!chats.isEmpty()) {
-                            consoles.addAll(chats);
                             targetPanel.add(new GroupPanel(content.getDisplayName(), chats));
                         }
                     }
@@ -124,7 +123,7 @@ public class ReviewDialog extends JDialog {
         this.styledText.setText(text);
     }
 
-    public static class GroupPanel extends JPanel {
+    public class GroupPanel extends JPanel {
         private JPanel panel;
         private JLabel label;
 
@@ -150,7 +149,17 @@ public class ReviewDialog extends JDialog {
 
             if (chats != null) {
                 for (IMChatConsole chat : chats) {
-                    panel.add(new JCheckBox(chat.getName()));
+                    final JCheckBox chk = new JCheckBox(chat.getName());
+                    panel.add(chk);
+                    chk.addItemListener(e -> {
+                        if (chk.isSelected()) {
+                            if (!consoles.contains(chat)) {
+                                consoles.add(chat);
+                            }
+                        } else {
+                            consoles.remove(chat);
+                        }
+                    });
                 }
             }
         }
@@ -171,7 +180,7 @@ public class ReviewDialog extends JDialog {
             }
         };
         console.setName("Target1");
-        dialog.targetPanel.add(new GroupPanel("test", Arrays.asList(console, console)));
+        dialog.targetPanel.add(dialog.new GroupPanel("test", Arrays.asList(console, console)));
         dialog.setVisible(true);
         System.exit(0);
     }

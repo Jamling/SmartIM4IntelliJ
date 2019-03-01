@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>cn.ieclipse.smartqq.intellij</id>
     <name>SmartQQ</name>
-    <version>2.6.0</version>
+    <version>2.6.1</version>
     <vendor email="li.jamling@gmail.com" url="https://github.com/Jamling/SmartQQ4Intellij">Jamling</vendor>
 
     <description><![CDATA[
@@ -11,6 +11,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
+	v2.6.1 2019-03-02，优化微信联系人显示，修复代码评审的两个Bug。
     v2.6.0 2019-02-26, 优化微信
     v2.4.0 2018-05-10, 修复部分微信用户登录异常的问题
     v2.3.2 2018-03-05, 优化链接自动识别，优化聊天记录

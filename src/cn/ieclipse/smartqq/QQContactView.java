@@ -9,6 +9,7 @@ import com.intellij.ui.treeStructure.Tree;
 import com.scienjus.smartqq.client.SmartQQClient;
 
 import javax.swing.*;
+import javax.swing.tree.TreeCellRenderer;
 
 /**
  * Created by Jamling on 2017/7/11.
@@ -69,6 +70,11 @@ public class QQContactView extends IMContactView {
         friendTree.setModel(friendModel);
         groupTree.setModel(groupModel);
         discussTree.setModel(discussModel);
+    }
+
+    @Override
+    protected TreeCellRenderer getContactRenderer() {
+        return new QQContactTreeCellRenderer();
     }
 
     @Override

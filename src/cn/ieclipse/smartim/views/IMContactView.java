@@ -8,6 +8,7 @@ import com.intellij.ui.treeStructure.Tree;
 import com.intellij.util.ui.tree.WideSelectionTreeUI;
 
 import javax.swing.*;
+import javax.swing.tree.TreeCellRenderer;
 
 /**
  * Created by Jamling on 2017/7/11.
@@ -40,7 +41,7 @@ public abstract class IMContactView {
     }
 
     protected void initTree(Tree tree) {
-        tree.setCellRenderer(new ContactTreeCellRenderer());
+        tree.setCellRenderer(getContactRenderer());
         tree.setShowsRootHandles(false);
         tree.setRootVisible(false);
         tree.addMouseListener(new IMContactDoubleClicker(getImPanel()));
@@ -70,6 +71,10 @@ public abstract class IMContactView {
     protected abstract void doLoadContacts();
 
     protected abstract void onLoadContacts(boolean success);
+
+    protected TreeCellRenderer getContactRenderer() {
+        return new ContactTreeCellRenderer();
+    }
 
     protected void notifyLoadContacts(final boolean success) {
         SwingUtilities.invokeLater(new Runnable() {

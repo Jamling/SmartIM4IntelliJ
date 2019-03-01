@@ -35,7 +35,7 @@ Eclipse的插件请访问 https://github.com/Jamling/SmartQQ4Eclipse/
 
 ## 更新日志
 
-- v2.6.0 2019-02-26, 优化微信
+- v2.6.1 2019-03-02, 修复代码评审xml被过滤和选择对象错误的issue 优化微信联系人，不显示emoji
 - v2.4.0 2018-05-10, 修复部分微信用户登录异常的问题
 - v2.3.0 2018-02-27, 添加发送工程中的文件，图灵机器人，消息群发等功能，在功能上，终于与eclipse版本相差无几了
 - v2.2.0 2018-02-06, 添加微信发送文件，接收动画表情、文件、图片功能
@@ -53,7 +53,7 @@ Eclipse的插件请访问 https://github.com/Jamling/SmartQQ4Eclipse/
 
 ## 使用
 
-- 安装成功后，会在底部栏出现一个Smart的tab（如果没有底部栏，则在菜单View中把ToolButtons勾选上）
-- 点击Smart中的二维码使用手机QQ扫码登录
-
+- 安装成功后，会在底部栏出现一个SmartIM的tab（如果没有底部栏，则在菜单View中把ToolButtons勾选上）
+- （可选）点击SmartIM顶部的具体IM（默认为Wechat）
+- 点击左侧工具栏的登录图标（第一个）并使用手机扫码登录。
 

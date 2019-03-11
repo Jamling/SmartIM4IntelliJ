@@ -1,15 +1,15 @@
-[![GitHub release](https://img.shields.io/github/release/jamling/SmartQQ4Intellij.svg?maxAge=3600)](https://github.com/Jamling/SmartQQ4Intellij)
+[![GitHub release](https://img.shields.io/github/release/jamling/SmartIM4Intellij.svg?maxAge=3600)](https://github.com/Jamling/SmartIM4Intellij)
 [![JetBrains Plugins](https://img.shields.io/jetbrains/plugin/v/9816-smartqq.svg)](https://plugins.jetbrains.com/plugin/9816-smartqq)
 [![JetBrains plugins](https://img.shields.io/jetbrains/plugin/d/9816-smartqq.svg)](https://plugins.jetbrains.com/plugin/9816-smartqq)
 
 
 ## 简介
 
-![screenshot](https://raw.githubusercontent.com/Jamling/SmartQQ4IntelliJ/master/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/Jamling/SmartIM4IntelliJ/master/screenshot.png)
 
-IntelliJ Idea上的SmartQQ插件，适用于大多数的Intellij IDE，
+IntelliJ Idea上的SmartIM插件，适用于大多数的Intellij IDE，
 
-Eclipse的插件请访问 https://github.com/Jamling/SmartQQ4Eclipse/
+Eclipse的插件请访问 https://github.com/Jamling/SmartIM4Eclipse/
 
 ## 功能
 
@@ -41,15 +41,15 @@ Eclipse的插件请访问 https://github.com/Jamling/SmartQQ4Eclipse/
 - v2.2.0 2018-02-06, 添加微信发送文件，接收动画表情、文件、图片功能
 - v2.1.0 2018-01-01, 聊天内容支持富文本，优化微信最近联系人，微信好友中添加一个group分组，修复SmartQQ发送失败的问题，忽略SmartQQ获取最近联系人失败...
 - v2.0.1 2017-11-17, 修复在某些IDE中，安装插件后，无法打开IDE设置的问题
-- v2.0.0 2017-11-11, 基于SmartIM重构，支持微信。 ***此版本在某些IDE上，会导致IDE的设置无法打开（参考[#10](https://github.com/Jamling/SmartQQ4IntelliJ/issues/10)），强烈建议升级到新版本***
+- v2.0.0 2017-11-11, 基于SmartIM重构，支持微信。 ***此版本在某些IDE上，会导致IDE的设置无法打开（参考[#10](https://github.com/Jamling/SmartIM4IntelliJ/issues/10)），强烈建议升级到新版本***
 - v1.0.5/2017/08/16，乃们要的文件发送功能来了。
 - v1.0.3/2017/07/14，美化了UI，添加了异常通知。
 
 ## 安装
 
 - File->Settings->Plugins打开插件设置界面
-- 点击Browser repositories...并输入SmartQQ执行搜索
-- 点击SmartQQ进行安装并重启
+- 点击Browser repositories...并输入SmartIM执行搜索
+- 点击SmartIM进行安装并重启
 
 ## 使用
 

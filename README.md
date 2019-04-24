@@ -1,6 +1,6 @@
 [![GitHub release](https://img.shields.io/github/release/jamling/SmartIM4Intellij.svg?maxAge=3600)](https://github.com/Jamling/SmartIM4Intellij)
-[![JetBrains Plugins](https://img.shields.io/jetbrains/plugin/v/9816-smartqq.svg)](https://plugins.jetbrains.com/plugin/9816-smartqq)
-[![JetBrains plugins](https://img.shields.io/jetbrains/plugin/d/9816-smartqq.svg)](https://plugins.jetbrains.com/plugin/9816-smartqq)
+[![JetBrains Plugins](https://img.shields.io/jetbrains/plugin/v/9816-smartim.svg)](https://plugins.jetbrains.com/plugin/9816-smartim)
+[![JetBrains plugins](https://img.shields.io/jetbrains/plugin/d/9816-smartim.svg)](https://plugins.jetbrains.com/plugin/9816-smartim)
 
 
 ## 简介

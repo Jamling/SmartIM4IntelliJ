@@ -15,15 +15,7 @@
  */
 package cn.ieclipse.smartim.common;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.text.html.StyleSheet;
-
 import com.google.gson.Gson;
-
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.extensions.PluginId;
@@ -32,12 +24,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import javax.swing.*;
+import javax.swing.text.html.StyleSheet;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
  * 类/接口描述
- * 
+ *
  * @author Jamling
  * @date 2019年1月16日
- *       
  */
 public class RestUtils {
     public final static String welcome_format = "http://api.ieclipse.cn/smartqq/index/welcome?p=%s&im=%s&v=%s";
@@ -62,7 +58,7 @@ public class RestUtils {
         }
         return null;
     }
-    
+
     public static void checkUpdate() {
         new Thread() {
             public void run() {
@@ -87,22 +83,26 @@ public class RestUtils {
                                 }
                                 cn.ieclipse.smartim.common.Notifications.notify(info.latest, info.desc);
                                 JOptionPane.showMessageDialog(null, "发现新版本" + info.latest + "请在File->Settings->Plugins插件页中更新SmartQQ");
-                            };
+                            }
+
+                            ;
                         });
                     }
                 } catch (Exception ex) {
                     LOG.error("检查SmartIM最新版本", ex);
                 }
-            };
+            }
+
+            ;
         }.start();
     }
-    
+
     public static class UpdateInfo {
         public String latest;
         public String desc;
         public String link;
     }
-    
+
     public static void loadStyleAsync(final StyleSheet styleSheet) {
 //        new Thread() {
 //            @Override
@@ -111,7 +111,7 @@ public class RestUtils {
 //            }
 //        }.start();
     }
-    
+
     public static void loadStyleSync(final StyleSheet styleSheet) {
         try {
             styleSheet.importStyleSheet(

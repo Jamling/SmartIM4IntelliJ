@@ -9,6 +9,7 @@ import cn.ieclipse.smartim.idea.EditorUtils;
 import cn.ieclipse.smartim.model.IContact;
 import cn.ieclipse.smartim.model.impl.AbstractContact;
 import cn.ieclipse.smartim.settings.SmartIMSettings;
+import cn.ieclipse.smartim.settings.StyleConfPanel;
 import cn.ieclipse.smartim.views.IMPanel;
 import cn.ieclipse.util.BareBonesBrowserLaunch;
 import cn.ieclipse.util.EncodeUtils;
@@ -319,6 +320,17 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         styleSheet.addRule(
                 ".br {height: 1px; line-height: 1px; min-height: 1px;}");
         RestUtils.loadStyleAsync(styleSheet);
+        File f = StyleConfPanel.getCssFile();
+        try {
+            if (f.exists()) {
+                URL url = f.toURI().toURL();
+                styleSheet.importStyleSheet(url);
+            } else {
+                LOG.error("$idea.config.path not exists, smartim will use default css");
+            }
+        } catch (Exception e) {
+            LOG.error("加载SmartIM消息CSS失败", e);
+        }
         HTMLDocument doc = (HTMLDocument) kit.createDefaultDocument();
         String initText = String.format(
                 "<html><head></head><body>%s</body></html>", imPanel.getWelcome());

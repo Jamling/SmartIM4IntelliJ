@@ -22,6 +22,8 @@ public class SmartSettingsPanel implements Configurable {
     private GeneralPanel generalPanel;
     private RobotPanel robotPanel;
     private UploadPanel uploadPanel;
+    private JBScrollPane scroll4;
+    private StyleConfPanel stylePanel;
 
     public SmartSettingsPanel() {
         settings = SmartIMSettings.getInstance();
@@ -32,7 +34,10 @@ public class SmartSettingsPanel implements Configurable {
         scroll2.setViewportView(robotPanel.createComponent());
 
         uploadPanel = new UploadPanel(settings);
-        scroll3.setViewportView(uploadPanel);
+        //scroll3.setViewportView(uploadPanel);
+
+        stylePanel = new StyleConfPanel(settings);
+        scroll4.setViewportView(stylePanel.createComponent());
     }
 
     @Nls
@@ -55,7 +60,7 @@ public class SmartSettingsPanel implements Configurable {
 
     @Override
     public boolean isModified() {
-        return generalPanel.isModified() || robotPanel.isModified() || uploadPanel.isModified();
+        return generalPanel.isModified() || robotPanel.isModified() || uploadPanel.isModified() || stylePanel.isModified();
     }
 
     @Override
@@ -63,6 +68,7 @@ public class SmartSettingsPanel implements Configurable {
         generalPanel.apply();
         robotPanel.apply();
         uploadPanel.apply();
+        stylePanel.apply();
         settings.loadState(settings.getState());
     }
 
@@ -71,6 +77,7 @@ public class SmartSettingsPanel implements Configurable {
         generalPanel.reset();
         robotPanel.reset();
         uploadPanel.reset();
+        stylePanel.reset();
     }
 
     @Override

@@ -1,18 +1,8 @@
 package cn.ieclipse.smartim.settings;
 
-import cn.ieclipse.smartim.common.LOG;
 import cn.ieclipse.smartim.common.RestUtils;
-import com.google.gson.Gson;
-import com.intellij.ide.plugins.IdeaPluginDescriptor;
-import com.intellij.ide.plugins.PluginManager;
-import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.ui.TextFieldWithBrowseButton;
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 

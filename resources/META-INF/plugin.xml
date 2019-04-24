@@ -1,8 +1,8 @@
 <idea-plugin version="2">
     <id>cn.ieclipse.smartqq.intellij</id>
     <name>SmartIM</name>
-    <version>2.6.2</version>
-    <vendor email="li.jamling@gmail.com" url="https://github.com/Jamling/SmartQQ4Intellij">Jamling</vendor>
+    <version>2.7.0</version>
+    <vendor email="li.jamling@gmail.com" url="https://github.com/Jamling/SmartIM4Intellij">Jamling</vendor>
 
     <description><![CDATA[
      An anti-boss plugin for you to chat with your QQ/Wechat friends privately.<br/>
@@ -11,6 +11,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
+    v2.7.0 2019-04-25，添加自定义聊天消息样式，添加dark主题下的相关图标
     v2.6.2 2019-03-15，插件名称改为SmartIM，至于为什么为改，你懂的
 	v2.6.1 2019-03-02，优化微信联系人显示，修复代码评审的两个Bug。
     v2.6.0 2019-02-26, 优化微信

@@ -1,5 +1,6 @@
 package cn.ieclipse.smartim.settings;
 
+import cn.ieclipse.smartim.common.Notifications;
 import cn.ieclipse.util.IOUtils;
 
 import javax.swing.*;
@@ -63,7 +64,7 @@ public class StyleConfPanel {
         btnRestore.addActionListener(e -> {
             update(true);
         });
-        textPane.setMargin(new Insets(5,5,5,5));
+        textPane.setMargin(new Insets(5, 5, 5, 5));
     }
 
     public StyleConfPanel() {
@@ -153,6 +154,7 @@ public class StyleConfPanel {
             saveFile();
         } catch (Exception e) {
             e.printStackTrace();
+            Notifications.notify("保存样式失败", "错误原因：" + e.getMessage());
         }
     }
 
@@ -179,6 +181,7 @@ public class StyleConfPanel {
         byte[] b = content.getBytes();
         raf.write(b);
         raf.close();
+        Notifications.notify("样式保存成功", "目标位置：" + file.getCanonicalPath());
     }
 
     public void apply() {

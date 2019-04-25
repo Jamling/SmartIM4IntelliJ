@@ -22,9 +22,9 @@ public class SmartIcons {
     public static Icon group = IconLoader.getIcon("/icons/user-circle.svg");
     public static Icon friend = IconLoader.getIcon("/icons/user.svg");
     public static Icon discuss = IconLoader.getIcon("/icons/user-o.svg");
-    public static Icon subscriber = IconLoader.getIcon("/icons/subscriber.png");
+    public static Icon subscriber = IconLoader.getIcon("/icons/subscriber.svg");
     public static Icon app3rd = IconLoader.getIcon("/icons/app.svg");
-    public static Icon wechat = IconLoader.getIcon("/icons/wechat.png");
+    public static Icon wechat = IconLoader.getIcon("/icons/wechat.svg");
 
     public static Icon file = AllIcons.FileTypes.Any_type;//IconLoader.getIcon("/icons/File.png");
     public static Icon projectFile = IconLoader.getIcon("/icons/folder.svg");

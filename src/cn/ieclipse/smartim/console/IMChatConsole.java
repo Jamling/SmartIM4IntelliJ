@@ -333,7 +333,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         }
         HTMLDocument doc = (HTMLDocument) kit.createDefaultDocument();
         String initText = String.format(
-                "<html><head></head><body>%s</body></html>", imPanel.getWelcome());
+                "<html><head></head><body><div class=\"welcome\">%s</div></body></html>", imPanel.getWelcome());
         historyWidget.setContentType("text/html");
         historyWidget.setEditorKit(kit);
         historyWidget.setDocument(doc);

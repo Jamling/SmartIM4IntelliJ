@@ -124,7 +124,7 @@ public class StyleConfPanel {
             if (charset != null) {
                 return new String(bytes, charset);
             }
-            return new String(bytes);
+            return new String(bytes, Charset.forName("UTF-8"));
         }
         return null;
     }

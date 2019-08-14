@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>cn.ieclipse.smartqq.intellij</id>
     <name>SmartIM</name>
-    <version>2.7.1</version>
+    <version>2.7.2</version>
     <vendor email="li.jamling@gmail.com" url="https://github.com/Jamling/SmartIM4Intellij">Jamling</vendor>
 
     <description><![CDATA[
@@ -11,9 +11,8 @@
     ]]></description>
 
     <change-notes><![CDATA[
-    v2.7.1 2019-04-29 <br/>
-    Add custom chat message css style <br/>
-    Add icons for dark theme <br/>
+    v2.7.2 2019-08-15 <br/>
+    Fix NumberFormatException when login wechat <br/>
     ]]>
     </change-notes>
 

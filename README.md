@@ -34,6 +34,7 @@ Eclipse的插件请访问 https://github.com/Jamling/SmartIM4Eclipse/
 也可以通过exe快捷方式添加参数，如快捷方式目标指向：`E:\Android\eclipse\eclipse.exe -nl=en -Djsse.enableSNIExtension=false`，注意这种方式要求exe所在的路径不能带空格。
 
 ## 更新日志
+- v2.7.2 2019-08-15，修复微信登录时的NumberFormatException
 - v2.7.0 2019-04-25，添加自定义聊天消息样式，添加dark主题下的相关图标
 - v2.6.1 2019-03-02, 修复代码评审xml被过滤和选择对象错误的issue 优化微信联系人，不显示emoji
 - v2.4.0 2018-05-10, 修复部分微信用户登录异常的问题

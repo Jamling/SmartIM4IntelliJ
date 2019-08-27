@@ -35,19 +35,10 @@ public final class VFSUtils {
         for (int i = 0; i < openProjects.length && result == null; i++) {
             Project openProject = openProjects[i];
             if (!openProject.isInitialized() && !ApplicationManager.getApplication().isUnitTestMode()) continue;
-
             if (document != null) {
                 PsiFile psiFile = PsiDocumentManager.getInstance(openProject).getPsiFile(document);
-                if (VFSUtils.isJavaFile(psiFile)) {
-                    PsiJavaFile psiJavaFile = (PsiJavaFile) psiFile;
-                    assert psiJavaFile != null;
-                    final PsiClass[] classes = psiJavaFile.getClasses();
-                    if (classes.length > 0) {
-                        result = classes[0].getQualifiedName();
-                    }
-                }
+                result = PsiFileTypeFactory.create(psiFile).getQualifiedName(psiFile);
             }
-
             ProjectFileIndex projectFileIndex = ProjectRootManager.getInstance(openProject).getFileIndex();
             if (projectFileIndex.isInSource(file)) {
                 VirtualFile sourceRoot = projectFileIndex.getSourceRootForFile(file);
@@ -58,6 +49,8 @@ public final class VFSUtils {
                 VirtualFile contentRoot = projectFileIndex.getContentRootForFile(file);
                 result = (getRelativePath(file, contentRoot));
             }
+
+
         }
         return result;
     }
@@ -106,23 +99,7 @@ public final class VFSUtils {
     }
 
     private static VirtualFile findFileByFQName(String file, Project project) {
-        VirtualFile result = null;
-        if (file != null) {
-            PsiClass aClass = JavaPsiFacade.getInstance(project).findClass(file, GlobalSearchScope.allScope(project));
-            if (aClass != null && isJavaFile(aClass.getNavigationElement().getContainingFile())) {
-                result = aClass.getNavigationElement().getContainingFile().getVirtualFile();
-            }
-        }
-        return result;
-    }
-
-    public static boolean isJavaFile(PsiFile psiFile) {
-        if (psiFile instanceof PsiJavaFile) {
-            PsiJavaFile file = (PsiJavaFile) psiFile;
-            String name = file.getName();
-            return name != null && name.endsWith(".java");
-        }
-        return false;
+        return null;
     }
 
     private static void findFileInModule(final Set<VirtualFile> found, Module module, String path) {

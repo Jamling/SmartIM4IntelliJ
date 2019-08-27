@@ -13,6 +13,7 @@
     <change-notes><![CDATA[
     v2.7.2 2019-08-15 <br/>
     Fix NumberFormatException when login wechat <br/>
+    Fix bugs for non-java ide
     ]]>
     </change-notes>
 
@@ -22,6 +23,9 @@
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to contact different products -->
     <!-- uncomment to enable plugin in all products -->
+    <depends optional="true" config-file="my-java-features.xml">
+        com.intellij.modules.java
+    </depends>
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">

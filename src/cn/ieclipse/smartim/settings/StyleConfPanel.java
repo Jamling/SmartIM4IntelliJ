@@ -42,23 +42,20 @@ public class StyleConfPanel {
 
         doc.addDocumentListener(new DocumentListener() {
 
-            @Override
-            public void removeUpdate(DocumentEvent e) {
+            @Override public void removeUpdate(DocumentEvent e) {
                 modify = true;
                 Element ele = doc.getParagraphElement(e.getOffset());
                 SwingUtilities.invokeLater(() -> deal(ele.getStartOffset(), ele.getEndOffset()));
             }
 
-            @Override
-            public void insertUpdate(DocumentEvent e) {
+            @Override public void insertUpdate(DocumentEvent e) {
                 modify = true;
                 Element ele = doc.getParagraphElement(e.getOffset());
                 SwingUtilities.invokeLater(() -> deal(ele.getStartOffset(), ele.getEndOffset()));
 
             }
 
-            @Override
-            public void changedUpdate(DocumentEvent e) {
+            @Override public void changedUpdate(DocumentEvent e) {
             }
         });
         btnRestore.addActionListener(e -> {
@@ -70,7 +67,6 @@ public class StyleConfPanel {
     public StyleConfPanel() {
         this(null);
     }
-
 
     boolean modify = false;
 
@@ -90,26 +86,23 @@ public class StyleConfPanel {
                 return;
             }
             if (text.trim().startsWith("/*") && text.trim().endsWith("*/")) {
-                doc.setCharacterAttributes(startOffset, endOffset - startOffset,
-                        commentAttr, true);
+                doc.setCharacterAttributes(startOffset, endOffset - startOffset, commentAttr, true);
             } else {
                 int pos = text.indexOf(":");
                 if (pos >= 0) {
                     if (pos > 0) {
-                        doc.setCharacterAttributes(startOffset, pos, labelAttr,
-                                true);
+                        doc.setCharacterAttributes(startOffset, pos, labelAttr, true);
                     }
                     if (pos + 1 < endOffset) {
-                        doc.setCharacterAttributes(startOffset + pos + 1, endOffset - startOffset - pos - 1,
-                                valueAttr, true);
+                        doc.setCharacterAttributes(startOffset + pos + 1, endOffset - startOffset - pos - 1, valueAttr,
+                            true);
                     }
                 }
                 int p1 = text.indexOf("/*");
                 if (p1 >= 0) {
                     int p2 = text.indexOf("*/");
                     if (p2 >= 0) {
-                        doc.setCharacterAttributes(startOffset + p1, p2 - p1 + 2,
-                                commentAttr, true);
+                        doc.setCharacterAttributes(startOffset + p1, p2 - p1 + 2, commentAttr, true);
                     }
                 }
             }
@@ -147,7 +140,6 @@ public class StyleConfPanel {
             e.printStackTrace();
         }
     }
-
 
     public void save() {
         try {

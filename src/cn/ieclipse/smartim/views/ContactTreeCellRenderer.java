@@ -2,9 +2,6 @@ package cn.ieclipse.smartim.views;
 
 import cn.ieclipse.smartim.model.IContact;
 import com.intellij.ui.ColoredTreeCellRenderer;
-import com.scienjus.smartqq.model.Discuss;
-import com.scienjus.smartqq.model.Group;
-import com.scienjus.smartqq.model.Recent;
 import icons.SmartIcons;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,8 +17,9 @@ public class ContactTreeCellRenderer extends ColoredTreeCellRenderer {
     }
 
     @Override
-    public void customizeCellRenderer(@NotNull JTree jTree, Object o, boolean b, boolean b1, boolean b2, int i, boolean b3) {
-        Object obj = o instanceof DefaultMutableTreeNode ? ((DefaultMutableTreeNode) o).getUserObject() : o;
+    public void customizeCellRenderer(@NotNull JTree jTree, Object o, boolean b, boolean b1, boolean b2, int i,
+        boolean b3) {
+        Object obj = o instanceof DefaultMutableTreeNode ? ((DefaultMutableTreeNode)o).getUserObject() : o;
         setIcon(getDisplayIcon(obj));
         String name = (getDisplayName(obj));
         append(name == null ? "" : name);
@@ -36,7 +34,7 @@ public class ContactTreeCellRenderer extends ColoredTreeCellRenderer {
             return null;
         }
         if (obj instanceof IContact) {
-            return ((IContact) obj).getName();
+            return ((IContact)obj).getName();
         }
         return obj.toString();
     }

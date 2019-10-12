@@ -16,8 +16,7 @@ public class LoginAction extends IMPanelAction {
         super(panel, "Login", "Click to login", SmartIcons.signin);
     }
 
-    @Override
-    public void actionPerformed(AnActionEvent anActionEvent) {
+    @Override public void actionPerformed(AnActionEvent anActionEvent) {
         SmartClient client = imPanel.getClient();
         boolean ok = true;
         if (client.isLogin()) {
@@ -26,46 +25,45 @@ public class LoginAction extends IMPanelAction {
         if (ok) {
             client.setLoginCallback(new MyLoginCallback(client, imPanel));
             new Thread() {
-                @Override
-                public void run() {
+                @Override public void run() {
                     client.login();
                 }
             }.start();
         } else {
             imPanel.initContacts();
         }
-//
-//        LoginDialog dialog = new LoginDialog(client);
-//        dialog.setSize(200, 240);
-//        dialog.setLocationRelativeTo(null);
-//        dialog.pack();
-//        dialog.setVisible(true);
-//        LOG.info("login : " + client.isLogin());
-//        if (client.isLogin()) {
-//            new LoadThread(client).start();
-//        } else {
-//            //fillTestData(client);
-//        }
+        //
+        //        LoginDialog dialog = new LoginDialog(client);
+        //        dialog.setSize(200, 240);
+        //        dialog.setLocationRelativeTo(null);
+        //        dialog.pack();
+        //        dialog.setVisible(true);
+        //        LOG.info("login : " + client.isLogin());
+        //        if (client.isLogin()) {
+        //            new LoadThread(client).start();
+        //        } else {
+        //            //fillTestData(client);
+        //        }
     }
 
-//    private void fillTestData(SmartClient client) {
-//        client.categories = new ArrayList<>();
-//        for (int i = 0; i < 5; i++) {
-//            Category c = new Category();
-//            c.setName("Cate " + i);
-//            client.categories.add(c);
-//            for (int j = 0; j < 5; j++) {
-//                Friend f = new Friend();
-//                f.setMarkname("friend " + j);
-//                c.addFriend(f);
-//            }
-//        }
-//        client.groups = new ArrayList<>();
-//        Group g = new Group();
-//        g.setName("Group 0");
-//        client.groups.add(g);
-//        smartPanel.updateContact();
-//    }
+    //    private void fillTestData(SmartClient client) {
+    //        client.categories = new ArrayList<>();
+    //        for (int i = 0; i < 5; i++) {
+    //            Category c = new Category();
+    //            c.setName("Cate " + i);
+    //            client.categories.add(c);
+    //            for (int j = 0; j < 5; j++) {
+    //                Friend f = new Friend();
+    //                f.setMarkname("friend " + j);
+    //                c.addFriend(f);
+    //            }
+    //        }
+    //        client.groups = new ArrayList<>();
+    //        Group g = new Group();
+    //        g.setName("Group 0");
+    //        client.groups.add(g);
+    //        smartPanel.updateContact();
+    //    }
 
     public static class MyLoginCallback extends DefaultLoginCallback {
         private SmartClient client;
@@ -76,8 +74,7 @@ public class LoginAction extends IMPanelAction {
             this.panel = panel;
         }
 
-        @Override
-        protected void onLoginFinish(boolean success, Exception e) {
+        @Override protected void onLoginFinish(boolean success, Exception e) {
             super.onLoginFinish(success, e);
             panel.initContacts();
         }

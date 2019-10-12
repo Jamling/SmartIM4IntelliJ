@@ -31,8 +31,7 @@ public class ClearHistoryAction extends IMChatAction {
         super(console, "", "Clear history", SmartIcons.clear);
     }
 
-    @Override
-    public void actionPerformed(AnActionEvent anActionEvent) {
+    @Override public void actionPerformed(AnActionEvent anActionEvent) {
         if (console != null) {
             console.clearHistories();
         }

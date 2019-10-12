@@ -38,9 +38,7 @@ public class IMSendCallback implements SendCallback {
         this.imPanel = imPanel;
     }
 
-    @Override
-    public void onSendResult(int type, String targetId, CharSequence msg,
-                             boolean success, Throwable t) {
+    @Override public void onSendResult(int type, String targetId, CharSequence msg, boolean success, Throwable t) {
         if (success) {
             onSuccess(type, targetId, msg);
         } else {
@@ -52,19 +50,15 @@ public class IMSendCallback implements SendCallback {
         imPanel.notifyUpdateContacts(0, true);
     }
 
-    protected void onFailure(int type, String targetId, CharSequence msg,
-                             Throwable t) {
-        String s = IMUtils.isEmpty(msg) ? ""
-                : (msg.length() > 20 ? msg.toString().substring(0, 20) + "..."
-                : msg.toString());
+    protected void onFailure(int type, String targetId, CharSequence msg, Throwable t) {
+        String s =
+            IMUtils.isEmpty(msg) ? "" : (msg.length() > 20 ? msg.toString().substring(0, 20) + "..." : msg.toString());
         String code = "";
         if (t != null) {
             if (t instanceof LogicException) {
-                code = String.format("api code=%d",
-                        ((LogicException) t).getCode());
+                code = String.format("api code=%d", ((LogicException)t).getCode());
             } else if (t instanceof HttpException) {
-                code = String.format("http code=%d",
-                        ((HttpException) t).getCode());
+                code = String.format("http code=%d", ((HttpException)t).getCode());
             }
         }
         IMChatConsole console = getIMPanel().findConsoleById(targetId, true);

@@ -26,30 +26,29 @@ public class QQBroadcastDialog extends BroadcastDialog {
     private ContactTreeMode friendModel;
     private ContactTreeMode groupModel;
     private ContactTreeMode discussModel;
-    
+
     public QQBroadcastDialog(IMPanel panel) {
         super(panel);
     }
-    
-    @Override
-    protected void initTab(JTabbedPane host) {
+
+    @Override protected void initTab(JTabbedPane host) {
         // recentTree = new JTree();
         friendTree = new Tree();
         groupTree = new Tree();
         discussTree = new Tree();
-        
+
         // JScrollPane scrollPane1 = new JScrollPane(recentTree);
         // tabHost.addTab("最近", null, scrollPane1, null);
-        
+
         JScrollPane scrollPane2 = new JBScrollPane(friendTree);
         tabHost.addTab("好友", null, scrollPane2, null);
-        
+
         JScrollPane scrollPane3 = new JBScrollPane(groupTree);
         tabHost.addTab("群组", null, scrollPane3, null);
-        
+
         JScrollPane scrollPane4 = new JBScrollPane(discussTree);
         tabHost.addTab("讨论组", null, scrollPane4, null);
-        
+
         initTrees(recentTree, friendTree, groupTree, discussTree);
         // root1 = new QQContactTreeNode(false, "recent", imPanel);
         root2 = new QQContactTreeNode(false, "friend", imPanel);
@@ -58,49 +57,45 @@ public class QQBroadcastDialog extends BroadcastDialog {
         root2.update();
         root3.update();
         root4.update();
-        
+
         // recentModel = new ContactTreeMode(root1);
         friendModel = new ContactTreeMode(root2);
         groupModel = new ContactTreeMode(root3);
         discussModel = new ContactTreeMode(root4);
-        
+
         // recentTree.setModel(recentModel);
         friendTree.setModel(friendModel);
         groupTree.setModel(groupModel);
         discussTree.setModel(discussModel);
-        
-        
+
     }
-    
+
     protected void sendInternal(String text, List<Object> targets) {
-        SmartQQClient client = (SmartQQClient) imPanel.getClient();
+        SmartQQClient client = (SmartQQClient)imPanel.getClient();
         int ret = 0;
         if (targets != null) {
             for (Object obj : targets) {
                 if (obj != null && obj instanceof IContact) {
-                    IContact target = (IContact) obj;
+                    IContact target = (IContact)obj;
                     try {
                         IMessage m = createMessage(text, target, client);
                         client.sendMessage(m, target);
                         ret++;
                     } catch (Exception e) {
-                    
+
                     }
                 }
             }
         }
     }
-    
-    protected IMessage createMessage(String text, IContact target,
-            SmartQQClient client) {
+
+    protected IMessage createMessage(String text, IContact target, SmartQQClient client) {
         IMessage m = null;
         if (!client.isClose()) {
             if (target instanceof Friend) {
                 m = client.createMessage(text, target);
-            }
-            else if (target instanceof Group || target instanceof Discuss) {
-                String msg = text.replace(BroadcastAction.groupMacro,
-                        target.getName());
+            } else if (target instanceof Group || target instanceof Discuss) {
+                String msg = text.replace(BroadcastAction.groupMacro, target.getName());
                 m = client.createMessage(msg, target);
             }
         }

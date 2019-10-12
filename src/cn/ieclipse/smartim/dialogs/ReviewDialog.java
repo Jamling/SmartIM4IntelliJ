@@ -47,7 +47,7 @@ public class ReviewDialog extends JDialog {
             }
         });
 
-// call onCancel() when cross is clicked
+        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -55,25 +55,24 @@ public class ReviewDialog extends JDialog {
             }
         });
 
-// call onCancel() on ESCAPE
+        // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-
         updateTarget();
     }
 
     private void onOK() {
-// add your code here
+        // add your code here
         send();
         dispose();
     }
 
     private void onCancel() {
-// add your code here if necessary
+        // add your code here if necessary
         dispose();
     }
 
@@ -82,13 +81,14 @@ public class ReviewDialog extends JDialog {
         if (IMWindowFactory.getDefault() == null || IMWindowFactory.getDefault().getProject() == null) {
             return;
         }
-        ToolWindow window = ToolWindowManager.getInstance(IMWindowFactory.getDefault().getProject()).getToolWindow(IMWindowFactory.TOOL_WINDOW_ID);
+        ToolWindow window = ToolWindowManager.getInstance(IMWindowFactory.getDefault().getProject())
+            .getToolWindow(IMWindowFactory.TOOL_WINDOW_ID);
         if (window != null) {
             Content[] contents = window.getContentManager().getContents();
             if (contents != null) {
                 for (Content content : contents) {
                     if (content.getComponent() != null && content.getComponent() instanceof IMPanel) {
-                        IMPanel panel = (IMPanel) content.getComponent();
+                        IMPanel panel = (IMPanel)content.getComponent();
                         List<IMChatConsole> chats = panel.getConsoleList();
                         if (!chats.isEmpty()) {
                             targetPanel.add(new GroupPanel(content.getDisplayName(), chats));
@@ -102,8 +102,7 @@ public class ReviewDialog extends JDialog {
     private List<IMChatConsole> consoles = new ArrayList<>();
 
     private void send() {
-        String msg = String.format("%s(Reviews: %s)", text.getText(),
-                styledText.getText());
+        String msg = String.format("%s(Reviews: %s)", text.getText(), styledText.getText());
         for (IMChatConsole console : consoles) {
             // console.send(msg);
             String name = console instanceof MockChatConsole ? "me" : console.getClient().getAccount().getName();
@@ -135,15 +134,14 @@ public class ReviewDialog extends JDialog {
 
             label = new JLabel(name);
             label.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
+                @Override public void mouseClicked(MouseEvent e) {
                     panel.setVisible(!panel.isVisible());
                 }
             });
             add(label, BorderLayout.NORTH);
 
             panel = new JPanel();
-            FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+            FlowLayout flowLayout = (FlowLayout)panel.getLayout();
             flowLayout.setAlignment(FlowLayout.LEFT);
             add(panel, BorderLayout.CENTER);
 
@@ -169,13 +167,11 @@ public class ReviewDialog extends JDialog {
         ReviewDialog dialog = new ReviewDialog();
         dialog.pack();
         IMChatConsole console = new IMChatConsole(new Friend(), null) {
-            @Override
-            public void loadHistory(String raw) {
+            @Override public void loadHistory(String raw) {
 
             }
 
-            @Override
-            public void post(String msg) {
+            @Override public void post(String msg) {
 
             }
         };

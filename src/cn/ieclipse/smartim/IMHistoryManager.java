@@ -15,13 +15,13 @@
  */
 package cn.ieclipse.smartim;
 
+import cn.ieclipse.smartim.settings.SmartIMSettings;
+import cn.ieclipse.util.FileStorage;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import cn.ieclipse.util.FileStorage;
-import cn.ieclipse.smartim.settings.SmartIMSettings;
 
 /**
  * 类/接口描述

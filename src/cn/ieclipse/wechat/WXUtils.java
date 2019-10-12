@@ -15,12 +15,6 @@
  */
 package cn.ieclipse.wechat;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.model.IContact;
 import cn.ieclipse.smartim.model.impl.AbstractFrom;
@@ -29,37 +23,40 @@ import io.github.biezhi.wechat.model.Contact;
 import io.github.biezhi.wechat.model.UserFrom;
 import io.github.biezhi.wechat.model.WechatMessage;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * 类/接口描述
- * 
+ *
  * @author Jamling
  * @date 2018年2月8日
- *       
  */
 public class WXUtils {
     public static char getContactChar(IContact contact) {
         if (contact instanceof Contact) {
-            Contact c = (Contact) contact;
+            Contact c = (Contact)contact;
             char ch = 'F';
             if (c.isPublic()) {
                 ch = 'P';
-            }
-            else if (c.isGroup()) {
+            } else if (c.isGroup()) {
                 ch = 'G';
-            }
-            else if (c.is3rdApp() || c.isSpecial()) {
+            } else if (c.is3rdApp() || c.isSpecial()) {
                 ch = 'S';
             }
             return ch;
         }
         return 0;
     }
-    
+
     public static String decodeEmoji(String src) {
         String regex = StringUtils.encodeXml("<span class=\"emoji[\\w\\s]*\"></span>");
         Pattern p = Pattern.compile(regex, Pattern.MULTILINE);
         Matcher m = p.matcher(src);
-        
+
         List<String> groups = new ArrayList<>();
         List<Integer> starts = new ArrayList<>();
         List<Integer> ends = new ArrayList<>();
@@ -75,7 +72,7 @@ public class WXUtils {
                 int s = starts.get(i);
                 int e = ends.get(i);
                 String g = groups.get(i);
-                
+
                 int pos = offset + s;
                 sb.delete(pos, offset + e);
                 String ng = g;
@@ -87,12 +84,12 @@ public class WXUtils {
         }
         return src;
     }
-    
+
     public static String getPureName(String name) {
         String regex = "<span class=\"emoji[\\w\\s]*\"></span>";
         return name.replaceAll(regex, "").trim();
     }
-    
+
     // ------------>消息格式化
     // 1. 输入消息，即将发出去的消息
     // 1.1 发送的消息＝输入的消息
@@ -100,27 +97,22 @@ public class WXUtils {
     // 2. 接收的消息
     // 2.1 处理超链接
     // ------------>
-    
-    static String formatHtmlMsg(boolean my, long time, String name,
-            String msg) {
+
+    static String formatHtmlMsg(boolean my, long time, String name, String msg) {
         String t = new SimpleDateFormat("HH:mm:ss").format(time);
         String clz = my ? "my" : "sender";
         return String.format(IMUtils.DIV_ROW_FORMAT, clz, t, name, name, msg);
     }
-    
+
     /**
      * 格式化发出去的消息，对于输入的消息 显示的消息＝ html转义->处理超链接->处理换行和空格
-     * 
-     * @param name
-     *            发送者
-     * @param msg
-     *            原始输入内容
-     * @param encode
-     *            是否进行转义
+     *
+     * @param name   发送者
+     * @param msg    原始输入内容
+     * @param encode 是否进行转义
      * @return 格式化的消息内容
      */
-    public static String formatHtmlOutgoing(String name, String msg,
-            boolean encode) {
+    public static String formatHtmlOutgoing(String name, String msg, boolean encode) {
         String content = msg;
         if (encode) {
             content = StringUtils.encodeXml(msg);
@@ -128,38 +120,31 @@ public class WXUtils {
             content = IMUtils.autoLink(content);
             content = content.replaceAll("\r?\n", "<br/>");
         }
-        return WXUtils.formatHtmlMsg(true, System.currentTimeMillis(), name,
-                content);
+        return WXUtils.formatHtmlMsg(true, System.currentTimeMillis(), name, content);
     }
-    
+
     /**
      * 格式化收到的消息
-     * 
-     * @param m
-     *            微信消息
-     * @param from
-     *            发送者
+     *
+     * @param m    微信消息
+     * @param from 发送者
      * @return 格式化的html消息
      */
-    public static String formatHtmlIncoming(WechatMessage m,
-            AbstractFrom from) {
-        String name = from.isOut() ? from.getTarget().getName()
-                : from.getName();
+    public static String formatHtmlIncoming(WechatMessage m, AbstractFrom from) {
+        String name = from.isOut() ? from.getTarget().getName() : from.getName();
         name = WXUtils.getPureName(name);
         String msg = null;
         String text = m.getText() == null ? "" : m.getText().toString();
         boolean my = from.isOut() ? true : false;
         if (m.MsgType != WechatMessage.MSGTYPE_TEXT) {
-            if (m.MsgType == WechatMessage.MSGTYPE_APP
-                    && m.AppMsgType == WechatMessage.APPMSGTYPE_ATTACH) {
+            if (m.MsgType == WechatMessage.MSGTYPE_APP && m.AppMsgType == WechatMessage.APPMSGTYPE_ATTACH) {
                 if (m.AppMsgInfo != null) {
-                
+
                 }
             }
-        }
-        else {
+        } else {
             if (from instanceof UserFrom) {
-                Contact c = (Contact) from.getContact();
+                Contact c = (Contact)from.getContact();
             }
         }
         msg = WXUtils.formatHtmlMsg(my, m.getTime(), name, text);

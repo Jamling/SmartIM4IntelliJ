@@ -13,8 +13,8 @@ import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.*;
-import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiFile;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,7 +34,8 @@ public final class VFSUtils {
         Project[] openProjects = VFSUtils.getOpenProjects();
         for (int i = 0; i < openProjects.length && result == null; i++) {
             Project openProject = openProjects[i];
-            if (!openProject.isInitialized() && !ApplicationManager.getApplication().isUnitTestMode()) continue;
+            if (!openProject.isInitialized() && !ApplicationManager.getApplication().isUnitTestMode())
+                continue;
             if (document != null) {
                 PsiFile psiFile = PsiDocumentManager.getInstance(openProject).getPsiFile(document);
                 result = PsiFileTypeFactory.create(psiFile).getQualifiedName(psiFile);
@@ -50,13 +51,13 @@ public final class VFSUtils {
                 result = (getRelativePath(file, contentRoot));
             }
 
-
         }
         return result;
     }
 
     private static String getRelativePath(VirtualFile file, VirtualFile rootForFile) {
-        if (file == null || rootForFile == null) return null;
+        if (file == null || rootForFile == null)
+            return null;
         return file.getPath().substring(rootForFile.getPath().length());
     }
 
@@ -89,11 +90,10 @@ public final class VFSUtils {
         final String candidatePath = candidate.getPath();
 
         int weight = 0;
-        while (
-                weight < pattern.length() &&
-                        weight < candidatePath.length() &&
-                        pattern.charAt(pattern.length() - weight - 1) == candidatePath.charAt(candidatePath.length() - weight - 1)
-                ) weight++;
+        while (weight < pattern.length() && weight < candidatePath.length()
+            && pattern.charAt(pattern.length() - weight - 1) == candidatePath
+            .charAt(candidatePath.length() - weight - 1))
+            weight++;
 
         return weight;
     }
@@ -108,7 +108,8 @@ public final class VFSUtils {
     }
 
     private static void findInRoots(final Set<VirtualFile> found, VirtualFile[] roots, String relativePath) {
-        if (relativePath == null) return;
+        if (relativePath == null)
+            return;
 
         for (VirtualFile root : roots) {
             String probeName;
@@ -137,7 +138,8 @@ public final class VFSUtils {
     }
 
     public static Project getProjectByName(String projectName) {
-        if (projectName == null) return null;
+        if (projectName == null)
+            return null;
 
         for (Project openProject : getOpenProjects()) {
             if (openProject.getName().equals(projectName)) {

@@ -16,7 +16,7 @@ public abstract class PsiFileTypeFactory {
         try {
             Class.forName(clazz);
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -27,13 +27,11 @@ public abstract class PsiFileTypeFactory {
 
     public static class PsiFileDefaultFactory extends PsiFileTypeFactory {
 
-        @Override
-        public String getQualifiedName(PsiFile psiFile) {
+        @Override public String getQualifiedName(PsiFile psiFile) {
             return null;
         }
 
-        @Override
-        public VirtualFile findFileByFQName(String file, Project project) {
+        @Override public VirtualFile findFileByFQName(String file, Project project) {
             return null;
         }
     }

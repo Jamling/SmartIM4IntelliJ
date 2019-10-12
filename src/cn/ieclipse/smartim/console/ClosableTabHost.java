@@ -36,27 +36,22 @@ public class ClosableTabHost extends TabbedPaneImpl implements ChangeListener {
         this.callback = callback;
     }
 
-    @NotNull
-    @Override
-    protected Insets getInsetsForTabComponent() {
+    @NotNull @Override protected Insets getInsetsForTabComponent() {
         return insets;
     }
 
-    @Override
-    public Border getBorder() {
+    @Override public Border getBorder() {
         return BorderFactory.createEmptyBorder();
     }
 
-    @Override
-    public void stateChanged(ChangeEvent e) {
+    @Override public void stateChanged(ChangeEvent e) {
         int index = getSelectedIndex();
         if (index >= 0) {
             setBackgroundAt(index, null);
         }
     }
 
-    @Override
-    public void insertTab(String title, Icon icon, Component component, String tip, int index) {
+    @Override public void insertTab(String title, Icon icon, Component component, String tip, int index) {
         super.insertTab(title, icon, component, tip, index);
         setTabComponentAt(index, createTab(title));
     }
@@ -79,8 +74,7 @@ public class ClosableTabHost extends TabbedPaneImpl implements ChangeListener {
             Component tab = getTabComponentAt(index);
             if (tab != null) {
                 SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
+                    @Override public void run() {
                         setBackgroundAt(index, UIManager.getColor("TabbedPane.selected"));
                     }
                 });
@@ -101,7 +95,7 @@ public class ClosableTabHost extends TabbedPaneImpl implements ChangeListener {
             addActionListener(this);
             component = tab;
             if (component != null && component instanceof JPanel) {
-                label = (JLabel) ((JPanel) component).getComponent(0);
+                label = (JLabel)((JPanel)component).getComponent(0);
                 src = label.getText();
                 if (src == null || src.isEmpty()) {
                     src = name;
@@ -111,8 +105,7 @@ public class ClosableTabHost extends TabbedPaneImpl implements ChangeListener {
             }
         }
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
+        @Override public void actionPerformed(ActionEvent e) {
             try {
                 label.setText(count % 2 == 0 ? "" : src);
                 count--;
@@ -124,8 +117,7 @@ public class ClosableTabHost extends TabbedPaneImpl implements ChangeListener {
             }
         }
 
-        @Override
-        public void stop() {
+        @Override public void stop() {
             label.setText(src);
             super.stop();
         }
@@ -172,7 +164,7 @@ public class ClosableTabHost extends TabbedPaneImpl implements ChangeListener {
         //paint the cross
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            Graphics2D g2 = (Graphics2D) g.create();
+            Graphics2D g2 = (Graphics2D)g.create();
             //shift the image for pressed buttons
             if (getModel().isPressed()) {
                 g2.translate(1, 1);

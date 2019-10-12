@@ -13,8 +13,7 @@ public class ContactTreeMode extends DefaultTreeModel {
         this.root = root;
     }
 
-    @Override
-    public ContactTreeNode getRoot() {
+    @Override public ContactTreeNode getRoot() {
         return root;
     }
 

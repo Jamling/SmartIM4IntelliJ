@@ -24,23 +24,21 @@ import com.scienjus.smartqq.model.GroupInfo;
 
 /**
  * 类/接口描述
- * 
+ *
  * @author Jamling
  * @date 2018年2月12日
- *       
  */
 public class QQUtils {
     public static char getContactChar(IContact target) {
         char ch = 'F';
         if (target instanceof Group || target instanceof GroupInfo) {
             ch = 'G';
-        }
-        else if (target instanceof Discuss || target instanceof DiscussInfo) {
+        } else if (target instanceof Discuss || target instanceof DiscussInfo) {
             ch = 'D';
         }
         return ch;
     }
-    
+
     public static String decodeEmoji(String src) {
         return src;
         // String regex = "\\[\"face\",([1-9][0-9])\\]";
@@ -53,11 +51,10 @@ public class QQUtils {
         // return "";
         // }
     }
-    
+
     public static void main(String[] args) {
-        String src = IMUtils.formatHtmlMsg(true, true,
-                System.currentTimeMillis(), "Me",
-                "1毛9[\"face\",0] [\"face\",71] 哈哈");
+        String src =
+            IMUtils.formatHtmlMsg(true, true, System.currentTimeMillis(), "Me", "1毛9[\"face\",0] [\"face\",71] 哈哈");
         System.out.println(src);
         System.out.println(decodeEmoji(src));
     }

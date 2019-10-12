@@ -78,8 +78,7 @@ public abstract class IMContactView {
 
     protected void notifyLoadContacts(final boolean success) {
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
+            @Override public void run() {
                 onLoadContacts(success);
             }
         });
@@ -89,8 +88,7 @@ public abstract class IMContactView {
         boolean notify = true;
         if (notify || force) {
             SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
+                @Override public void run() {
                     doUpdateContacts(index);
                 }
             });

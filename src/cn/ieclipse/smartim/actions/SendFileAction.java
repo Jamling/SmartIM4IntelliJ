@@ -11,21 +11,20 @@ import java.io.File;
 
 public class SendFileAction extends IMChatAction {
     protected String dialogTitle;
-    protected FileNameExtensionFilter filter_image = new FileNameExtensionFilter(
-            "图片文件", "jpg", "gif", "bmp", "jpeg", "png");
+    protected FileNameExtensionFilter filter_image =
+        new FileNameExtensionFilter("图片文件", "jpg", "gif", "bmp", "jpeg", "png");
     protected FileFilter filter;
-    
+
     public SendFileAction(IMChatConsole console) {
         super(console, "发送", "发送文件", SmartIcons.file);
         this.dialogTitle = "请选择要发送的文件";
     }
 
     public SendFileAction(IMChatConsole console, String text, String desc, Icon icon) {
-        super(console, text , desc, icon);
+        super(console, text, desc, icon);
     }
-    
-    @Override
-    public void actionPerformed(AnActionEvent e) {
+
+    @Override public void actionPerformed(AnActionEvent e) {
         if (!console.enableUpload()) {
             console.error("文件发送中，请勿频繁操作");
             return;
@@ -47,5 +46,5 @@ public class SendFileAction extends IMChatAction {
         }
         return;
     }
-    
+
 }

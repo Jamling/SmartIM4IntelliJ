@@ -12,8 +12,7 @@ public class DisconnectAction extends IMPanelAction {
         super(panel, "Close", "Close the connection", SmartIcons.close);
     }
 
-    @Override
-    public void actionPerformed(AnActionEvent anActionEvent) {
+    @Override public void actionPerformed(AnActionEvent anActionEvent) {
         imPanel.close();
     }
 }

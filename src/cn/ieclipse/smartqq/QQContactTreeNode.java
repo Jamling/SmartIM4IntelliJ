@@ -22,13 +22,13 @@ public class QQContactTreeNode extends ContactTreeNode {
     }
 
     public void update() {
-        SmartQQClient client = (SmartQQClient) imPanel.getClient();
-        QQContactTreeNode root = (QQContactTreeNode) getRoot();
+        SmartQQClient client = (SmartQQClient)imPanel.getClient();
+        QQContactTreeNode root = (QQContactTreeNode)getRoot();
         root.removeAllChildren();
         if ("recent".equals(name)) {
             List<QQContact> list = client.getRecents2();
             if (list != null) {
-                synchronized(this) {
+                synchronized (this) {
                     Collections.sort(list);
                 }
                 for (QQContact target : list) {

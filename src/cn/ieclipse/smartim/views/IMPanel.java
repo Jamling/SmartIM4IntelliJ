@@ -65,7 +65,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
         createBroadcastAction(group);
         group.add(new SettingsAction(this));
         MockConsoleAction test = new MockConsoleAction(this);
-        group.add(test);
+        //group.add(test);
 
         ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar("SmartQQ", group, false);
         // toolbar.getComponent().addFocusListener(createFocusListener());
@@ -84,7 +84,6 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
         splitter.setProportion(0.3f);
         setContent(splitter);
     }
-
 
     public boolean isLeftHidden() {
         boolean v = left.getPanel().isVisible();
@@ -118,14 +117,14 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
         int i = new Random().nextInt(size);
         String name = "Random";
         if (i >= 0 && tabbedChat instanceof ClosableTabHost) {
-            ((ClosableTabHost) tabbedChat).bling(i, name);
+            ((ClosableTabHost)tabbedChat).bling(i, name);
         }
     }
 
     public void highlight(IMChatConsole console) {
         int i = tabbedChat.indexOfComponent(console);
         if (i >= 0 && tabbedChat instanceof ClosableTabHost) {
-            ((ClosableTabHost) tabbedChat).bling(i, console.getName());
+            ((ClosableTabHost)tabbedChat).bling(i, console.getName());
         }
     }
 
@@ -141,7 +140,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
     public boolean isCurrent(final IContact contact) {
         if (contact != null) {
             Object o = tabbedChat.getSelectedComponent();
-            IMChatConsole console = (IMChatConsole) o;
+            IMChatConsole console = (IMChatConsole)o;
             if (o != null && o instanceof IMChatConsole) {
                 return contact.getUin().equals(console.getUin());
             }
@@ -153,7 +152,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
         int count = tabbedChat.getTabCount();
         for (int i = 0; i < count; i++) {
             if (tabbedChat.getComponentAt(i) instanceof IMChatConsole) {
-                IMChatConsole t = (IMChatConsole) tabbedChat.getComponentAt(i);
+                IMChatConsole t = (IMChatConsole)tabbedChat.getComponentAt(i);
                 if (id.equals(t.getUin())) {
                     if (show) {
                         tabbedChat.setSelectedIndex(i);
@@ -172,10 +171,9 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
             return;
         }
         if (obj instanceof IContact) {
-            openConsole((IContact) obj);
+            openConsole((IContact)obj);
         }
     }
-
 
     public void openConsole(IContact contact) {
         IMChatConsole console = findConsoleById(contact.getUin(), true);
@@ -212,12 +210,11 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
         consoles.clear();
     }
 
-    @Override
-    public void removeTabAt(int index) {
+    @Override public void removeTabAt(int index) {
         IMChatConsole console = null;
         Component comp = tabbedChat.getComponentAt(index);
         if (comp instanceof IMChatConsole) {
-            console = (IMChatConsole) comp;
+            console = (IMChatConsole)comp;
             consoles.remove(console.getUin());
         }
         tabbedChat.removeTabAt(index);
@@ -229,7 +226,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
             int count = tabbedChat.getTabCount();
             for (int i = 0; i < count; i++) {
                 if (tabbedChat.getComponentAt(i) instanceof IMChatConsole) {
-                    IMChatConsole t = (IMChatConsole) tabbedChat.getComponentAt(i);
+                    IMChatConsole t = (IMChatConsole)tabbedChat.getComponentAt(i);
                     list.add(t);
                 }
             }
@@ -247,8 +244,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
 
     public void loadWelcome(final String im) {
         new Thread() {
-            @Override
-            public void run() {
+            @Override public void run() {
                 welcome = RestUtils.getWelcome(im);
             }
         }.start();

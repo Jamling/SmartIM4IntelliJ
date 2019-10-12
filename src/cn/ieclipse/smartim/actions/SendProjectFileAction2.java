@@ -27,8 +27,7 @@ public class SendProjectFileAction2 extends GotoActionBase implements DumbAware 
         getTemplatePresentation().setText("发送工程中的文件");
     }
 
-    @Override
-    protected void gotoActionPerformed(AnActionEvent anActionEvent) {
+    @Override protected void gotoActionPerformed(AnActionEvent anActionEvent) {
         Project project = anActionEvent.getData(CommonDataKeys.PROJECT);
         ChooseByNameModel model = new GotoFileModel(project);
         showNavigationPopup(anActionEvent, model, new Callback(), false);
@@ -36,10 +35,9 @@ public class SendProjectFileAction2 extends GotoActionBase implements DumbAware 
 
     private class Callback extends GotoActionCallback<String> {
 
-        @Override
-        public void elementChosen(ChooseByNamePopup chooseByNamePopup, Object o) {
+        @Override public void elementChosen(ChooseByNamePopup chooseByNamePopup, Object o) {
             if (o != null && o instanceof PsiFile) {
-                PsiFile file = (PsiFile) o;
+                PsiFile file = (PsiFile)o;
                 VirtualFile vf = file.getVirtualFile();
                 if (vf != null) {
                     File f = new File(vf.getCanonicalPath());

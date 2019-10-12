@@ -33,7 +33,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
@@ -94,10 +93,9 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
     public void loadHistories() {
         SmartClient client = getClient();
         if (client != null) {
-            List<String> ms = IMHistoryManager.getInstance().load(getHistoryDir(),
-                    getHistoryFile());
+            List<String> ms = IMHistoryManager.getInstance().load(getHistoryDir(), getHistoryFile());
             int size = ms.size();
-            for (int i=0; i < size; i++) {
+            for (int i = 0; i < size; i++) {
                 String raw = ms.get(i);
                 if (!IMUtils.isEmpty(raw)) {
                     try {
@@ -117,7 +115,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
 
     public void clearUnread() {
         if (contact != null && contact instanceof AbstractContact) {
-            ((AbstractContact) contact).clearUnRead();
+            ((AbstractContact)contact).clearUnRead();
             imPanel.notifyUpdateContacts(0, true);
         }
     }
@@ -150,8 +148,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
             IMHistoryManager.getInstance().save(getHistoryDir(), getHistoryFile(), msg);
         }
         new Thread() {
-            @Override
-            public void run() {
+            @Override public void run() {
                 post(input);
             }
         }.start();
@@ -173,8 +170,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
                     sendFileInternal(file);
                 } catch (Exception e) {
                     LOG.error("发送文件失败 : " + e);
-                    LOG.sendNotification("发送文件失败",
-                            String.format("文件：%s(%s)", file, e.getMessage()));
+                    LOG.sendNotification("发送文件失败", String.format("文件：%s(%s)", file, e.getMessage()));
                     error(String.format("发送文件失败：%s(%s)", file, e.getMessage()));
                 } finally {
                     uploadLock = false;
@@ -183,16 +179,17 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         }.start();
     }
 
-    protected void sendFileInternal(final String file) throws Exception{
+    protected void sendFileInternal(final String file) throws Exception {
 
     }
+
     protected String encodeInput(String input) {
         return StringUtils.encodeXml(input);
     }
+
     // 组装成我输入的历史记录，并显示在聊天窗口中
     protected String formatInput(String name, String msg) {
-        return IMUtils.formatHtmlMyMsg(System.currentTimeMillis(), name,
-                msg);
+        return IMUtils.formatHtmlMyMsg(System.currentTimeMillis(), name, msg);
     }
 
     public void error(Throwable e) {
@@ -237,10 +234,8 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         splitter.setPreferredSize(new Dimension(-1, 200));
         splitter.setProportion(0.85f);
 
-
         inputWidget.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
+            @Override public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
                 if (SmartIMSettings.getInstance().getState().KEY_SEND.equals(SwingUtils.key2string(e))) {
                     String input = inputWidget.getText();
@@ -276,8 +271,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
     }
 
     public class SendAction extends AbstractAction {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+        @Override public void actionPerformed(ActionEvent e) {
             String input = inputWidget.getText();
             if (!input.isEmpty()) {
                 inputWidget.setText("");
@@ -303,22 +297,18 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
 
     protected void initHistoryWidget() {
         HTMLEditorKit kit = new HTMLEditorKit() {
-            @Override
-            public ViewFactory getViewFactory() {
+            @Override public ViewFactory getViewFactory() {
                 return new WrapHTMLFactory();
             }
         };
         final StyleSheet styleSheet = kit.getStyleSheet();
         styleSheet.addRule("body {text-align: left; overflow-x: hidden;}");
-        styleSheet.addRule(
-                ".my {font-size: 1 em; font-style: italic; float: left;}");
+        styleSheet.addRule(".my {font-size: 1 em; font-style: italic; float: left;}");
         styleSheet.addRule("div.error {color: red;}");
         styleSheet.addRule("img {max-width: 100%; display: block;}");
         styleSheet.addRule(".sender {display: inline; float: left;}");
-        styleSheet.addRule(
-                ".content {display: inline-block; white-space: pre-wrap; padding-left: 4px;}");
-        styleSheet.addRule(
-                ".br {height: 1px; line-height: 1px; min-height: 1px;}");
+        styleSheet.addRule(".content {display: inline-block; white-space: pre-wrap; padding-left: 4px;}");
+        styleSheet.addRule(".br {height: 1px; line-height: 1px; min-height: 1px;}");
         RestUtils.loadStyleAsync(styleSheet);
         File f = StyleConfPanel.getCssFile();
         try {
@@ -331,9 +321,9 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         } catch (Exception e) {
             LOG.error("加载SmartIM消息CSS失败", e);
         }
-        HTMLDocument doc = (HTMLDocument) kit.createDefaultDocument();
-        String initText = String.format(
-                "<html><head></head><body><div class=\"welcome\">%s</div></body></html>", imPanel.getWelcome());
+        HTMLDocument doc = (HTMLDocument)kit.createDefaultDocument();
+        String initText = String
+            .format("<html><head></head><body><div class=\"welcome\">%s</div></body></html>", imPanel.getWelcome());
         historyWidget.setContentType("text/html");
         historyWidget.setEditorKit(kit);
         historyWidget.setDocument(doc);
@@ -342,8 +332,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         historyWidget.setBackground(null);
         historyWidget.addHyperlinkListener(new HyperlinkListener() {
 
-            @Override
-            public void hyperlinkUpdate(HyperlinkEvent e) {
+            @Override public void hyperlinkUpdate(HyperlinkEvent e) {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                     String desc = e.getDescription();
                     if (!StringUtils.isEmpty(desc)) {
@@ -380,11 +369,10 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
 
     protected void insertDocument(final String msg) {
         SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
+            @Override public void run() {
                 try {
-                    HTMLEditorKit kit = (HTMLEditorKit) historyWidget.getEditorKit();
-                    HTMLDocument doc = (HTMLDocument) historyWidget.getDocument();
+                    HTMLEditorKit kit = (HTMLEditorKit)historyWidget.getEditorKit();
+                    HTMLDocument doc = (HTMLDocument)historyWidget.getDocument();
                     // historyWidget.getDocument().insertString(len - offset,
                     // trimMsg(msg), null);
                     // Element root = doc.getDefaultRootElement();

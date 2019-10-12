@@ -13,13 +13,11 @@ public class ScrollLockAction extends ToggleActionButton {
         this.console = console;
     }
 
-    @Override
-    public boolean isSelected(AnActionEvent anActionEvent) {
+    @Override public boolean isSelected(AnActionEvent anActionEvent) {
         return !console.isScrollLock();
     }
 
-    @Override
-    public void setSelected(AnActionEvent anActionEvent, boolean b) {
+    @Override public void setSelected(AnActionEvent anActionEvent, boolean b) {
         console.setScrollLock(!b);
     }
 }

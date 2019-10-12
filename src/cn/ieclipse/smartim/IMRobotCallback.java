@@ -26,10 +26,8 @@ import cn.ieclipse.util.EncodeUtils;
  *
  * @author Jamling
  * @date 2017年10月16日
- *
  */
-public abstract class IMRobotCallback
-        implements ReceiveCallback, ModificationCallback {
+public abstract class IMRobotCallback implements ReceiveCallback, ModificationCallback {
     public static final String SEP = " ";
     protected TuringRobot turingRobot = new TuringRobot("Turing", 0, null);
 
@@ -44,8 +42,7 @@ public abstract class IMRobotCallback
     /**
      * 对userId或groupId进行加密
      *
-     * @param id
-     *            userId
+     * @param id userId
      * @return 加密后的md5字串
      */
     public static String encodeUid(String id) {

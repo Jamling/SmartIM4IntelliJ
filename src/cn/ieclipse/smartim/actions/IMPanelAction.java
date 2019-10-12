@@ -33,8 +33,7 @@ public class IMPanelAction extends DumbAwareAction {
         this.imPanel = panel;
     }
 
-    @Override
-    public void actionPerformed(AnActionEvent anActionEvent) {
+    @Override public void actionPerformed(AnActionEvent anActionEvent) {
 
     }
 }

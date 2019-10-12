@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BroadcastDialog extends JDialog implements ActionListener {
-    
+
     private final JPanel contentPanel = new JPanel();
     protected JTextArea text;
     protected JTabbedPane tabHost;
     protected IMPanel imPanel;
-    
+
     /**
      * Launch the application.
      */
@@ -32,7 +32,7 @@ public class BroadcastDialog extends JDialog implements ActionListener {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Create the dialog.
      */
@@ -75,11 +75,11 @@ public class BroadcastDialog extends JDialog implements ActionListener {
         }
         initTab(tabHost);
     }
-    
+
     protected void initTab(JTabbedPane host) {
-    
+
     }
-    
+
     protected void initTrees(JTree... trees) {
         for (JTree tree : trees) {
             if (tree != null) {
@@ -87,14 +87,14 @@ public class BroadcastDialog extends JDialog implements ActionListener {
             }
         }
     }
-    
+
     protected void initTree(JTree tree) {
         tree.setCellRenderer(new CheckBoxTreeCellRenderer());
         tree.setShowsRootHandles(false);
         tree.setRootVisible(false);
         tree.addMouseListener(new CheckBoxTreeNodeSelectionListener());
     }
-    
+
     public void updateTrees(JTree... trees) {
         for (JTree tree : trees) {
             if (tree != null) {
@@ -102,18 +102,16 @@ public class BroadcastDialog extends JDialog implements ActionListener {
             }
         }
     }
-    
-    @Override
-    public void actionPerformed(ActionEvent e) {
+
+    @Override public void actionPerformed(ActionEvent e) {
         if ("OK".equals(e.getActionCommand())) {
             okPressed();
-        }
-        else if ("Cancel".equals(e.getActionCommand())) {
-        
+        } else if ("Cancel".equals(e.getActionCommand())) {
+
         }
         dispose();
     }
-    
+
     protected void okPressed() {
         final String text = this.text.getText().trim();
         if (IMUtils.isEmpty(text)) {
@@ -124,14 +122,16 @@ public class BroadcastDialog extends JDialog implements ActionListener {
         new Thread() {
             public void run() {
                 sendInternal(text, targets);
-            };
+            }
+
+            ;
         }.start();
     }
-    
+
     protected void addTarget(final List<Object> targets) {
-    
+
     }
-    
+
     protected void sendInternal(String text, List<Object> targets) {
     }
 }

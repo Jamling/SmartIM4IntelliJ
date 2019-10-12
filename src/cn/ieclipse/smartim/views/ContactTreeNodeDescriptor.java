@@ -16,14 +16,11 @@ public class ContactTreeNodeDescriptor extends AbstractTreeNode {
         super(project, value);
     }
 
-    @NotNull
-    @Override
-    public Collection<? extends AbstractTreeNode> getChildren() {
+    @NotNull @Override public Collection<? extends AbstractTreeNode> getChildren() {
         return null;
     }
 
-    @Override
-    protected void update(PresentationData presentationData) {
+    @Override protected void update(PresentationData presentationData) {
 
     }
 }

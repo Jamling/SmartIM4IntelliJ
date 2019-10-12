@@ -26,13 +26,11 @@ public class QQChatConsole extends IMChatConsole {
         super(target, imPanel);
     }
 
-    @Override
-    public SmartQQClient getClient() {
-        return (SmartQQClient) super.getClient();
+    @Override public SmartQQClient getClient() {
+        return (SmartQQClient)super.getClient();
     }
 
-    @Override
-    public void loadHistory(String raw) {
+    @Override public void loadHistory(String raw) {
         if (IMUtils.isMySendMsg(raw)) {
             write(raw);
             return;
@@ -40,11 +38,11 @@ public class QQChatConsole extends IMChatConsole {
         JsonObject obj = new JsonParser().parse(raw).getAsJsonObject();
         QQMessage m = null;
         if (obj.has("group_code")) {
-            m = (QQMessage) new GroupMessageHandler().handle(obj);
+            m = (QQMessage)new GroupMessageHandler().handle(obj);
         } else if (obj.has("did")) {
-            m = (QQMessage) new DiscussMessageHandler().handle(obj);
+            m = (QQMessage)new DiscussMessageHandler().handle(obj);
         } else {
-            m = (QQMessage) new FriendMessageHandler().handle(obj);
+            m = (QQMessage)new FriendMessageHandler().handle(obj);
         }
 
         AbstractFrom from = getClient().parseFrom(m);
@@ -61,22 +59,18 @@ public class QQChatConsole extends IMChatConsole {
         }
     }
 
-
     private void createUIComponents() {
 
     }
 
-
-    @Override
-    public boolean hideMyInput() {
+    @Override public boolean hideMyInput() {
         if (contact instanceof Friend) {
             return false;
         }
         return SmartIMSettings.getInstance().getState().HIDE_MY_INPUT;
     }
 
-    @Override
-    protected void sendFileInternal(String file) throws Exception {
+    @Override protected void sendFileInternal(String file) throws Exception {
         final File f = new File(file);
         if (f.length() > (1 << 18)) {
             write(String.format("%s 上传中，请稍候……", f.getName()));
@@ -93,12 +87,12 @@ public class QQChatConsole extends IMChatConsole {
             ak = "";
             sk = "";
         }
-        QNUploader.UploadInfo info = uploader.upload(qq, f, ak, sk, bucket,
-                null);
+        QNUploader.UploadInfo info = uploader.upload(qq, f, ak, sk, bucket, null);
         String url = info.getUrl(domain, ts);
 
-        final String msg = String.format("来自SmartQQ的文件: %s (大小%s), 点击链接 %s 查看",
-                IMUtils.getName(file), IMUtils.formatFileSize(info.fsize), url);
+        final String msg = String
+            .format("来自SmartQQ的文件: %s (大小%s), 点击链接 %s 查看", IMUtils.getName(file), IMUtils.formatFileSize(info.fsize),
+                url);
         send(msg);
     }
 }

@@ -30,52 +30,40 @@ public class GeneralPanel implements Configurable {
     public GeneralPanel(SmartIMSettings settings) {
         this.settings = settings;
         linkUpdate.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
+            @Override public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                checkUpdate();
+                RestUtils.checkUpdate();
             }
         });
         linkAbout.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                cn.ieclipse.util.BareBonesBrowserLaunch.openURL(RestUtils.about_url);
+            @Override public void mouseClicked(MouseEvent e) {
+                BareBonesBrowserLaunch.openURL(RestUtils.about_url);
             }
         });
     }
 
-    @Nls
-    @Override
-    public String getDisplayName() {
+    @Nls @Override public String getDisplayName() {
         return "SmartIM";
     }
 
-    @Nullable
-    @Override
-    public String getHelpTopic() {
+    @Nullable @Override public String getHelpTopic() {
         return null;
     }
 
-    @Nullable
-    @Override
-    public JComponent createComponent() {
+    @Nullable @Override public JComponent createComponent() {
         return panel;
     }
 
-    @Override
-    public boolean isModified() {
-        return chkNotify.isSelected() != settings.getState().NOTIFY_MSG
-                || chkNotifyUnread.isSelected() != settings.getState().NOTIFY_UNREAD
-                || chkSendBtn.isSelected() != settings.getState().SHOW_SEND
-                || chkNotifyGroupMsg.isSelected() != settings.getState().NOTIFY_GROUP_MSG
-                || chkNotifyUnknown.isSelected() != settings.getState().NOTIFY_UNKNOWN
-                || chkHideMyInput.isSelected() != settings.getState().HIDE_MY_INPUT
-                || chkHistory.isSelected() != settings.getState().LOG_HISTORY
-                || (!settings.getState().KEY_SEND.equals(comboSend.getSelectedItem().toString()));
+    @Override public boolean isModified() {
+        return chkNotify.isSelected() != settings.getState().NOTIFY_MSG || chkNotifyUnread.isSelected() != settings
+            .getState().NOTIFY_UNREAD || chkSendBtn.isSelected() != settings.getState().SHOW_SEND
+            || chkNotifyGroupMsg.isSelected() != settings.getState().NOTIFY_GROUP_MSG
+            || chkNotifyUnknown.isSelected() != settings.getState().NOTIFY_UNKNOWN
+            || chkHideMyInput.isSelected() != settings.getState().HIDE_MY_INPUT || chkHistory.isSelected() != settings
+            .getState().LOG_HISTORY || (!settings.getState().KEY_SEND.equals(comboSend.getSelectedItem().toString()));
     }
 
-    @Override
-    public void apply() throws ConfigurationException {
+    @Override public void apply() throws ConfigurationException {
         settings.getState().NOTIFY_MSG = chkNotify.isSelected();
         settings.getState().NOTIFY_UNREAD = chkNotifyUnread.isSelected();
         settings.getState().SHOW_SEND = chkSendBtn.isSelected();
@@ -86,8 +74,7 @@ public class GeneralPanel implements Configurable {
         settings.getState().KEY_SEND = comboSend.getSelectedItem().toString();
     }
 
-    @Override
-    public void reset() {
+    @Override public void reset() {
         chkNotify.setSelected(settings.getState().NOTIFY_MSG);
         chkNotifyGroupMsg.setSelected(settings.getState().NOTIFY_GROUP_MSG);
         chkSendBtn.setSelected(settings.getState().SHOW_SEND);
@@ -98,8 +85,7 @@ public class GeneralPanel implements Configurable {
         comboSend.setSelectedItem(settings.getState().KEY_SEND);
     }
 
-    @Override
-    public void disposeUIResources() {
+    @Override public void disposeUIResources() {
 
     }
 

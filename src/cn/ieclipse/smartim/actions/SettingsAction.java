@@ -15,8 +15,7 @@ public class SettingsAction extends IMPanelAction {
         this.imPanel = panel;
     }
 
-    @Override
-    public void actionPerformed(AnActionEvent anActionEvent) {
+    @Override public void actionPerformed(AnActionEvent anActionEvent) {
         ShowSettingsUtil.getInstance().editConfigurable(imPanel.getProject(), new SmartSettingsPanel());
     }
 }

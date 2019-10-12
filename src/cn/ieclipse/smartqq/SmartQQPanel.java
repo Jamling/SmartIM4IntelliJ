@@ -16,32 +16,26 @@ import com.scienjus.smartqq.client.SmartQQClient;
  */
 public class SmartQQPanel extends IMPanel {
 
-
     public SmartQQPanel(Project project, ToolWindow toolWindow) {
         super(project, toolWindow);
         loadWelcome("qq");
     }
 
-    @Override
-    public SmartQQClient getClient() {
+    @Override public SmartQQClient getClient() {
         return IMClientFactory.getInstance().getQQClient();
     }
 
-    @Override
-    public IMContactView createContactsUI() {
+    @Override public IMContactView createContactsUI() {
         return new QQContactView(this);
     }
 
-    @Override
-    public IMChatConsole createConsoleUI(IContact contact) {
+    @Override public IMChatConsole createConsoleUI(IContact contact) {
         return new QQChatConsole(contact, this);
     }
 
-    @Override
-    public BroadcastAction createBroadcastAction(DefaultActionGroup group) {
+    @Override public BroadcastAction createBroadcastAction(DefaultActionGroup group) {
         group.add(new QQBroadcastAction(this));
         return null;
     }
-
 
 }

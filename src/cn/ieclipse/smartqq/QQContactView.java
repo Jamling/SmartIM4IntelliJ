@@ -32,9 +32,9 @@ public class QQContactView extends IMContactView {
 
     public QQContactView(SmartQQPanel imPanel) {
         super(imPanel);
-//        if (tabHost.getUI() instanceof BasicTabbedPaneUI) {
-//            ((BasicTabbedPaneUI)tabHost.getUI()).in
-//        }
+        //        if (tabHost.getUI() instanceof BasicTabbedPaneUI) {
+        //            ((BasicTabbedPaneUI)tabHost.getUI()).in
+        //        }
 
         receiveCallback = new QQReceiveCallback(imPanel);
         sendCallback = new IMSendCallback(imPanel);
@@ -50,14 +50,12 @@ public class QQContactView extends IMContactView {
         init();
     }
 
-    @Override
-    public JPanel getPanel() {
+    @Override public JPanel getPanel() {
         return panel;
     }
 
-    @Override
-    public SmartQQPanel getImPanel() {
-        return (SmartQQPanel) super.getImPanel();
+    @Override public SmartQQPanel getImPanel() {
+        return (SmartQQPanel)super.getImPanel();
     }
 
     public void init() {
@@ -72,18 +70,15 @@ public class QQContactView extends IMContactView {
         discussTree.setModel(discussModel);
     }
 
-    @Override
-    protected TreeCellRenderer getContactRenderer() {
+    @Override protected TreeCellRenderer getContactRenderer() {
         return new QQContactTreeCellRenderer();
     }
 
-    @Override
-    protected SmartQQClient getClient() {
+    @Override protected SmartQQClient getClient() {
         return getImPanel().getClient();
     }
 
-    @Override
-    protected void doLoadContacts() {
+    @Override protected void doLoadContacts() {
         SmartQQClient client = getClient();
         if (client.isLogin()) {
             try {
@@ -103,8 +98,7 @@ public class QQContactView extends IMContactView {
         }
     }
 
-    @Override
-    protected void onLoadContacts(boolean success) {
+    @Override protected void onLoadContacts(boolean success) {
         root1.update();
         root2.update();
         root3.update();
@@ -115,8 +109,7 @@ public class QQContactView extends IMContactView {
         updateTrees(recentTree, friendTree, groupTree, discussTree);
     }
 
-    @Override
-    protected void doUpdateContacts(int index) {
+    @Override protected void doUpdateContacts(int index) {
         if (index == 0) {
             root1.update();
             updateTrees(recentTree);

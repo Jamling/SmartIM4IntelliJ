@@ -25,23 +25,21 @@ public class IMWindowFactory implements ToolWindowFactory {
     private Project project;
     private SmartQQPanel panel;
 
-    @Override
-    public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+    @Override public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         instance = this;
         this.project = project;
         toolWindow.setToHideOnEmptyContent(true);
         createContents(project, toolWindow);
         ToolWindowManager manager = ToolWindowManager.getInstance(project);
         if (manager instanceof ToolWindowManagerEx) {
-            ToolWindowManagerEx managerEx = ((ToolWindowManagerEx) manager);
+            ToolWindowManagerEx managerEx = ((ToolWindowManagerEx)manager);
             managerEx.addToolWindowManagerListener(new ToolWindowManagerListener() {
-                @Override
-                public void toolWindowRegistered(@NotNull String id) {
+                @Override public void toolWindowRegistered(@NotNull String id) {
                 }
 
-                @Override
-                public void stateChanged() {
-                    ToolWindow window = ToolWindowManager.getInstance(project).getToolWindow(IMWindowFactory.TOOL_WINDOW_ID);
+                @Override public void stateChanged() {
+                    ToolWindow window =
+                        ToolWindowManager.getInstance(project).getToolWindow(IMWindowFactory.TOOL_WINDOW_ID);
                     if (window != null) {
                         boolean visible = window.isVisible();
                         if (visible && toolWindow.getContentManager().getContentCount() == 0) {
@@ -52,15 +50,15 @@ public class IMWindowFactory implements ToolWindowFactory {
             });
         }
 
-//        Disposer.register(project, new Disposable() {
-//            @Override
-//            public void dispose() {
-//                if (panel != null && panel.isEnabled()) {
-//                    panel.setEnabled(false);
-//                    panel = null;
-//                }
-//            }
-//        });
+        //        Disposer.register(project, new Disposable() {
+        //            @Override
+        //            public void dispose() {
+        //                if (panel != null && panel.isEnabled()) {
+        //                    panel.setEnabled(false);
+        //                    panel = null;
+        //                }
+        //            }
+        //        });
     }
 
     private void createContents(@NotNull Project project, @NotNull ToolWindow toolWindow) {

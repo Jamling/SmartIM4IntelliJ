@@ -17,16 +17,13 @@ public class MockConsoleAction extends IMPanelAction {
         super(panel, "Test", "Test", SmartIcons.test);
     }
 
-    @Override
-    public void actionPerformed(AnActionEvent anActionEvent) {
+    @Override public void actionPerformed(AnActionEvent anActionEvent) {
         AbstractContact contact = new AbstractContact() {
-            @Override
-            public String getName() {
+            @Override public String getName() {
                 return "Test";
             }
 
-            @Override
-            public String getUin() {
+            @Override public String getUin() {
                 return "test";
             }
         };
@@ -34,8 +31,7 @@ public class MockConsoleAction extends IMPanelAction {
         MockChatConsole console = null;
         if (imPanel instanceof WechatPanel) {
             console = new WXChatConsoleMock(contact, imPanel);
-        }
-        else {
+        } else {
             console = new MockChatConsole(contact, imPanel);
         }
         console.setName(contact.getName());

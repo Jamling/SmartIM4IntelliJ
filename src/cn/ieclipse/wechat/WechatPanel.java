@@ -20,25 +20,21 @@ public class WechatPanel extends IMPanel {
         loadWelcome("wechat");
     }
 
-    @Override
-    public WechatClient getClient() {
+    @Override public WechatClient getClient() {
         return IMClientFactory.getInstance().getWechatClient();
     }
 
-    @Override
-    public IMContactView createContactsUI() {
+    @Override public IMContactView createContactsUI() {
         return new WXContactView(this);
     }
 
-    @Override
-    public IMChatConsole createConsoleUI(IContact contact) {
+    @Override public IMChatConsole createConsoleUI(IContact contact) {
         IMChatConsole console = new WXChatConsole(contact, this);
         console.setName(WXUtils.getPureName(contact.getName()));
         return console;
     }
 
-    @Override
-    public BroadcastAction createBroadcastAction(DefaultActionGroup group) {
+    @Override public BroadcastAction createBroadcastAction(DefaultActionGroup group) {
         group.add(new WXBroadcastAction(this));
         return null;
     }

@@ -25,7 +25,6 @@ public class LoginDialog extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -38,7 +37,7 @@ public class LoginDialog extends JDialog {
             }
         });
 
-// call onCancel() when cross is clicked
+        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -46,7 +45,7 @@ public class LoginDialog extends JDialog {
             }
         });
 
-// call onCancel() on ESCAPE
+        // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -54,12 +53,10 @@ public class LoginDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         new Thread() {
-            @Override
-            public void run() {
+            @Override public void run() {
                 doLogin();
             }
         }.start();
-
 
         String txt = "";
         if (client.isLogin()) {
@@ -71,13 +68,13 @@ public class LoginDialog extends JDialog {
     }
 
     private void onOK() {
-// add your code here
+        // add your code here
         result = 1;
         dispose();
     }
 
     private void onCancel() {
-// add your code here if necessary
+        // add your code here if necessary
         dispose();
     }
 
@@ -89,11 +86,9 @@ public class LoginDialog extends JDialog {
         client.login();
 
         LoginCallback loginCallback = new LoginCallback() {
-            @Override
-            public void onQrcode(final String s) {
+            @Override public void onQrcode(final String s) {
                 SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
+                    @Override public void run() {
                         try {
                             //Image image = ImageIO.read(new File(s));
                             ImageIcon icon = new ImageIcon(s);
@@ -107,11 +102,9 @@ public class LoginDialog extends JDialog {
                 });
             }
 
-            @Override
-            public void onLogin(final boolean ok, final Exception e) {
+            @Override public void onLogin(final boolean ok, final Exception e) {
                 SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
+                    @Override public void run() {
                         if (ok) {
                             setVisible(false);
                         } else {
@@ -125,9 +118,9 @@ public class LoginDialog extends JDialog {
     }
 
     public static void main(String[] args) {
-//        LoginDialog dialog = new LoginDialog();
-//        dialog.pack();
-//        dialog.setVisible(true);
-//        System.exit(0);
+        //        LoginDialog dialog = new LoginDialog();
+        //        dialog.pack();
+        //        dialog.setVisible(true);
+        //        System.exit(0);
     }
 }

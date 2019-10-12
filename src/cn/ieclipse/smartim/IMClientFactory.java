@@ -24,34 +24,32 @@ import java.util.Map;
 
 /**
  * 类/接口描述
- * 
+ *
  * @author Jamling
  * @date 2017年10月14日
- *       
  */
 public class IMClientFactory {
     public static final String TYPE_QQ = "QQ";
     public static final String TYPE_WECHAT = "Wechat";
     private Map<String, SmartClient> clients = null;
-    
+
     private static IMClientFactory instance = new IMClientFactory();
-    
+
     private void checkClients() {
         if (clients == null) {
             clients = new HashMap<>();
         }
     }
-    
+
     private SmartClient create(String type) {
         if (TYPE_QQ.equalsIgnoreCase(type)) {
             return new SmartQQClient();
-        }
-        else if (TYPE_WECHAT.equalsIgnoreCase(type)) {
+        } else if (TYPE_WECHAT.equalsIgnoreCase(type)) {
             return new WechatClient();
         }
         throw new UnsupportedOperationException("No client type " + type);
     }
-    
+
     public SmartClient getClient(String type) {
         checkClients();
         SmartClient client = clients.get(type);
@@ -63,15 +61,15 @@ public class IMClientFactory {
         }
         return client;
     }
-    
+
     public SmartQQClient getQQClient() {
-        return (SmartQQClient) getClient(TYPE_QQ);
+        return (SmartQQClient)getClient(TYPE_QQ);
     }
-    
+
     public WechatClient getWechatClient() {
-        return (WechatClient) getClient(TYPE_WECHAT);
+        return (WechatClient)getClient(TYPE_WECHAT);
     }
-    
+
     public static IMClientFactory getInstance() {
         return instance;
     }

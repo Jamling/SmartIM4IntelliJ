@@ -15,75 +15,66 @@ import com.scienjus.smartqq.model.*;
 import java.util.Map;
 
 public class QQRobotCallback extends IMRobotCallback {
-    
+
     private QQChatConsole console;
     private SmartQQPanel fContactView;
-    
+
     public QQRobotCallback(SmartQQPanel fContactView) {
         this.fContactView = fContactView;
     }
-    
-    @Override
-    public void onContactChanged(IContact contact) {
+
+    @Override public void onContactChanged(IContact contact) {
         if (!isEnable()) {
             return;
         }
         try {
-            console = (QQChatConsole) fContactView
-                    .findConsoleById(contact.getUin(), false);
+            console = (QQChatConsole)fContactView.findConsoleById(contact.getUin(), false);
             // TODO
         } catch (Exception e) {
             LOG.error("机器人回应异常", e);
         }
     }
-    
-    @Override
-    public void onReceiveMessage(AbstractMessage message, AbstractFrom from) {
+
+    @Override public void onReceiveMessage(AbstractMessage message, AbstractFrom from) {
         if (!isEnable()) {
             return;
         }
         try {
-            console = (QQChatConsole) fContactView
-                    .findConsoleById(from.getContact().getUin(), false);
-            answer(from, (QQMessage) message);
+            console = (QQChatConsole)fContactView.findConsoleById(from.getContact().getUin(), false);
+            answer(from, (QQMessage)message);
         } catch (Exception e) {
             LOG.error("机器人回应异常", e);
         }
     }
-    
-    @Override
-    public void onReceiveError(Throwable e) {
+
+    @Override public void onReceiveError(Throwable e) {
         // TODO Auto-generated method stub
-        
+
     }
-    
+
     public void answer(AbstractFrom from, QQMessage m) {
         String robotName = getRobotName();
         SmartQQClient client = fContactView.getClient();
         // auto reply friend
         if (from instanceof FriendFrom) {
             if (SmartIMSettings.getInstance().getState().ROBOT_FRIEND_ANY) {
-                String reply = getReply(m.getContent(),
-                        (QQContact) from.getContact(), null);
+                String reply = getReply(m.getContent(), (QQContact)from.getContact(), null);
                 if (reply != null) {
                     String input = robotName + reply;
                     if (console == null) {
                         client.sendMessageToFriend(m.getUserId(), input);
-                    }
-                    else {
+                    } else {
                         console.send(input);
                     }
                 }
             }
             return;
-        }
-        else if (from instanceof GroupFrom) {
-            GroupFrom gf = (GroupFrom) from;
+        } else if (from instanceof GroupFrom) {
+            GroupFrom gf = (GroupFrom)from;
             String gName = gf.getGroup().getName();
             // QQContact qqContact = client.getGroup(gf.getGroup().getId());
             if (from.isNewbie()) {
-                String welcome = SmartIMSettings.getInstance()
-                        .getState().ROBOT_GROUP_WELCOME;
+                String welcome = SmartIMSettings.getInstance().getState().ROBOT_GROUP_WELCOME;
                 if (welcome != null && !welcome.isEmpty()) {
                     GroupInfo info = gf.getGroup();
                     GroupUser gu = gf.getGroupUser();
@@ -96,32 +87,25 @@ public class QQRobotCallback extends IMRobotCallback {
                     }
                     if (console != null) {
                         console.send(robotName + input);
-                    }
-                    else {
-                        client.sendMessageToGroup(gf.getGroup().getId(),
-                                robotName + input);
+                    } else {
+                        client.sendMessageToGroup(gf.getGroup().getId(), robotName + input);
                     }
                 }
             }
-            
+
             // @
             if (atMe(from, m)) {
                 String msg = m.getContent(true).trim();
                 String reply = getReply(msg, from.getMember(), gName);
                 if (reply != null) {
-                    String input = robotName + "@" + from.getMember().getName()
-                            + SEP + reply;
+                    String input = robotName + "@" + from.getMember().getName() + SEP + reply;
                     if (console != null) {
                         console.send(input);
-                    }
-                    else {
+                    } else {
                         if (m instanceof GroupMessage) {
-                            client.sendMessageToGroup(
-                                    ((GroupMessage) m).getGroupId(), input);
-                        }
-                        else if (m instanceof DiscussMessage) {
-                            client.sendMessageToDiscuss(
-                                    ((DiscussMessage) m).getDiscussId(), input);
+                            client.sendMessageToGroup(((GroupMessage)m).getGroupId(), input);
+                        } else if (m instanceof DiscussMessage) {
+                            client.sendMessageToDiscuss(((DiscussMessage)m).getDiscussId(), input);
                         }
                     }
                 }
@@ -135,37 +119,32 @@ public class QQRobotCallback extends IMRobotCallback {
                 if (console == null) {
                     return;
                 }
-                
+
                 if (from instanceof FriendFrom) {
                     return;
-                }
-                else if (from instanceof GroupFrom) {
-                    if (((GroupFrom) from).getGroupUser().isUnknown()) {
+                } else if (from instanceof GroupFrom) {
+                    if (((GroupFrom)from).getGroupUser().isUnknown()) {
+                        return;
+                    }
+                } else if (from instanceof DiscussFrom) {
+                    if (((DiscussFrom)from).getDiscussUser().isUnknown()) {
                         return;
                     }
                 }
-                else if (from instanceof DiscussFrom) {
-                    if (((DiscussFrom) from).getDiscussUser().isUnknown()) {
-                        return;
-                    }
-                }
-                
-                String reply = getReply(m.getContent(), from.getMember(),
-                        gName);
+
+                String reply = getReply(m.getContent(), from.getMember(), gName);
                 if (reply != null) {
-                    String input = robotName + "@" + from.getName() + SEP
-                            + reply;
+                    String input = robotName + "@" + from.getName() + SEP + reply;
                     if (console != null) {
                         console.send(input);
                     }
                 }
             }
         } // end group
-        
+
     }
-    
-    private Map<String, Object> getParams(String text, IContact contact,
-            String groupId) {
+
+    private Map<String, Object> getParams(String text, IContact contact, String groupId) {
         String key = getTuringApiKey();
         if (StringUtils.isEmpty(key)) {
             return null;
@@ -179,11 +158,10 @@ public class QQRobotCallback extends IMRobotCallback {
         // builder.setLocation(contact, contact.Province, null);
         return builder.build();
     }
-    
+
     private String getReply(String text, IContact contact, String groupId) {
         if (StringUtils.isEmpty(text)) {
-            String reply = SmartIMSettings.getInstance()
-                    .getState().ROBOT_REPLY_EMPTY;
+            String reply = SmartIMSettings.getInstance().getState().ROBOT_REPLY_EMPTY;
             if (!StringUtils.isEmpty(reply)) {
                 return reply;
             }
@@ -199,21 +177,19 @@ public class QQRobotCallback extends IMRobotCallback {
         }
         return null;
     }
-    
+
     private boolean atMe(IFrom from, QQMessage m) {
         if (m.getAts() != null) {
             if (m instanceof GroupMessage) {
-                GroupInfo info = ((GroupFrom) from).getGroup();
+                GroupInfo info = ((GroupFrom)from).getGroup();
                 UserInfo me = getAccount();
                 long uin = Long.parseLong(me.getUin());
                 GroupUser me2 = info.getGroupUser(uin);
                 if (m.hasAt(me2.getName()) || m.hasAt(me.getNick())) {
                     return true;
                 }
-            }
-            
-            else if (m instanceof DiscussMessage) {
-                DiscussInfo info = ((DiscussFrom) from).getDiscuss();
+            } else if (m instanceof DiscussMessage) {
+                DiscussInfo info = ((DiscussFrom)from).getDiscuss();
                 UserInfo me = getAccount();
                 long uin = Long.parseLong(me.getUin());
                 DiscussUser me2 = info.getDiscussUser(uin);
@@ -224,16 +200,16 @@ public class QQRobotCallback extends IMRobotCallback {
         }
         return false;
     }
-    
+
     private UserInfo getAccount() {
         UserInfo me = getClient().getAccount();
         return me;
     }
-    
+
     private SmartQQClient getClient() {
         return fContactView.getClient();
     }
-    
+
     private boolean isMySend(long uin) {
         UserInfo me = getAccount();
         if (me != null && me.getUin().equals(String.valueOf(uin))) {

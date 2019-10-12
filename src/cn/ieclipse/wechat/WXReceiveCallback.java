@@ -16,7 +16,6 @@
 package cn.ieclipse.wechat;
 
 import cn.ieclipse.smartim.IMReceiveCallback;
-import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.model.impl.AbstractFrom;
 import cn.ieclipse.smartim.model.impl.AbstractMessage;
 import cn.ieclipse.smartim.settings.SmartIMSettings;
@@ -27,50 +26,42 @@ import io.github.biezhi.wechat.model.WechatMessage;
 
 /**
  * 类/接口描述
- * 
+ *
  * @author Jamling
  * @date 2017年10月14日
- *       
  */
 public class WXReceiveCallback extends IMReceiveCallback {
-    
+
     public WXReceiveCallback(WechatPanel fContactView) {
         super(fContactView);
     }
-    
-    @Override
-    public void onReceiveMessage(AbstractMessage message, AbstractFrom from) {
+
+    @Override public void onReceiveMessage(AbstractMessage message, AbstractFrom from) {
         if (from != null && from.getContact() != null) {
             boolean unknown = false;
-            boolean notify = SmartIMSettings.getInstance()
-                    .getState().NOTIFY_MSG;
+            boolean notify = SmartIMSettings.getInstance().getState().NOTIFY_MSG;
             String uin = from.getContact().getUin();
-            Contact contact = (Contact) from.getContact();
+            Contact contact = (Contact)from.getContact();
             contact.setLastMessage(message);
             if (from instanceof GroupFrom) {
-                GroupFrom gf = (GroupFrom) from;
+                GroupFrom gf = (GroupFrom)from;
                 unknown = gf.getMember() == null || gf.getMember().isUnknown();
-            }
-            else {
+            } else {
                 unknown = from.getMember() == null;
             }
             handle(unknown, notify, message, from, contact);
         }
     }
-    
-    @Override
-    protected String getNotifyContent(AbstractMessage message,
-            AbstractFrom from) {
-        CharSequence content = (from instanceof UserFrom) ? message.getText()
-                : from.isOut() ? from.getTarget().getName()
-                        : from.getName() + ":" + message.getText();
+
+    @Override protected String getNotifyContent(AbstractMessage message, AbstractFrom from) {
+        CharSequence content = (from instanceof UserFrom) ? message.getText() :
+            from.isOut() ? from.getTarget().getName() : from.getName() + ":" + message.getText();
         return content.toString();
     }
-    
-    @Override
-    protected String getMsgContent(AbstractMessage message, AbstractFrom from) {
+
+    @Override protected String getMsgContent(AbstractMessage message, AbstractFrom from) {
         if (message instanceof WechatMessage) {
-            return WXUtils.formatHtmlIncoming((WechatMessage) message, from);
+            return WXUtils.formatHtmlIncoming((WechatMessage)message, from);
         }
         return message.getClass().getName();
     }

@@ -17,8 +17,7 @@ import org.jetbrains.annotations.Nullable;
  * Created by Jamling on 2018/1/2.
  */
 public class ReviewHandler extends EditorActionHandler {
-    @Override
-    protected void doExecute(Editor editor, @Nullable Caret caret, DataContext dataContext) {
+    @Override protected void doExecute(Editor editor, @Nullable Caret caret, DataContext dataContext) {
         super.doExecute(editor, caret, dataContext);
         VirtualFile vf = (CommonDataKeys.VIRTUAL_FILE.getData(dataContext));
 

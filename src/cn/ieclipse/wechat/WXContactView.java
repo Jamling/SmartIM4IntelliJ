@@ -32,6 +32,7 @@ public class WXContactView extends IMContactView {
     private ContactTreeMode discussModel;
 
     private MessageInterceptor interceptor;
+
     public WXContactView(WechatPanel imPanel) {
         super(imPanel);
 
@@ -51,14 +52,12 @@ public class WXContactView extends IMContactView {
         init();
     }
 
-    @Override
-    public JPanel getPanel() {
+    @Override public JPanel getPanel() {
         return panel;
     }
 
-    @Override
-    public WechatPanel getImPanel() {
-        return (WechatPanel) super.getImPanel();
+    @Override public WechatPanel getImPanel() {
+        return (WechatPanel)super.getImPanel();
     }
 
     public void init() {
@@ -73,23 +72,19 @@ public class WXContactView extends IMContactView {
         discussTree.setModel(discussModel);
     }
 
-    @Override
-    protected void initTree(Tree tree) {
+    @Override protected void initTree(Tree tree) {
         super.initTree(tree);
     }
 
-    @Override
-    protected TreeCellRenderer getContactRenderer() {
+    @Override protected TreeCellRenderer getContactRenderer() {
         return new WXContactTreeCellRenderer();
     }
 
-    @Override
-    protected WechatClient getClient() {
+    @Override protected WechatClient getClient() {
         return getImPanel().getClient();
     }
 
-    @Override
-    protected void doLoadContacts() {
+    @Override protected void doLoadContacts() {
         WechatClient client = getClient();
         if (client.isLogin()) {
             try {
@@ -110,8 +105,7 @@ public class WXContactView extends IMContactView {
         }
     }
 
-    @Override
-    protected void onLoadContacts(boolean success) {
+    @Override protected void onLoadContacts(boolean success) {
         root1.update();
         root2.update();
         //root3.update();
@@ -122,8 +116,7 @@ public class WXContactView extends IMContactView {
         updateTrees(recentTree, friendTree, groupTree, discussTree);
     }
 
-    @Override
-    protected void doUpdateContacts(int index) {
+    @Override protected void doUpdateContacts(int index) {
         if (index == 0) {
             root1.update();
             updateTrees(recentTree);

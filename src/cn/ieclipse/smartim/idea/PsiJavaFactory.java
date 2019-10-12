@@ -10,19 +10,17 @@ import com.intellij.psi.search.GlobalSearchScope;
 
 public class PsiJavaFactory extends PsiFileTypeFactory {
 
-    @Override
-    public String getQualifiedName(PsiFile psiFile) {
-        PsiJavaFile psiJavaFile = (PsiJavaFile) psiFile;
+    @Override public String getQualifiedName(PsiFile psiFile) {
+        PsiJavaFile psiJavaFile = (PsiJavaFile)psiFile;
         assert psiJavaFile != null;
         final PsiClass[] classes = psiJavaFile.getClasses();
         if (classes.length > 0) {
-             return classes[0].getQualifiedName();
+            return classes[0].getQualifiedName();
         }
         return null;
     }
 
-    @Override
-    public VirtualFile findFileByFQName(String file, Project project) {
+    @Override public VirtualFile findFileByFQName(String file, Project project) {
         VirtualFile result = null;
         if (file != null) {
             PsiClass aClass = JavaPsiFacade.getInstance(project).findClass(file, GlobalSearchScope.allScope(project));

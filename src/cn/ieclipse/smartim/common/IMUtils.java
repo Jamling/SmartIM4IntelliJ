@@ -65,7 +65,6 @@ public class IMUtils {
         return list == null || list.isEmpty();
     }
 
-
     public static String encodeHtml(String msg) {
         if (StringUtils.isEmpty(msg)) {
             return "";
@@ -80,8 +79,7 @@ public class IMUtils {
     }
 
     public static boolean isMySendMsg(String raw) {
-        return raw.startsWith("<div")
-                || raw.matches("^\\d{2}:\\d{2}:\\d{2} [.\\s\\S]*");
+        return raw.startsWith("<div") || raw.matches("^\\d{2}:\\d{2}:\\d{2} [.\\s\\S]*");
     }
 
     public static String formatHtmlMsg(String msg, boolean encodeHtml) {
@@ -91,25 +89,21 @@ public class IMUtils {
         String content;
         if (encodeHtml) {
             content = autoLink(autoReviewLink(m).replace(" ", "&nbsp;"));
-        }
-        else {
+        } else {
             content = m.replace(" ", "&nbsp;");
         }
         return content;
     }
 
-    public static String formatHtmlMsg(long time, String name,
-                                       CharSequence msg) {
+    public static String formatHtmlMsg(long time, String name, CharSequence msg) {
         return formatHtmlMsg(false, true, time, name, msg.toString());
     }
 
-    public static String formatHtmlMyMsg(long time, String name,
-                                         CharSequence msg) {
+    public static String formatHtmlMyMsg(long time, String name, CharSequence msg) {
         return formatHtmlMsg(true, true, time, name, msg.toString());
     }
 
-    public static String formatHtmlMsg(boolean my, boolean encodeHtml,
-                                       long time, String name, String msg) {
+    public static String formatHtmlMsg(boolean my, boolean encodeHtml, long time, String name, String msg) {
         String t = new SimpleDateFormat("HH:mm:ss").format(time);
         String clz = my ? "my" : "sender";
         String content = formatHtmlMsg(msg, encodeHtml);
@@ -117,16 +111,14 @@ public class IMUtils {
     }
 
     public static String autoReviewLink(String input) {
-        Matcher m = Pattern.compile(CODE_REGEX, Pattern.MULTILINE)
-                .matcher(input);
+        Matcher m = Pattern.compile(CODE_REGEX, Pattern.MULTILINE).matcher(input);
         if (m.find()) {
             String linkText = m.group().substring(6).trim();
             int s = m.start() + 6;
             int e = s + linkText.length();
             StringBuilder sb = new StringBuilder(m.group());
             sb.delete(s, e);
-            String url = String.format("<a href=\"code://%s\">%s</a>", linkText,
-                    linkText);
+            String url = String.format("<a href=\"code://%s\">%s</a>", linkText, linkText);
             sb.insert(s, url);
             String reviews = StringUtils.encodeXml(input.substring(m.end()));
             sb.append(reviews);
@@ -172,12 +164,10 @@ public class IMUtils {
                 }
 
                 if (!PROTOCOL.matcher(g).find()) {
-                    boolean f = g.startsWith("www.") || g.endsWith(".com")
-                            || g.endsWith(".cn");
+                    boolean f = g.startsWith("www.") || g.endsWith(".com") || g.endsWith(".cn");
                     if (!f) {
                         continue;
-                    }
-                    else {
+                    } else {
                         http = "http://";
                     }
                 }
@@ -197,13 +187,10 @@ public class IMUtils {
                 sb.delete(offset + s, offset + e);
                 String link = http == null ? g : http + g;
                 String ng = g;
-                if (IMG_EXTS.indexOf(
-                        FileUtils.getExtension(g).toLowerCase()) >= 0) {
-                    ng = String.format(
-                            "<a href=\"%s\"><img src=\"%s\" alt=\"%s\" border=\"0\"/></a>",
-                            link, link, "无法预览，请尝试点击");
-                }
-                else {
+                if (IMG_EXTS.indexOf(FileUtils.getExtension(g).toLowerCase()) >= 0) {
+                    ng = String.format("<a href=\"%s\"><img src=\"%s\" alt=\"%s\" border=\"0\"/></a>", link, link,
+                        "无法预览，请尝试点击");
+                } else {
                     ng = String.format("<a href=\"%s\">%s</a>", link, g);
                 }
                 sb.insert(offset + s, ng);
@@ -214,26 +201,22 @@ public class IMUtils {
         return input;
     }
 
-    public static final String DIV_SENDER_FORMAT = "<span class=\"%s\"><span class=\"time\">%s</span> <a href=\"user://%s\">%s</a>: </span>";
+    public static final String DIV_SENDER_FORMAT =
+        "<span class=\"%s\"><span class=\"time\">%s</span> <a href=\"user://%s\">%s</a>: </span>";
     public static final String DIV_CONTENT_FORMAT = "<span class=\"content\">%s</span>";
-    public static final String DIV_ROW_FORMAT = String.format("<div>%s%s</div>",
-            DIV_SENDER_FORMAT, DIV_CONTENT_FORMAT);
+    public static final String DIV_ROW_FORMAT = String.format("<div>%s%s</div>", DIV_SENDER_FORMAT, DIV_CONTENT_FORMAT);
     public static final List<String> IMG_EXTS = Arrays.asList("png", "jpg", "gif", "webp");
     public static final String CODE_REGEX = "Code: [\\S ]+:[\\d]+ ?";
-    public static final String LINK_REGEX = "(https?|ftp|file)://(([\\w-~]+).)+([\\w-~\\/])+(((?!\\.)(\\S))+(\\.\\w+(\\?(\\w+=\\S&?)*)?)?)?";
-    public static final String UCS_CHAR = "[" + "\u00A0-\uD7FF"
-            + "\uF900-\uFDCF" + "\uFDF0-\uFFEF" + "\uD800\uDC00-\uD83F\uDFFD"
-            + "\uD840\uDC00-\uD87F\uDFFD" + "\uD880\uDC00-\uD8BF\uDFFD"
-            + "\uD8C0\uDC00-\uD8FF\uDFFD" + "\uD900\uDC00-\uD93F\uDFFD"
-            + "\uD940\uDC00-\uD97F\uDFFD" + "\uD980\uDC00-\uD9BF\uDFFD"
-            + "\uD9C0\uDC00-\uD9FF\uDFFD" + "\uDA00\uDC00-\uDA3F\uDFFD"
-            + "\uDA40\uDC00-\uDA7F\uDFFD" + "\uDA80\uDC00-\uDABF\uDFFD"
-            + "\uDAC0\uDC00-\uDAFF\uDFFD" + "\uDB00\uDC00-\uDB3F\uDFFD"
-            + "\uDB44\uDC00-\uDB7F\uDFFD"
-            + "&&[^\u00A0[\u2000-\u200A]\u2028\u2029\u202F\u3000]]";
-    public static final Pattern UCS_REGEX_END = Pattern
-            .compile("(.+?)(" + UCS_CHAR + "+$)");
-    public static final Pattern UCS_REGEX_BEGIN = Pattern
-            .compile("^(" + UCS_CHAR + "+)" + "(.+?)");
+    public static final String LINK_REGEX =
+        "(https?|ftp|file)://(([\\w-~]+).)+([\\w-~\\/])+(((?!\\.)(\\S))+(\\.\\w+(\\?(\\w+=\\S&?)*)?)?)?";
+    public static final String UCS_CHAR =
+        "[" + "\u00A0-\uD7FF" + "\uF900-\uFDCF" + "\uFDF0-\uFFEF" + "\uD800\uDC00-\uD83F\uDFFD"
+            + "\uD840\uDC00-\uD87F\uDFFD" + "\uD880\uDC00-\uD8BF\uDFFD" + "\uD8C0\uDC00-\uD8FF\uDFFD"
+            + "\uD900\uDC00-\uD93F\uDFFD" + "\uD940\uDC00-\uD97F\uDFFD" + "\uD980\uDC00-\uD9BF\uDFFD"
+            + "\uD9C0\uDC00-\uD9FF\uDFFD" + "\uDA00\uDC00-\uDA3F\uDFFD" + "\uDA40\uDC00-\uDA7F\uDFFD"
+            + "\uDA80\uDC00-\uDABF\uDFFD" + "\uDAC0\uDC00-\uDAFF\uDFFD" + "\uDB00\uDC00-\uDB3F\uDFFD"
+            + "\uDB44\uDC00-\uDB7F\uDFFD" + "&&[^\u00A0[\u2000-\u200A]\u2028\u2029\u202F\u3000]]";
+    public static final Pattern UCS_REGEX_END = Pattern.compile("(.+?)(" + UCS_CHAR + "+$)");
+    public static final Pattern UCS_REGEX_BEGIN = Pattern.compile("^(" + UCS_CHAR + "+)" + "(.+?)");
     public static final Pattern PROTOCOL = Pattern.compile(Patterns.PROTOCOL);
 }

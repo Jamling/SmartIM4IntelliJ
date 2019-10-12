@@ -16,13 +16,11 @@ public class HideContactAction extends ToggleAction {
         this.panel = panel;
     }
 
-    @Override
-    public boolean isSelected(AnActionEvent anActionEvent) {
+    @Override public boolean isSelected(AnActionEvent anActionEvent) {
         return panel.isLeftHidden();
     }
 
-    @Override
-    public void setSelected(AnActionEvent anActionEvent, boolean b) {
+    @Override public void setSelected(AnActionEvent anActionEvent, boolean b) {
         panel.setLeftHide(b);
     }
 }

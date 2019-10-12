@@ -42,11 +42,10 @@ public class RestUtils {
 
     public static String getWelcome(String im) {
         try {
-            final IdeaPluginDescriptor descriptor = PluginManager.getPlugin(PluginId.findId("cn.ieclipse.smartqq.intellij"));
-            Request.Builder builder = new Request.Builder()
-                    .url(String.format(welcome_format, "intellij", im,
-                            descriptor.getVersion()))
-                    .get();
+            final IdeaPluginDescriptor descriptor =
+                PluginManager.getPlugin(PluginId.findId("cn.ieclipse.smartqq.intellij"));
+            Request.Builder builder =
+                new Request.Builder().url(String.format(welcome_format, "intellij", im, descriptor.getVersion())).get();
             Request request = builder.build();
             Call call = new OkHttpClient().newCall(request);
             Response response = call.execute();
@@ -63,26 +62,25 @@ public class RestUtils {
         new Thread() {
             public void run() {
                 try {
-                    Request.Builder builder = (new Request.Builder())
-                            .url(RestUtils.update_url).get();
+                    Request.Builder builder = (new Request.Builder()).url(RestUtils.update_url).get();
                     Request request = builder.build();
                     Call call = new OkHttpClient().newCall(request);
                     Response response = call.execute();
                     String json = response.body().string();
                     LOG.info(json);
                     if (response.code() == 200) {
-                        final UpdateInfo info = new Gson().fromJson(json,
-                                UpdateInfo.class);
-                        final IdeaPluginDescriptor descriptor = PluginManager.getPlugin(PluginId.findId("cn.ieclipse.smartqq.intellij"));
+                        final UpdateInfo info = new Gson().fromJson(json, UpdateInfo.class);
+                        final IdeaPluginDescriptor descriptor =
+                            PluginManager.getPlugin(PluginId.findId("cn.ieclipse.smartqq.intellij"));
                         SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
+                            @Override public void run() {
                                 if (descriptor != null && descriptor.getVersion().equals(info.latest)) {
                                     JOptionPane.showMessageDialog(null, "已是最新版本");
                                     return;
                                 }
                                 cn.ieclipse.smartim.common.Notifications.notify(info.latest, info.desc);
-                                JOptionPane.showMessageDialog(null, "发现新版本" + info.latest + "请在File->Settings->Plugins插件页中更新SmartQQ");
+                                JOptionPane.showMessageDialog(null,
+                                    "发现新版本" + info.latest + "请在File->Settings->Plugins插件页中更新SmartQQ");
                             }
 
                             ;
@@ -104,18 +102,17 @@ public class RestUtils {
     }
 
     public static void loadStyleAsync(final StyleSheet styleSheet) {
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                loadStyleSync(styleSheet);
-//            }
-//        }.start();
+        //        new Thread() {
+        //            @Override
+        //            public void run() {
+        //                loadStyleSync(styleSheet);
+        //            }
+        //        }.start();
     }
 
     public static void loadStyleSync(final StyleSheet styleSheet) {
         try {
-            styleSheet.importStyleSheet(
-                    new URL("http://dl.ieclipse.cn/r/smartim.css"));
+            styleSheet.importStyleSheet(new URL("http://dl.ieclipse.cn/r/smartim.css"));
         } catch (MalformedURLException e1) {
             e1.printStackTrace();
         }

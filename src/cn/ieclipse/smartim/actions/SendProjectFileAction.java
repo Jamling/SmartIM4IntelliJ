@@ -32,19 +32,18 @@ import icons.SmartIcons;
 public class SendProjectFileAction extends SendFileAction {
 
     public SendProjectFileAction(IMChatConsole console) {
-        super(console, "Send Project File",
-                "Send your project(workspace) file to " + console.getName(), SmartIcons.projectFile);
+        super(console, "Send Project File", "Send your project(workspace) file to " + console.getName(),
+            SmartIcons.projectFile);
     }
 
-    @Override
-    public void actionPerformed(AnActionEvent e) {
+    @Override public void actionPerformed(AnActionEvent e) {
         if (!console.enableUpload()) {
             console.error("文件发送中，请勿频繁操作");
             return;
         }
-        FileChooserDescriptor descriptor =
-                new FileChooserDescriptor(true, false, true, true, false, false);
-        final VirtualFile virtualFile = FileChooser.chooseFile(descriptor, IMWindowFactory.getDefault().getProject(), null);
+        FileChooserDescriptor descriptor = new FileChooserDescriptor(true, false, true, true, false, false);
+        final VirtualFile virtualFile =
+            FileChooser.chooseFile(descriptor, IMWindowFactory.getDefault().getProject(), null);
         if (virtualFile == null) {
             return;
         }

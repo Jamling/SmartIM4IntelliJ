@@ -26,15 +26,15 @@ import javax.swing.*;
  * Created by Jamling on 2017/7/12.
  */
 public class IMChatAction extends DumbAwareAction {
-    protected  IMChatConsole console;
+    protected IMChatConsole console;
 
-    public IMChatAction(IMChatConsole console, @Nullable String text, @Nullable String description, @Nullable Icon icon) {
+    public IMChatAction(IMChatConsole console, @Nullable String text, @Nullable String description,
+        @Nullable Icon icon) {
         super(text, description, icon);
         this.console = console;
     }
 
-    @Override
-    public void actionPerformed(AnActionEvent anActionEvent) {
+    @Override public void actionPerformed(AnActionEvent anActionEvent) {
 
     }
 }

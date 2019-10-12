@@ -35,60 +35,50 @@ import com.scienjus.smartqq.model.QQMessage;
  * @date 2017年10月16日
  */
 public class QQReceiveCallback extends IMReceiveCallback {
-    
+
     public QQReceiveCallback(SmartQQPanel fContactView) {
         super(fContactView);
     }
-    
-    @Override
-    public void onReceiveMessage(AbstractMessage message, AbstractFrom from) {
+
+    @Override public void onReceiveMessage(AbstractMessage message, AbstractFrom from) {
         if (from != null && from.getContact() != null) {
             boolean unknown = false;
-            boolean notify = SmartIMSettings.getInstance()
-                    .getState().NOTIFY_MSG;
+            boolean notify = SmartIMSettings.getInstance().getState().NOTIFY_MSG;
             String uin = from.getContact().getUin();
             IContact qqContact = from.getContact();
-            SmartQQClient client = (SmartQQClient) fContactView.getClient();
+            SmartQQClient client = (SmartQQClient)fContactView.getClient();
             if (from instanceof GroupFrom) {
-                GroupFrom gf = (GroupFrom) from;
-                unknown = (gf.getGroupUser() == null
-                        || gf.getGroupUser().isUnknown());
+                GroupFrom gf = (GroupFrom)from;
+                unknown = (gf.getGroupUser() == null || gf.getGroupUser().isUnknown());
                 uin = gf.getGroup().getUin();
-                notify = SmartIMSettings.getInstance()
-                        .getState().NOTIFY_GROUP_MSG;
+                notify = SmartIMSettings.getInstance().getState().NOTIFY_GROUP_MSG;
                 qqContact = client.getGroup(gf.getGroup().getId());
-            }
-            else if (from instanceof DiscussFrom) {
-                DiscussFrom gf = (DiscussFrom) from;
-                unknown = (gf.getDiscussUser() == null
-                        || gf.getDiscussUser().isUnknown());
+            } else if (from instanceof DiscussFrom) {
+                DiscussFrom gf = (DiscussFrom)from;
+                unknown = (gf.getDiscussUser() == null || gf.getDiscussUser().isUnknown());
                 uin = gf.getDiscuss().getUin();
-                notify = SmartIMSettings.getInstance()
-                        .getState().NOTIFY_GROUP_MSG;
+                notify = SmartIMSettings.getInstance().getState().NOTIFY_GROUP_MSG;
                 qqContact = client.getDiscuss(gf.getDiscuss().getId());
             }
-            handle(unknown, notify, message, from, (AbstractContact) qqContact);
+            handle(unknown, notify, message, from, (AbstractContact)qqContact);
         }
     }
-    
-    @Override
-    protected String getMsgContent(AbstractMessage message, AbstractFrom from) {
+
+    @Override protected String getMsgContent(AbstractMessage message, AbstractFrom from) {
         String name = from.getName();
         String msg = null;
         if (message instanceof QQMessage) {
-            QQMessage m = (QQMessage) message;
+            QQMessage m = (QQMessage)message;
             msg = IMUtils.formatHtmlMsg(m.getTime(), name, m.getContent());
             msg = QQUtils.decodeEmoji(msg);
         }
         return msg;
     }
-    
-    @Override
-    protected String getNotifyContent(AbstractMessage message,
-            AbstractFrom from) {
-        CharSequence content = (from instanceof FriendFrom) ? message.getText()
-                : from.getName() + ":" + message.getText();
+
+    @Override protected String getNotifyContent(AbstractMessage message, AbstractFrom from) {
+        CharSequence content =
+            (from instanceof FriendFrom) ? message.getText() : from.getName() + ":" + message.getText();
         return content.toString();
     }
-    
+
 }

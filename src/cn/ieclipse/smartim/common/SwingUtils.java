@@ -17,20 +17,14 @@ package cn.ieclipse.smartim.common;
 
 import java.awt.event.KeyEvent;
 
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-
-import cn.ieclipse.smartim.settings.SmartIMSettings;
-
 /**
  * 类/接口描述
- * 
+ *
  * @author Jamling
  * @date 2018年4月12日
- *       
  */
 public class SwingUtils {
-    
+
     public static String key2string(KeyEvent e) {
         String key = "";
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {

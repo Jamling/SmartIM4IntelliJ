@@ -28,14 +28,13 @@ public class RobotPanel {
 
     public boolean isModified() {
         return settings.getState().ROBOT_TYPE != comboRobot.getSelectedIndex()
-                || settings.getState().ROBOT_ENABLE != chkRobot.isSelected()
-                || settings.getState().ROBOT_FRIEND_ANY != chkFriendAny.isSelected()
-                || settings.getState().ROBOT_GROUP_ANY != chkGroupAny.isSelected()
-                || !settings.getState().ROBOT_KEY.equals(textApiKey.getText().trim())
-                || !settings.getState().ROBOT_REPLY_EMPTY.equals(textReplyEmpty.getText().trim())
-                || !settings.getState().ROBOT_NAME.equals(textRobotName.getText().trim())
-                || !settings.getState().ROBOT_GROUP_WELCOME.equals(textWelcome.getText().trim())
-                ;
+            || settings.getState().ROBOT_ENABLE != chkRobot.isSelected()
+            || settings.getState().ROBOT_FRIEND_ANY != chkFriendAny.isSelected()
+            || settings.getState().ROBOT_GROUP_ANY != chkGroupAny.isSelected() || !settings.getState().ROBOT_KEY
+            .equals(textApiKey.getText().trim()) || !settings.getState().ROBOT_REPLY_EMPTY
+            .equals(textReplyEmpty.getText().trim()) || !settings.getState().ROBOT_NAME
+            .equals(textRobotName.getText().trim()) || !settings.getState().ROBOT_GROUP_WELCOME
+            .equals(textWelcome.getText().trim());
     }
 
     public void reset() {
@@ -58,8 +57,7 @@ public class RobotPanel {
         settings.getState().ROBOT_FRIEND_ANY = chkFriendAny.isSelected();
         settings.getState().ROBOT_GROUP_ANY = chkGroupAny.isSelected();
         settings.getState().ROBOT_KEY = textApiKey.getText().trim();
-        settings.getState().ROBOT_REPLY_EMPTY = textReplyEmpty.getText()
-                .trim();
+        settings.getState().ROBOT_REPLY_EMPTY = textReplyEmpty.getText().trim();
         settings.getState().ROBOT_NAME = textRobotName.getText().trim();
         settings.getState().ROBOT_GROUP_WELCOME = textWelcome.getText().trim();
     }

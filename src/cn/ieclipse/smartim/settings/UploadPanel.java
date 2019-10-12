@@ -17,9 +17,8 @@ public class UploadPanel extends JPanel {
 
     private SmartIMSettings settings;
 
-    public static final String[][] ZONE_VALUE = {{"自动", "autoZone"},
-            {"华东", "huadong"}, {"华北", "huabei"}, {"华南", "huanan"},
-            {"北美", "beimei"}};
+    public static final String[][] ZONE_VALUE =
+        {{"自动", "autoZone"}, {"华东", "huadong"}, {"华北", "huabei"}, {"华南", "huanan"}, {"北美", "beimei"}};
 
     public static final String[] ZONE_LABEL = {"自动", "华东", "华北", "华南", "北美"};
 
@@ -29,15 +28,14 @@ public class UploadPanel extends JPanel {
     public UploadPanel(SmartIMSettings settings) {
         this.settings = settings;
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{0, 0};
-        gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-        gridBagLayout.columnWeights = new double[]{0.0, 1.0};
-        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                0.0, 0.0, Double.MIN_VALUE};
+        gridBagLayout.columnWidths = new int[] {0, 0};
+        gridBagLayout.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        gridBagLayout.columnWeights = new double[] {0.0, 1.0};
+        gridBagLayout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
 
         JTextArea lblNewLabel = new JTextArea(
-                "SmartQQ文件传输详情请参考http://api.ieclipse.cn/smartqq\r\n如果您未设置七牛云储存，发送的文件将上传到本人私有储存空间（temp.ieclipse.cn，文件大小有限制而且非永久保存），建议您注册七牛云来实现文件传输\r\n注：如果使用您自己的七牛云，带*的accessKey和secretKey必填，否则不生效哦");
+            "SmartQQ文件传输详情请参考http://api.ieclipse.cn/smartqq\r\n如果您未设置七牛云储存，发送的文件将上传到本人私有储存空间（temp.ieclipse.cn，文件大小有限制而且非永久保存），建议您注册七牛云来实现文件传输\r\n注：如果使用您自己的七牛云，带*的accessKey和secretKey必填，否则不生效哦");
         lblNewLabel.setLineWrap(true);
         lblNewLabel.setEnabled(false);
         lblNewLabel.setEditable(false);
@@ -153,14 +151,11 @@ public class UploadPanel extends JPanel {
     }
 
     public boolean isModified() {
-        return settings.getState().QN_ZONE != comboZone.getSelectedIndex()
-                || settings.getState().QN_ENABLE != chkEnable.isSelected()
-                || settings.getState().QN_TS != chkTs.isSelected()
-                || !settings.getState().QN_AK.equals(textAccessKey.getText().trim())
-                || !settings.getState().QN_SK.equals(textSecretKey.getText().trim())
-                || !settings.getState().QN_BUCKET.equals(textBucket.getText().trim())
-                || !settings.getState().QN_DOMAIN.equals(textDomain.getText().trim())
-                ;
+        return settings.getState().QN_ZONE != comboZone.getSelectedIndex() || settings.getState().QN_ENABLE != chkEnable
+            .isSelected() || settings.getState().QN_TS != chkTs.isSelected() || !settings.getState().QN_AK
+            .equals(textAccessKey.getText().trim()) || !settings.getState().QN_SK.equals(textSecretKey.getText().trim())
+            || !settings.getState().QN_BUCKET.equals(textBucket.getText().trim()) || !settings.getState().QN_DOMAIN
+            .equals(textDomain.getText().trim());
     }
 
     public void reset() {

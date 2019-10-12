@@ -28,30 +28,26 @@ public class WXChatConsole extends IMChatConsole {
         this.imPanel = imPanel;
     }
 
-    @Override
-    public WechatClient getClient() {
-        return (WechatClient) super.getClient();
+    @Override public WechatClient getClient() {
+        return (WechatClient)super.getClient();
     }
 
-    @Override
-    public void loadHistory(String raw) {
+    @Override public void loadHistory(String raw) {
         if (IMUtils.isMySendMsg(raw)) {
             write(raw);
             return;
         }
         // unreachable code
-        WechatMessage m = (WechatMessage) getClient().handleMessage(raw);
+        WechatMessage m = (WechatMessage)getClient().handleMessage(raw);
         AbstractFrom from = getClient().getFrom(m);
         write(WXUtils.formatHtmlIncoming(m, from));
     }
 
-    @Override
-    protected String formatInput(String name, String input) {
+    @Override protected String formatInput(String name, String input) {
         return WXUtils.formatHtmlOutgoing(name, input, true);
     }
 
-    @Override
-    public void post(String msg) {
+    @Override public void post(String msg) {
         WechatClient client = getClient();
         if (client.isLogin() && contact != null) {
             WechatMessage m = client.createMessage(0, msg, contact);
@@ -61,18 +57,15 @@ public class WXChatConsole extends IMChatConsole {
         }
     }
 
-    @Override
-    protected boolean hyperlinkActivated(String desc) {
+    @Override protected boolean hyperlinkActivated(String desc) {
         if (desc.startsWith("weixin://")) {
-            JOptionPane.showInternalMessageDialog(null,
-                    desc + "为微信专用协议，请使用手机微信打开");
+            JOptionPane.showInternalMessageDialog(null, desc + "为微信专用协议，请使用手机微信打开");
             return false;
         }
         return super.hyperlinkActivated(desc);
     }
 
-    @Override
-    public void sendFileInternal(final String file) {
+    @Override public void sendFileInternal(final String file) {
         // error("暂不支持，敬请关注 https://github.com/Jamling/SmartIM 或
         // https://github.com/Jamling/SmartQQ4IntelliJ 最新动态");
         final File f = new File(file);
@@ -106,21 +99,17 @@ public class WXChatConsole extends IMChatConsole {
         String link = StringUtils.file2url(file);
         String label = file.replace('\\', '/');
         String input = null;
-        if (type == WechatMessage.MSGTYPE_EMOTICON
-                || type == WechatMessage.MSGTYPE_IMAGE) {
-            input = String.format("<img src=\"%s\" border=\"0\" alt=\"%s\"",
-                    link, label);
+        if (type == WechatMessage.MSGTYPE_EMOTICON || type == WechatMessage.MSGTYPE_IMAGE) {
+            input = String.format("<img src=\"%s\" border=\"0\" alt=\"%s\"", link, label);
             if (uploadInfo.CDNThumbImgWidth > 0) {
                 input += " width=\"" + uploadInfo.CDNThumbImgWidth + "\"";
             }
             if (uploadInfo.CDNThumbImgHeight > 0) {
                 input += " height=\"" + uploadInfo.CDNThumbImgHeight + "\"";
             }
-            input = String.format("<a href=\"%s\" title=\"%s\">%s</a>", link,
-                    link, input);
+            input = String.format("<a href=\"%s\" title=\"%s\">%s</a>", link, link, input);
         } else {
-            input = String.format("<a href=\"%s\" title=\"%s\">%s</a>", link,
-                    label, label);
+            input = String.format("<a href=\"%s\" title=\"%s\">%s</a>", link, label, label);
             content = client.createFileMsgContent(f, uploadInfo.MediaId);
         }
 

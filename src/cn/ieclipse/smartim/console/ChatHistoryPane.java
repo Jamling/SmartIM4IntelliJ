@@ -9,7 +9,7 @@ public class ChatHistoryPane {
     private JPanel panel;
     private JEditorPane editorPane;
 
-    public JEditorPane getEditorPane(){
+    public JEditorPane getEditorPane() {
         return editorPane;
     }
 

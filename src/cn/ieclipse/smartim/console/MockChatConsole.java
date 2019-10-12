@@ -16,30 +16,25 @@ public class MockChatConsole extends IMChatConsole {
         super(target, imPanel);
     }
 
-    @Override
-    public void loadHistory(String raw) {
+    @Override public void loadHistory(String raw) {
         if (IMUtils.isMySendMsg(raw)) {
             write(raw);
             return;
         }
     }
 
-    @Override
-    public void post(String msg) {
+    @Override public void post(String msg) {
 
     }
 
-    @Override
-    public SmartClient getClient() {
+    @Override public SmartClient getClient() {
         return null;
     }
 
-    @Override
-    public void loadHistories() {
-        List<String> ms = IMHistoryManager.getInstance().load(getHistoryDir(),
-                getHistoryFile());
+    @Override public void loadHistories() {
+        List<String> ms = IMHistoryManager.getInstance().load(getHistoryDir(), getHistoryFile());
         int size = ms.size();
-        for (int i=0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             String raw = ms.get(i);
             if (!IMUtils.isEmpty(raw)) {
                 try {
@@ -51,20 +46,17 @@ public class MockChatConsole extends IMChatConsole {
         }
     }
 
-    @Override
-    public void send(String input) {
+    @Override public void send(String input) {
         String name = "我";
         String msg = formatInput(name, input);
         System.out.println(msg);
         if (!hideMyInput()) {
             insertDocument(msg);
-            IMHistoryManager.getInstance().save(getHistoryDir(),
-                    getHistoryFile(), msg);
+            IMHistoryManager.getInstance().save(getHistoryDir(), getHistoryFile(), msg);
         }
     }
 
-    @Override
-    public void sendWithoutPost(String msg, boolean raw) {
+    @Override public void sendWithoutPost(String msg, boolean raw) {
         if (!hideMyInput()) {
             String name = "me";
             insertDocument(raw ? msg : formatInput(name, msg));

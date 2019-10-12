@@ -40,31 +40,24 @@ public class SmartSettingsPanel implements Configurable {
         scroll4.setViewportView(stylePanel.createComponent());
     }
 
-    @Nls
-    @Override
-    public String getDisplayName() {
+    @Nls @Override public String getDisplayName() {
         return "SmartIM";
     }
 
-    @Nullable
-    @Override
-    public String getHelpTopic() {
+    @Nullable @Override public String getHelpTopic() {
         return null;
     }
 
-    @Nullable
-    @Override
-    public JComponent createComponent() {
+    @Nullable @Override public JComponent createComponent() {
         return panel;
     }
 
-    @Override
-    public boolean isModified() {
-        return generalPanel.isModified() || robotPanel.isModified() || uploadPanel.isModified() || stylePanel.isModified();
+    @Override public boolean isModified() {
+        return generalPanel.isModified() || robotPanel.isModified() || uploadPanel.isModified() || stylePanel
+            .isModified();
     }
 
-    @Override
-    public void apply() throws ConfigurationException {
+    @Override public void apply() throws ConfigurationException {
         generalPanel.apply();
         robotPanel.apply();
         uploadPanel.apply();
@@ -72,16 +65,14 @@ public class SmartSettingsPanel implements Configurable {
         settings.loadState(settings.getState());
     }
 
-    @Override
-    public void reset() {
+    @Override public void reset() {
         generalPanel.reset();
         robotPanel.reset();
         uploadPanel.reset();
         stylePanel.reset();
     }
 
-    @Override
-    public void disposeUIResources() {
+    @Override public void disposeUIResources() {
 
     }
 }

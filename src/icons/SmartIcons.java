@@ -18,7 +18,6 @@ public class SmartIcons {
     public static Icon broadcast = IconLoader.getIcon("/icons/broadcast.svg");
     public static Icon settings = AllIcons.General.Settings;
 
-
     public static Icon group = IconLoader.getIcon("/icons/user-circle.svg");
     public static Icon friend = IconLoader.getIcon("/icons/user.svg");
     public static Icon discuss = IconLoader.getIcon("/icons/user-o.svg");

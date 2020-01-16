@@ -7,7 +7,7 @@
 
 ![screenshot](https://raw.githubusercontent.com/Jamling/SmartIM4IntelliJ/master/screenshot.png)
 
-IntelliJ Idea上的SmartIM插件，适用于大多数的Intellij IDE，
+IntelliJ Idea上的[SmartIM](https://github.com/Jamling/SmartIM/)插件，适用于大多数的Intellij IDE，
 
 Eclipse的插件请访问 https://github.com/Jamling/SmartIM4Eclipse/
 

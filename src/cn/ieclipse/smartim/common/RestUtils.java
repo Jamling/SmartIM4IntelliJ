@@ -15,7 +15,7 @@
  */
 package cn.ieclipse.smartim.common;
 
-import com.google.gson.Gson;
+import cn.ieclipse.util.XPathUtils;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.extensions.PluginId;
@@ -23,6 +23,8 @@ import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javax.swing.*;
 import javax.swing.text.html.StyleSheet;
@@ -36,85 +38,60 @@ import java.net.URL;
  * @date 2019年1月16日
  */
 public class RestUtils {
-    public final static String welcome_format = "http://api.ieclipse.cn/smartqq/index/welcome?p=%s&im=%s&v=%s";
-    public final static String update_url = "http://api.ieclipse.cn/smartqq/index/notice?p=intellij";
-    public final static String about_url = "http://api.ieclipse.cn/smartqq/index/about";
+    public final static String CSS_URL = "http://dl.ieclipse.cn/r/smartim.css";
+    public final static String UPDATE_URL = "https://plugins.jetbrains.com/plugins/list?pluginId=9816";
+    public final static String ABOUT_URL = "http://dl.ieclipse.cn/jws/about.html";
 
     public static String getWelcome(String im) {
-        try {
-            final IdeaPluginDescriptor descriptor =
-                PluginManager.getPlugin(PluginId.findId("cn.ieclipse.smartqq.intellij"));
-            Request.Builder builder =
-                new Request.Builder().url(String.format(welcome_format, "intellij", im, descriptor.getVersion())).get();
-            Request request = builder.build();
-            Call call = new OkHttpClient().newCall(request);
-            Response response = call.execute();
-            String json = response.body().string();
-            if (response.code() == 200) {
-                return json;
-            }
-        } catch (Exception e) {
+        if (im.equals("qq")) {
+            return "因腾讯业务调整，SmartQQ于2019年1月1日起停止服务。当前暂无替代的协议，暂无法提供脑出血，敬请谅解！";
         }
-        return null;
+
+        final IdeaPluginDescriptor descriptor =
+                PluginManager.getPlugin(PluginId.findId("cn.ieclipse.smartqq.intellij"));
+        return String.format("欢迎使用SmartIM4IntelliJ (ver:%s)，为保障安全，请不要在公开场合讨论本插件以免被封", descriptor.getVersion());
     }
 
     public static void checkUpdate() {
-        new Thread() {
-            public void run() {
-                try {
-                    Request.Builder builder = (new Request.Builder()).url(RestUtils.update_url).get();
-                    Request request = builder.build();
-                    Call call = new OkHttpClient().newCall(request);
-                    Response response = call.execute();
-                    String json = response.body().string();
-                    LOG.info(json);
-                    if (response.code() == 200) {
-                        final UpdateInfo info = new Gson().fromJson(json, UpdateInfo.class);
-                        final IdeaPluginDescriptor descriptor =
+        new Thread(() -> {
+            try {
+                okhttp3.Request.Builder builder = (new okhttp3.Request.Builder()).url(UPDATE_URL).get();
+                Request request = builder.build();
+                Call call = new OkHttpClient().newCall(request);
+                Response response = call.execute();
+                if (response.code() == 200) {
+                    Document doc = XPathUtils.parse(response.body().byteStream());
+                    Element node = XPathUtils.findElement(doc, "/plugin-repository/category/idea-plugin[1]");
+                    String latest = XPathUtils.findElement(node, "version").getTextContent();
+                    String desc = XPathUtils.findElement(node, "change-notes").getTextContent();
+                    final IdeaPluginDescriptor descriptor =
                             PluginManager.getPlugin(PluginId.findId("cn.ieclipse.smartqq.intellij"));
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override public void run() {
-                                if (descriptor != null && descriptor.getVersion().equals(info.latest)) {
-                                    JOptionPane.showMessageDialog(null, "已是最新版本");
-                                    return;
-                                }
-                                cn.ieclipse.smartim.common.Notifications.notify(info.latest, info.desc);
-                                JOptionPane.showMessageDialog(null,
-                                    "发现新版本" + info.latest + "请在File->Settings->Plugins插件页中更新SmartQQ");
-                            }
-
-                            ;
-                        });
-                    }
-                } catch (Exception ex) {
-                    LOG.error("检查SmartIM最新版本", ex);
+                    SwingUtilities.invokeLater(() -> {
+                        if (descriptor != null && descriptor.getVersion().equals(latest)) {
+                            JOptionPane.showMessageDialog(null, "已是最新版本");
+                            return;
+                        }
+                        Notifications.notify(latest, desc);
+                        JOptionPane.showMessageDialog(null,
+                                "发现新版本" + latest + "请在File->Settings->Plugins插件页中更新SmartIM");
+                    });
                 }
+            } catch (Exception ex) {
+                LOG.error("检查SmartIM最新版本", ex);
             }
-
-            ;
-        }.start();
-    }
-
-    public static class UpdateInfo {
-        public String latest;
-        public String desc;
-        public String link;
+        }).start();
     }
 
     public static void loadStyleAsync(final StyleSheet styleSheet) {
-        //        new Thread() {
-        //            @Override
-        //            public void run() {
-        //                loadStyleSync(styleSheet);
-        //            }
-        //        }.start();
+        // new Thread(() -> loadStyleSync(styleSheet)).start();
     }
 
     public static void loadStyleSync(final StyleSheet styleSheet) {
         try {
-            styleSheet.importStyleSheet(new URL("http://dl.ieclipse.cn/r/smartim.css"));
+            styleSheet.importStyleSheet(new URL(CSS_URL));
         } catch (MalformedURLException e1) {
             e1.printStackTrace();
         }
     }
+
 }

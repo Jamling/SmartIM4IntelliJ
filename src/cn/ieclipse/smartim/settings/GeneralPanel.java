@@ -37,7 +37,7 @@ public class GeneralPanel implements Configurable {
         });
         linkAbout.addMouseListener(new MouseAdapter() {
             @Override public void mouseClicked(MouseEvent e) {
-                BareBonesBrowserLaunch.openURL(RestUtils.about_url);
+                BareBonesBrowserLaunch.openURL(RestUtils.ABOUT_URL);
             }
         });
     }

@@ -1,5 +1,6 @@
 package cn.ieclipse.smartim.settings;
 
+import cn.ieclipse.common.BareBonesBrowserLaunch;
 import cn.ieclipse.smartim.common.RestUtils;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;

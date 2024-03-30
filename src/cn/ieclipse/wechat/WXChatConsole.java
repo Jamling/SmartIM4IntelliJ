@@ -5,6 +5,7 @@ import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.console.IMChatConsole;
 import cn.ieclipse.smartim.model.IContact;
 import cn.ieclipse.smartim.model.impl.AbstractFrom;
+import cn.ieclipse.util.EncodeUtils;
 import cn.ieclipse.util.FileUtils;
 import cn.ieclipse.util.StringUtils;
 import io.github.biezhi.wechat.api.WechatClient;
@@ -96,7 +97,7 @@ public class WXChatConsole extends IMChatConsole {
             error("上传失败");
             return;
         }
-        String link = StringUtils.file2url(file);
+        String link = FileUtils.toUrl(file);
         String label = file.replace('\\', '/');
         String input = null;
         if (type == WechatMessage.MSGTYPE_EMOTICON || type == WechatMessage.MSGTYPE_IMAGE) {

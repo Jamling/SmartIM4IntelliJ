@@ -16,7 +16,7 @@
 package cn.ieclipse.smartim;
 
 import cn.ieclipse.smartim.settings.SmartIMSettings;
-import cn.ieclipse.util.FileStorage;
+import cn.ieclipse.common.FileStorage;
 
 import java.io.File;
 import java.util.HashMap;

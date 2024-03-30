@@ -4,7 +4,7 @@ import cn.ieclipse.smartim.IMWindowFactory;
 import cn.ieclipse.smartim.dialogs.ReviewDialog;
 import cn.ieclipse.smartim.idea.EditorUtils;
 import cn.ieclipse.smartim.idea.VFSUtils;
-import cn.ieclipse.util.TextUtils;
+import cn.ieclipse.util.StringUtils;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Caret;
@@ -25,7 +25,7 @@ public class ReviewHandler extends EditorActionHandler {
             return;
         }
         String path = VFSUtils.getPath(vf);
-        if (!TextUtils.isEmpty(path)) {
+        if (!StringUtils.isEmpty(path)) {
             String text = editor.getSelectionModel().getSelectedText();
             int line = EditorUtils.getEditorLine(editor);
             ReviewDialog dialog = new ReviewDialog();

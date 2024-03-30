@@ -17,9 +17,13 @@ package cn.ieclipse.smartim;
 
 import cn.ieclipse.smartim.callback.ModificationCallback;
 import cn.ieclipse.smartim.callback.ReceiveCallback;
+import cn.ieclipse.smartim.callback.RobotCallback;
+import cn.ieclipse.smartim.robot.IRobot;
+import cn.ieclipse.smartim.robot.RobotFactory;
 import cn.ieclipse.smartim.robot.TuringRobot;
 import cn.ieclipse.smartim.settings.SmartIMSettings;
 import cn.ieclipse.util.EncodeUtils;
+import cn.ieclipse.util.EncryptUtils;
 
 /**
  * 类/接口描述
@@ -27,26 +31,59 @@ import cn.ieclipse.util.EncodeUtils;
  * @author Jamling
  * @date 2017年10月16日
  */
-public abstract class IMRobotCallback implements ReceiveCallback, ModificationCallback {
+public abstract class IMRobotCallback implements RobotCallback, ModificationCallback {
     public static final String SEP = " ";
-    protected TuringRobot turingRobot = new TuringRobot("Turing", 0, null);
-
-    public static boolean isEnable() {
+    @Override
+    public boolean isEnable() {
         return SmartIMSettings.getInstance().getState().ROBOT_ENABLE;
     }
 
-    public static String getRobotName() {
+    @Override
+    public String getRobotName() {
         return SmartIMSettings.getInstance().getState().ROBOT_NAME;
     }
 
-    /**
-     * 对userId或groupId进行加密
-     *
-     * @param id userId
-     * @return 加密后的md5字串
-     */
-    public static String encodeUid(String id) {
-        return EncodeUtils.getMd5(id);
+    @Override
+    public boolean isReplyAnyGroupMember() {
+        return SmartIMSettings.getInstance().getState().ROBOT_GROUP_ANY;
+    }
+
+    @Override
+    public boolean isReplyFriend() {
+        return SmartIMSettings.getInstance().getState().ROBOT_FRIEND_ANY;
+    }
+
+    @Override
+    public String emptyReply() {
+        return SmartIMSettings.getInstance().getState().ROBOT_REPLY_EMPTY;
+    }
+
+    @Override
+    public String getGroupWelcome() {
+        return SmartIMSettings.getInstance().getState().ROBOT_GROUP_WELCOME;
+    }
+
+    @Override
+    public IRobot getRobot() {
+        return RobotFactory.getInstance().getRobot();
+    }
+
+    public void initRobot() {
+        if (!isEnable()) {
+            return;
+        }
+
+        int type = SmartIMSettings.getInstance().getState().ROBOT_TYPE;
+        String key;
+        String extra;
+        if (type == RobotFactory.ROBOT_OPENAI) {
+            key = SmartIMSettings.getInstance().getState().ROBOT_OPENAI_KEY;
+            extra = SmartIMSettings.getInstance().getState().ROBOT_OPENAI_EXTRA;
+        } else {
+            key = SmartIMSettings.getInstance().getState().ROBOT_KEY;
+            extra = SmartIMSettings.getInstance().getState().ROBOT_KEY;
+        }
+        RobotFactory.getInstance().changeSettings(type, key, extra);
     }
 
     public static String getTuringApiKey() {

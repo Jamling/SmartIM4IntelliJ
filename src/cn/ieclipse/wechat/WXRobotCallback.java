@@ -7,13 +7,9 @@ import cn.ieclipse.smartim.common.LOG;
 import cn.ieclipse.smartim.model.IContact;
 import cn.ieclipse.smartim.model.impl.AbstractFrom;
 import cn.ieclipse.smartim.model.impl.AbstractMessage;
-import cn.ieclipse.smartim.robot.TuringRobot.TuringRequestV2Builder;
-import cn.ieclipse.smartim.settings.SmartIMSettings;
 import cn.ieclipse.util.StringUtils;
 import io.github.biezhi.wechat.api.WechatClient;
 import io.github.biezhi.wechat.model.*;
-
-import java.util.Map;
 
 public class WXRobotCallback extends IMRobotCallback {
 
@@ -23,6 +19,7 @@ public class WXRobotCallback extends IMRobotCallback {
 
     public WXRobotCallback(WechatPanel fContactView) {
         this.fContactView = fContactView;
+        initRobot();
     }
 
     @Override public void onReceiveMessage(AbstractMessage message, AbstractFrom from) {
@@ -52,7 +49,7 @@ public class WXRobotCallback extends IMRobotCallback {
                         n = WXUtils.getPureName(n);
                         GroupFrom gf = (GroupFrom)from;
                         String robotName = getRobotName();
-                        String welcome = SmartIMSettings.getInstance().getState().ROBOT_GROUP_WELCOME;
+                        String welcome = getGroupWelcome();
                         if (welcome != null && !welcome.isEmpty() && gf != null) {
                             String input = welcome;
                             input = input.replace("{memo}", "");
@@ -85,7 +82,7 @@ public class WXRobotCallback extends IMRobotCallback {
         String robotName = getRobotName();
         // auto reply friend
         if (from instanceof UserFrom) {
-            if (SmartIMSettings.getInstance().getState().ROBOT_FRIEND_ANY) {
+            if (isReplyFriend()) {
                 Contact contact = (Contact)from.getContact();
                 if (contact.isSpecial() || contact.is3rdApp()) {
                     return;
@@ -100,7 +97,7 @@ public class WXRobotCallback extends IMRobotCallback {
             GroupFrom gf = (GroupFrom)from;
             // newbie
             if (from.isNewbie()) {
-                String welcome = SmartIMSettings.getInstance().getState().ROBOT_GROUP_WELCOME;
+                String welcome = getGroupWelcome();
                 if (welcome != null && !welcome.isEmpty() && gf != null) {
                     String input = welcome;
                     if (gf.getMember() != null) {
@@ -124,7 +121,7 @@ public class WXRobotCallback extends IMRobotCallback {
                 return;
             } // end @
             // replay any
-            if (SmartIMSettings.getInstance().getState().ROBOT_GROUP_ANY) {
+            if (isReplyAnyGroupMember()) {
                 if (from.isNewbie() || isMySend(m.FromUserName)) {
                     return;
                 }
@@ -132,12 +129,8 @@ public class WXRobotCallback extends IMRobotCallback {
                     return;
                 }
 
-                if (from instanceof UserFrom) {
+                if (gf.getMember().isUnknown()) {
                     return;
-                } else if (from instanceof GroupFrom) {
-                    if (((GroupFrom)from).getMember().isUnknown()) {
-                        return;
-                    }
                 }
 
                 String reply = getReply(text, gf.getMember(), gf.getName());
@@ -161,36 +154,18 @@ public class WXRobotCallback extends IMRobotCallback {
         return name;
     }
 
-    private Map<String, Object> getParams(String text, Contact contact, String groupId) {
-        String key = getTuringApiKey();
-        if (StringUtils.isEmpty(key)) {
-            return null;
-        }
-        TuringRequestV2Builder builder = new TuringRequestV2Builder(key);
-        builder.setText(text);
-        String uid = encodeUid(contact.getName());
-        String uname = contact.getName();
-        String gid = groupId == null ? null : encodeUid(groupId);
-        builder.setUserInfo(uid, uname, gid);
-        builder.setLocation(contact.City, contact.Province, null);
-        return builder.build();
-    }
-
     private String getReply(String text, Contact contact, String groupId) {
         if (StringUtils.isEmpty(text)) {
-            String reply = SmartIMSettings.getInstance().getState().ROBOT_REPLY_EMPTY;
+            String reply = emptyReply();
             if (!StringUtils.isEmpty(reply)) {
                 return reply;
             }
             return null;
         }
-        Map<String, Object> params = getParams(text, contact, groupId);
-        if (params != null) {
-            try {
-                return turingRobot.getRobotAnswer(text, params);
-            } catch (Exception e) {
-                LOG.error("机器人回复失败", e);
-            }
+        try {
+            return getRobot().getRobotAnswer(text, contact, groupId);
+        } catch (Exception e) {
+            LOG.error("机器人回复失败", e);
         }
         return null;
     }

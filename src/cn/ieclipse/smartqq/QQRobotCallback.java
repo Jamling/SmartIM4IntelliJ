@@ -167,13 +167,10 @@ public class QQRobotCallback extends IMRobotCallback {
             }
             return null;
         }
-        Map<String, Object> params = getParams(text, contact, groupId);
-        if (params != null) {
-            try {
-                return turingRobot.getRobotAnswer(text, params);
-            } catch (Exception e) {
-                LOG.error("机器人回复失败", e);
-            }
+        try {
+            return getRobot().getRobotAnswer(text, contact, groupId);
+        } catch (Exception e) {
+            LOG.error("机器人回复失败", e);
         }
         return null;
     }

@@ -1,4 +1,4 @@
-<idea-plugin version="2">
+<idea-plugin url="https://plugins.jetbrains.com/plugin/9816-smartim">
     <id>cn.ieclipse.smartqq.intellij</id>
     <name>SmartIM</name>
     <version>2.7.2</version>

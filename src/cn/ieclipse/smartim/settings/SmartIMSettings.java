@@ -24,22 +24,18 @@ import org.jetbrains.annotations.Nullable;
         this.myState = state;
     }
 
-    //    public static SmartIMSettings getInstance(Project project) {
-    //        instance = ServiceManager.getService(project, SmartIMSettings.class);
-    //        return instance;
-    //    }
-
     public static SmartIMSettings getInstance() {
         if (instance == null) {
-            instance = ServiceManager.getService(SmartIMSettings.class);
-            if (instance == null) {
-                instance = new SmartIMSettings();
+            synchronized (SmartIMSettings.class) {
+                if (instance == null) {
+                    instance = ServiceManager.getService(SmartIMSettings.class);
+                }
             }
         }
         return instance;
     }
 
-    private static SmartIMSettings instance;
+    private static volatile SmartIMSettings instance;
 
     public static final String MSG_CSS_DFT =
         "/*仅支持css 1.0规范*/\n" + "/*主属性*/\n" + "body {\n" + "    font-size: 14px; /*文字大小*/\n" + "    text-align: left;\n"
@@ -67,6 +63,8 @@ import org.jetbrains.annotations.Nullable;
         public String ROBOT_NAME = "";
         public int ROBOT_TYPE = 0;
         public String ROBOT_KEY = "";
+        public String ROBOT_OPENAI_KEY = "";
+        public String ROBOT_OPENAI_EXTRA = "{\n\t\"model\":\"text-davinci-03\"}";
         public String ROBOT_GROUP_WELCOME = "欢迎{user} {memo}";
         public boolean ROBOT_GROUP_ANY = false;
         public boolean ROBOT_FRIEND_ANY = false;

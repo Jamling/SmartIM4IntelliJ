@@ -38,7 +38,7 @@ public final class VFSUtils {
                 continue;
             if (document != null) {
                 PsiFile psiFile = PsiDocumentManager.getInstance(openProject).getPsiFile(document);
-                result = PsiFileTypeFactory.create(psiFile).getQualifiedName(psiFile);
+                // result = PsiFileTypeFactory.create(psiFile).getQualifiedName(psiFile);
             }
             ProjectFileIndex projectFileIndex = ProjectRootManager.getInstance(openProject).getFileIndex();
             if (projectFileIndex.isInSource(file)) {

@@ -18,6 +18,7 @@ package cn.ieclipse.wechat;
 import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.model.IContact;
 import cn.ieclipse.smartim.model.impl.AbstractFrom;
+import cn.ieclipse.util.EncodeUtils;
 import cn.ieclipse.util.StringUtils;
 import io.github.biezhi.wechat.model.Contact;
 import io.github.biezhi.wechat.model.UserFrom;
@@ -53,7 +54,7 @@ public class WXUtils {
     }
 
     public static String decodeEmoji(String src) {
-        String regex = StringUtils.encodeXml("<span class=\"emoji[\\w\\s]*\"></span>");
+        String regex = EncodeUtils.encodeXml("<span class=\"emoji[\\w\\s]*\"></span>");
         Pattern p = Pattern.compile(regex, Pattern.MULTILINE);
         Matcher m = p.matcher(src);
 
@@ -76,7 +77,7 @@ public class WXUtils {
                 int pos = offset + s;
                 sb.delete(pos, offset + e);
                 String ng = g;
-                ng = StringUtils.decodeXml(g);
+                ng = EncodeUtils.decodeXml(g);
                 sb.insert(pos, ng);
                 offset += ng.length() - g.length();
             }
@@ -115,7 +116,7 @@ public class WXUtils {
     public static String formatHtmlOutgoing(String name, String msg, boolean encode) {
         String content = msg;
         if (encode) {
-            content = StringUtils.encodeXml(msg);
+            content = EncodeUtils.encodeXml(msg);
             content = content.replaceAll(" ", "&nbsp;");
             content = IMUtils.autoLink(content);
             content = content.replaceAll("\r?\n", "<br/>");

@@ -15,8 +15,9 @@
  */
 package cn.ieclipse.smartim.common;
 
+import cn.ieclipse.util.EncodeUtils;
 import cn.ieclipse.util.FileUtils;
-import cn.ieclipse.util.Patterns;
+import cn.ieclipse.common.Patterns;
 import cn.ieclipse.util.StringUtils;
 
 import java.io.File;
@@ -69,7 +70,7 @@ public class IMUtils {
         if (StringUtils.isEmpty(msg)) {
             return "";
         } else {
-            return StringUtils.encodeXml(msg);
+            return EncodeUtils.encodeXml(msg);
         }
     }
 
@@ -120,7 +121,7 @@ public class IMUtils {
             sb.delete(s, e);
             String url = String.format("<a href=\"code://%s\">%s</a>", linkText, linkText);
             sb.insert(s, url);
-            String reviews = StringUtils.encodeXml(input.substring(m.end()));
+            String reviews = EncodeUtils.encodeXml(input.substring(m.end()));
             sb.append(reviews);
             return sb.toString();
         }

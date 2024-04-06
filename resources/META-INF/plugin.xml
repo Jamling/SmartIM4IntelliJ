@@ -1,19 +1,18 @@
 <idea-plugin url="https://plugins.jetbrains.com/plugin/9816-smartim">
     <id>cn.ieclipse.smartqq.intellij</id>
     <name>SmartIM</name>
-    <version>2.7.2</version>
+    <version>3.0.0</version>
     <vendor email="li.jamling@gmail.com" url="https://github.com/Jamling/SmartIM4Intellij">Jamling</vendor>
 
     <description><![CDATA[
      An anti-boss plugin for you to chat with your QQ/Wechat friends privately.<br/>
-     一个防Boss的QQ/微信聊天插件，让老板以为你是在写代码，其实，你是在聊天，不过，作为程序猿，怎么可能有时间聊天，哈哈。<br/>
+     上班聊天的摸鱼神器，直接在IDE中与微信好友沟通，老板以为你是在写代码？No！No！No！其实，你是在聊天，不过，作为程序猿，怎么可能有时间聊天，哈哈，如果此插件帮助了你，是否可以请我喝杯咖啡？<br/>
      about more: <a href="https://github.com/Jamling/SmartIM4Intellij/">https://github.com/Jamling/SmartIM4Intellij/</a>
     ]]></description>
 
     <change-notes><![CDATA[
-    v2.7.2 2019-08-15 <br/>
-    Fix NumberFormatException when login wechat <br/>
-    Fix bugs for non-java ide
+    v3.0.0 2024-04-05 <br/>
+    微信使用PC版协议，解决大部分账号限制登录的问题 <br/>
     ]]>
     </change-notes>
 
@@ -23,9 +22,6 @@
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to contact different products -->
     <!-- uncomment to enable plugin in all products -->
-    <depends optional="true" config-file="my-java-features.xml">
-        com.intellij.modules.java
-    </depends>
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
@@ -33,9 +29,9 @@
         <toolWindow canCloseContents="true" anchor="bottom"
                     id="SmartIM"
                     factoryClass="cn.ieclipse.smartim.IMWindowFactory"
-                    icon="/icons/im.png">
+                    icon="/icons/im.svg">
         </toolWindow>
-        <applicationConfigurable instance="cn.ieclipse.smartim.settings.SmartSettingsPanel"/>
+        <applicationConfigurable instance="cn.ieclipse.smartim.settings.SmartSettingsPanel" displayName="SmartIM"/>
         <applicationService serviceImplementation="cn.ieclipse.smartim.settings.SmartIMSettings"/>
     </extensions>
     <actions>

@@ -6,11 +6,11 @@
  */
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '1.17.2'
+    id 'org.jetbrains.intellij' version '0.4.21'
 }
 
 group 'cn.ieclipse.smartim'
-version '3.0.0.141'
+version '3.0.0'
 
 repositories {
     mavenCentral()
@@ -29,22 +29,27 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.14.4'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.14.4'
     implementation 'com.google.code.gson:gson:2.9.1'
-    implementation 'com.github.jamling:JavaUtils:933b1c6551'
-    implementation 'dom4j:dom4j:1.6.1'
+    implementation 'com.github.jamling.JavaUtils:core:933b1c6551'
+    implementation('dom4j:dom4j:1.6.1') {
+        exclude group: 'xml-apis'
+    }
     testImplementation 'junit:junit:4.13.1'
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version = 'IU-2023.3.6'
-}/*
+    version = 'IU-2019.1.4'
+}
 patchPluginXml {
     sinceBuild = '141'
     untilBuild = '241.*'
-}*/
+}
+publishPlugin {
+    token = System.getProperty("intellijPublishToken")
+}
 tasks.withType(JavaCompile) {
-    sourceCompatibility = "17"
-    targetCompatibility = "17"
+    sourceCompatibility = "8"
+    targetCompatibility = "8"
     options.encoding = 'UTF-8'
     options.compilerArgs += ['-Xlint:unchecked', '-Xlint:deprecation', '-parameters']
 }

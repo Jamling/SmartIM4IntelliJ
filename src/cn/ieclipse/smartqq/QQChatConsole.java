@@ -87,7 +87,7 @@ public class QQChatConsole extends IMChatConsole {
             ak = "";
             sk = "";
         }
-        QNUploader.UploadInfo info = uploader.upload(qq, f, ak, sk, bucket, null);
+        QNUploader.UploadInfo info = uploader.upload(qq, f, ak, sk, bucket);
         String url = info.getUrl(domain, ts);
 
         final String msg = String

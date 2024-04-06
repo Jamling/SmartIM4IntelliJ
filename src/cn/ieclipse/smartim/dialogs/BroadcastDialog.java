@@ -4,6 +4,9 @@ import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.views.CheckBoxTreeCellRenderer;
 import cn.ieclipse.smartim.views.CheckBoxTreeNodeSelectionListener;
 import cn.ieclipse.smartim.views.IMPanel;
+import com.intellij.ui.components.JBScrollPane;
+import com.intellij.ui.components.JBTabbedPane;
+import com.intellij.util.ui.JBUI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -41,18 +44,18 @@ public class BroadcastDialog extends JDialog implements ActionListener {
         setLocationRelativeTo(null);
         setSize(400, 300);
         getContentPane().setLayout(new BorderLayout());
-        contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPanel.setBorder(JBUI.Borders.empty(5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
         contentPanel.setLayout(new BorderLayout(0, 0));
         {
             text = new JTextArea();
             text.setRows(4);
             text.setLineWrap(true);
-            JScrollPane scrollPane = new JScrollPane(text);
+            JScrollPane scrollPane = new JBScrollPane(text);
             contentPanel.add(scrollPane, BorderLayout.NORTH);
         }
         {
-            tabHost = new JTabbedPane(JTabbedPane.TOP);
+            tabHost = new JBTabbedPane(JBTabbedPane.TOP);
             contentPanel.add(tabHost, BorderLayout.CENTER);
         }
         {

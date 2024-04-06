@@ -32,8 +32,8 @@ public class WXBroadcastDialog extends BroadcastDialog {
     @Override protected void initTab(JTabbedPane host) {
         // recentTree = new JTree();
         friendTree = new Tree();
-        groupTree = new JTree();
-        discussTree = new JTree();
+        groupTree = new Tree();
+        discussTree = new Tree();
 
         // JScrollPane scrollPane1 = new JScrollPane(recentTree);
         // tabHost.addTab("最近", null, scrollPane1, null);
@@ -73,7 +73,7 @@ public class WXBroadcastDialog extends BroadcastDialog {
         int ret = 0;
         if (targets != null) {
             for (Object obj : targets) {
-                if (obj != null && obj instanceof Contact) {
+                if (obj instanceof Contact) {
                     Contact target = (Contact)obj;
                     try {
                         IMessage m = createMessage(text, target, client);

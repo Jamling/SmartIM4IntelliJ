@@ -2,14 +2,13 @@ package cn.ieclipse.smartim;
 
 import cn.ieclipse.smartim.callback.ReceiveCallback;
 import cn.ieclipse.smartim.common.LOG;
-import cn.ieclipse.smartim.common.Notifications;
+import cn.ieclipse.smartim.common.BalloonNotifier;
 import cn.ieclipse.smartim.console.IMChatConsole;
 import cn.ieclipse.smartim.model.impl.AbstractContact;
 import cn.ieclipse.smartim.model.impl.AbstractFrom;
 import cn.ieclipse.smartim.model.impl.AbstractMessage;
 import cn.ieclipse.smartim.settings.SmartIMSettings;
 import cn.ieclipse.smartim.views.IMPanel;
-import cn.ieclipse.util.EncodeUtils;
 import cn.ieclipse.util.EncryptUtils;
 
 public abstract class IMReceiveCallback implements ReceiveCallback {
@@ -43,7 +42,7 @@ public abstract class IMReceiveCallback implements ReceiveCallback {
                 // don't notify
             } else {
                 CharSequence content = getNotifyContent(message, from);
-                Notifications.notify(fContactView, contact, contact.getName(), content);
+                BalloonNotifier.notify(fContactView, contact, contact.getName(), content);
             }
         }
 

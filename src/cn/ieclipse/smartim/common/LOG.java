@@ -1,8 +1,5 @@
 package cn.ieclipse.smartim.common;
 
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
@@ -11,7 +8,7 @@ import org.apache.log4j.Priority;
  * Created by Jamling on 2017/7/13.
  */
 public class LOG {
-    public static Logger LOG = Logger.getLogger("SmartQQ");
+    public static Logger LOG = Logger.getLogger("SmartIM");
 
     public static void trace(Object message) {
         LOG.trace(message);
@@ -90,7 +87,6 @@ public class LOG {
     }
 
     public static void sendNotification(String title, String content) {
-        Notification n = new Notification("SmartIM", title, content, NotificationType.WARNING);
-        Notifications.Bus.notify(n);
+        BalloonNotifier.notify(title, content);
     }
 }

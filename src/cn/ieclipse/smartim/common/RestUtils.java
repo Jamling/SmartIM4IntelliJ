@@ -71,7 +71,7 @@ public class RestUtils {
                             JOptionPane.showMessageDialog(null, "已是最新版本");
                             return;
                         }
-                        Notifications.notify(latest, desc);
+                        BalloonNotifier.notify(latest, desc);
                         JOptionPane.showMessageDialog(null,
                                 "发现新版本" + latest + "请在File->Settings->Plugins插件页中更新SmartIM");
                     });

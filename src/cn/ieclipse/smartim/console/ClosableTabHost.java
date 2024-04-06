@@ -1,8 +1,10 @@
 package cn.ieclipse.smartim.console;
 
+import com.intellij.ui.JBColor;
 import com.intellij.ui.TabbedPaneImpl;
 import com.intellij.ui.components.JBLabelDecorator;
 import com.intellij.ui.components.JBPanel;
+import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +21,7 @@ import java.awt.event.ActionListener;
  * Created by Jamling on 2017/7/3.
  */
 public class ClosableTabHost extends TabbedPaneImpl implements ChangeListener {
-    private Insets insets = new Insets(0, 0, 0, 0);
+    private final Insets insets = JBUI.emptyInsets();
     private Callback callback;
 
     public ClosableTabHost() {
@@ -57,13 +59,13 @@ public class ClosableTabHost extends TabbedPaneImpl implements ChangeListener {
     }
 
     public Component createTab(String text) {
-        JPanel panel = new JBPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JPanel panel = new JBPanel<>(new FlowLayout(FlowLayout.LEFT, 0, 0));
         JLabel label = JBLabelDecorator.createJBLabelDecorator(text);
         label.setOpaque(false);
         panel.add(label);
         TabButton btn = new TabButton();
         panel.add(btn);
-        panel.setBackground(Color.black);
+        panel.setBackground(JBColor.BLACK);
         panel.setOpaque(false);
         UIUtil.setNotOpaqueRecursively(panel);
         return panel;
@@ -73,17 +75,13 @@ public class ClosableTabHost extends TabbedPaneImpl implements ChangeListener {
         if (index >= 0 && index < getTabCount() && index != getSelectedIndex()) {
             Component tab = getTabComponentAt(index);
             if (tab != null) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override public void run() {
-                        setBackgroundAt(index, UIManager.getColor("TabbedPane.selected"));
-                    }
-                });
+                SwingUtilities.invokeLater(() -> setBackgroundAt(index, UIManager.getColor("TabbedPane.selected")));
                 new BlingTimer(tab, name).start();
             }
         }
     }
 
-    private class BlingTimer extends Timer implements ActionListener {
+    private static class BlingTimer extends Timer implements ActionListener {
         Component component;
         JLabel label;
         String src;
@@ -170,9 +168,9 @@ public class ClosableTabHost extends TabbedPaneImpl implements ChangeListener {
                 g2.translate(1, 1);
             }
             g2.setStroke(new BasicStroke(2));
-            g2.setColor(Color.GRAY);
+            g2.setColor(JBColor.GRAY);
             if (getModel().isRollover()) {
-                g2.setColor(Color.LIGHT_GRAY);
+                g2.setColor(JBColor.LIGHT_GRAY);
             }
             int delta = 5;
             g2.drawLine(delta, delta, getWidth() - delta, getHeight() - delta);

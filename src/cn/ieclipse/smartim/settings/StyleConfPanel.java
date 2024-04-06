@@ -1,7 +1,9 @@
 package cn.ieclipse.smartim.settings;
 
-import cn.ieclipse.smartim.common.Notifications;
+import cn.ieclipse.smartim.common.BalloonNotifier;
 import cn.ieclipse.util.IOUtils;
+import com.intellij.ui.JBColor;
+import com.intellij.util.ui.JBUI;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -28,10 +30,10 @@ public class StyleConfPanel {
     public StyleConfPanel(SmartIMSettings settings) {
         this.settings = settings;
         doc = textPane.getStyledDocument();
-        StyleConstants.setForeground(commentAttr, Color.GRAY);
+        StyleConstants.setForeground(commentAttr, JBColor.GRAY);
 
-        StyleConstants.setForeground(labelAttr, Color.RED);
-        StyleConstants.setForeground(valueAttr, Color.BLUE);
+        StyleConstants.setForeground(labelAttr, JBColor.RED);
+        StyleConstants.setForeground(valueAttr, JBColor.BLUE);
 
         StyleContext sc = StyleContext.getDefaultStyleContext();
         Style style = sc.getStyle(StyleContext.DEFAULT_STYLE);
@@ -61,7 +63,7 @@ public class StyleConfPanel {
         btnRestore.addActionListener(e -> {
             update(true);
         });
-        textPane.setMargin(new Insets(5, 5, 5, 5));
+        textPane.setMargin(JBUI.insets(5));
     }
 
     public StyleConfPanel() {
@@ -146,7 +148,7 @@ public class StyleConfPanel {
             saveFile();
         } catch (Exception e) {
             e.printStackTrace();
-            Notifications.notify("保存样式失败", "错误原因：" + e.getMessage());
+            BalloonNotifier.notify("保存样式失败", "错误原因：" + e.getMessage());
         }
     }
 
@@ -173,7 +175,7 @@ public class StyleConfPanel {
         byte[] b = content.getBytes();
         raf.write(b);
         raf.close();
-        Notifications.notify("样式保存成功", "目标位置：" + file.getCanonicalPath());
+        BalloonNotifier.notify("样式保存成功", "目标位置：" + file.getCanonicalPath());
     }
 
     public void apply() {

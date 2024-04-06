@@ -1,6 +1,7 @@
 package cn.ieclipse.smartim.settings;
 
 import com.intellij.openapi.ui.ComboBox;
+import com.intellij.util.ui.JBUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +9,7 @@ import java.awt.*;
 public class UploadPanel extends JPanel {
 
     private JCheckBox chkEnable;
-    private JComboBox comboZone;
+    private JComboBox<String> comboZone;
     private JTextField textAccessKey;
     private JTextField textSecretKey;
     private JTextField textBucket;
@@ -41,7 +42,7 @@ public class UploadPanel extends JPanel {
         lblNewLabel.setEditable(false);
         GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
         gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
-        gbc_lblNewLabel.insets = new Insets(5, 5, 5, 0);
+        gbc_lblNewLabel.insets = JBUI.insets(5, 5, 5, 0);
         gbc_lblNewLabel.gridwidth = 2;
         gbc_lblNewLabel.gridx = 0;
         gbc_lblNewLabel.gridy = 0;
@@ -50,7 +51,7 @@ public class UploadPanel extends JPanel {
         chkEnable = new JCheckBox("启用七牛云存储");
         GridBagConstraints gbc_chkEnable = new GridBagConstraints();
         gbc_chkEnable.anchor = GridBagConstraints.WEST;
-        gbc_chkEnable.insets = new Insets(0, 0, 5, 0);
+        gbc_chkEnable.insets = JBUI.insetsBottom(5);
         gbc_chkEnable.gridwidth = 2;
         gbc_chkEnable.gridx = 0;
         gbc_chkEnable.gridy = 1;
@@ -59,15 +60,15 @@ public class UploadPanel extends JPanel {
         JLabel lblNewLabel_1 = new JLabel("机房");
         GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
         gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
-        gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+        gbc_lblNewLabel_1.insets = JBUI.insets(0, 0, 5, 5);
         gbc_lblNewLabel_1.gridx = 0;
         gbc_lblNewLabel_1.gridy = 2;
         add(lblNewLabel_1, gbc_lblNewLabel_1);
 
-        comboZone = new ComboBox(ZONE_LABEL);
+        comboZone = new ComboBox<>(ZONE_LABEL);
         comboZone.setEnabled(false);
         GridBagConstraints gbc_comboZone = new GridBagConstraints();
-        gbc_comboZone.insets = new Insets(0, 0, 5, 0);
+        gbc_comboZone.insets = JBUI.insetsBottom(5);
         gbc_comboZone.fill = GridBagConstraints.HORIZONTAL;
         gbc_comboZone.gridx = 1;
         gbc_comboZone.gridy = 2;
@@ -76,14 +77,14 @@ public class UploadPanel extends JPanel {
         JLabel lblNewLabel_2 = new JLabel("AccessKey*");
         GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
         gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
-        gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+        gbc_lblNewLabel_2.insets = JBUI.insets(0, 0, 5, 5);
         gbc_lblNewLabel_2.gridx = 0;
         gbc_lblNewLabel_2.gridy = 3;
         add(lblNewLabel_2, gbc_lblNewLabel_2);
 
         textAccessKey = new JTextField();
         GridBagConstraints gbc_textAccessKey = new GridBagConstraints();
-        gbc_textAccessKey.insets = new Insets(0, 0, 5, 0);
+        gbc_textAccessKey.insets = JBUI.insetsBottom(5);
         gbc_textAccessKey.fill = GridBagConstraints.HORIZONTAL;
         gbc_textAccessKey.gridx = 1;
         gbc_textAccessKey.gridy = 3;
@@ -93,14 +94,14 @@ public class UploadPanel extends JPanel {
         JLabel lblNewLabel_3 = new JLabel("SecretKey*");
         GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
         gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
-        gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
+        gbc_lblNewLabel_3.insets = JBUI.insets(0, 0, 5, 5);
         gbc_lblNewLabel_3.gridx = 0;
         gbc_lblNewLabel_3.gridy = 4;
         add(lblNewLabel_3, gbc_lblNewLabel_3);
 
         textSecretKey = new JTextField();
         GridBagConstraints gbc_textSecretKey = new GridBagConstraints();
-        gbc_textSecretKey.insets = new Insets(0, 0, 5, 0);
+        gbc_textSecretKey.insets = JBUI.insetsBottom(5);
         gbc_textSecretKey.fill = GridBagConstraints.HORIZONTAL;
         gbc_textSecretKey.gridx = 1;
         gbc_textSecretKey.gridy = 4;
@@ -110,14 +111,14 @@ public class UploadPanel extends JPanel {
         JLabel lblNewLabel_4 = new JLabel("存储空间");
         GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
         gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
-        gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 5);
+        gbc_lblNewLabel_4.insets = JBUI.insets(0, 0, 5, 5);
         gbc_lblNewLabel_4.gridx = 0;
         gbc_lblNewLabel_4.gridy = 5;
         add(lblNewLabel_4, gbc_lblNewLabel_4);
 
         textBucket = new JTextField();
         GridBagConstraints gbc_textZone = new GridBagConstraints();
-        gbc_textZone.insets = new Insets(0, 0, 5, 0);
+        gbc_textZone.insets = JBUI.insetsBottom(5);
         gbc_textZone.fill = GridBagConstraints.HORIZONTAL;
         gbc_textZone.gridx = 1;
         gbc_textZone.gridy = 5;
@@ -127,14 +128,14 @@ public class UploadPanel extends JPanel {
         JLabel lblNewLabel_5 = new JLabel("空间域名");
         GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
         gbc_lblNewLabel_5.anchor = GridBagConstraints.EAST;
-        gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 5);
+        gbc_lblNewLabel_5.insets = JBUI.insets(0, 0, 5, 5);
         gbc_lblNewLabel_5.gridx = 0;
         gbc_lblNewLabel_5.gridy = 6;
         add(lblNewLabel_5, gbc_lblNewLabel_5);
 
         textDomain = new JTextField();
         GridBagConstraints gbc_textDomain = new GridBagConstraints();
-        gbc_textDomain.insets = new Insets(0, 0, 5, 0);
+        gbc_textDomain.insets = JBUI.insetsBottom(5);
         gbc_textDomain.fill = GridBagConstraints.HORIZONTAL;
         gbc_textDomain.gridx = 1;
         gbc_textDomain.gridy = 6;

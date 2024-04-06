@@ -18,7 +18,7 @@ package cn.ieclipse.smartim;
 import cn.ieclipse.smartim.callback.SendCallback;
 import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.common.LOG;
-import cn.ieclipse.smartim.common.Notifications;
+import cn.ieclipse.smartim.common.BalloonNotifier;
 import cn.ieclipse.smartim.console.IMChatConsole;
 import cn.ieclipse.smartim.exception.HttpException;
 import cn.ieclipse.smartim.exception.LogicException;
@@ -66,7 +66,7 @@ public class IMSendCallback implements SendCallback {
             console.error(String.format("%s 发送失败！%s", msg, code));
         } else {
             LOG.error(String.format("发送到%s的信息（%s）", targetId, msg), t);
-            Notifications.notify("发送失败", String.format("%s 发送失败！%s", s, code));
+            BalloonNotifier.notify("发送失败", String.format("%s 发送失败！%s", s, code));
         }
     }
 

@@ -7,13 +7,11 @@
 
 ![screenshot](https://raw.githubusercontent.com/Jamling/SmartIM4IntelliJ/master/screenshot.png)
 
-IntelliJ Idea上的[SmartIM](https://github.com/Jamling/SmartIM/)插件，适用于大多数的Intellij IDE，
+IntelliJ IDEA上的[SmartIM](https://github.com/Jamling/SmartIM/)插件，适用于大多数的Intellij IDE，
 
-Eclipse的插件请访问 https://github.com/Jamling/SmartIM4Eclipse/
+Eclipse IDE插件请访问 https://github.com/Jamling/SmartIM4Eclipse/
 
 ## 功能
-
-**注：IntelliJ插件版本功能没有Eclipse插件版本功能多**
 
 - [x] 收发文本消息
 - [x] 收发图片
@@ -27,13 +25,10 @@ Eclipse的插件请访问 https://github.com/Jamling/SmartIM4Eclipse/
 
 **微信**
 
-微信需加JVM运行参数
-
-找到你的IDE所在的安装目录下的bin文件夹，打开，找到你的exe运行参数文件，如(idea64.exe.vmoptions，studio64.exe.vmoptions）使用文件编辑器打开此文件，在最后一行添加`-Djsse.enableSNIExtension=false`保存后重启IDE即可。
-
-也可以通过exe快捷方式添加参数，如快捷方式目标指向：`E:\Android\eclipse\eclipse.exe -nl=en -Djsse.enableSNIExtension=false`，注意这种方式要求exe所在的路径不能带空格。
+已切换为PC版协议
 
 ## 更新日志
+- v3.0.0 2024-04-06，微信切换为PC协议，解决饱受诟病的账号限制登录问题
 - v2.7.2 2019-08-15，修复微信登录时的NumberFormatException
 - v2.7.0 2019-04-25，添加自定义聊天消息样式，添加dark主题下的相关图标
 - v2.6.1 2019-03-02, 修复代码评审xml被过滤和选择对象错误的issue 优化微信联系人，不显示emoji
@@ -54,7 +49,7 @@ Eclipse的插件请访问 https://github.com/Jamling/SmartIM4Eclipse/
 
 ## 使用
 
-- 安装成功后，会在底部栏出现一个SmartIM的tab（如果没有底部栏，则在菜单View中把ToolButtons勾选上）
+- View -> ToolWindows 勾选SmartIM
 - （可选）点击SmartIM顶部的具体IM（默认为Wechat）
 - 点击左侧工具栏的登录图标（第一个）并使用手机扫码登录。
 

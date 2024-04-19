@@ -6,7 +6,6 @@ import com.intellij.ui.components.JBLabelDecorator;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -26,6 +25,7 @@ public class ClosableTabHost extends TabbedPaneImpl implements ChangeListener {
 
     public ClosableTabHost() {
         super(JTabbedPane.TOP);
+        setTabComponentInsets(insets);
         addChangeListener(this);
     }
 
@@ -36,10 +36,6 @@ public class ClosableTabHost extends TabbedPaneImpl implements ChangeListener {
 
     public void setCallback(Callback callback) {
         this.callback = callback;
-    }
-
-    @NotNull @Override protected Insets getInsetsForTabComponent() {
-        return insets;
     }
 
     @Override public Border getBorder() {

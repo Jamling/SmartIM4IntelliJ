@@ -13,7 +13,7 @@ public class ContactTabHost extends JBTabbedPane {
 
     private Insets insets = JBUI.emptyInsets();
 
-    @NotNull @Override protected Insets getInsetsForTabComponent() {
-        return insets;
+    public ContactTabHost() {
+        setTabComponentInsets(insets);
     }
 }

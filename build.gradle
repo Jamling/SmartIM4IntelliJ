@@ -6,11 +6,11 @@
  */
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.21'
+    id 'org.jetbrains.intellij' version '1.17.2'
 }
 
 group 'cn.ieclipse.smartim'
-version '3.0.0'
+version '3.0.0.223'
 
 repositories {
     mavenCentral()
@@ -38,18 +38,18 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version = 'IU-2019.1.4'
+    version = 'IU-2023.3.6'
 }
 patchPluginXml {
-    sinceBuild = '141'
+    sinceBuild = '223'
     untilBuild = '241.*'
 }
 publishPlugin {
-    token = System.getProperty("intellijPublishToken")
+    token = project.getProperty "intellijPublishToken"
 }
 tasks.withType(JavaCompile) {
-    sourceCompatibility = "8"
-    targetCompatibility = "8"
+    sourceCompatibility = "17"
+    targetCompatibility = "17"
     options.encoding = 'UTF-8'
     options.compilerArgs += ['-Xlint:unchecked', '-Xlint:deprecation', '-parameters']
 }

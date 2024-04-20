@@ -20,54 +20,19 @@ public class LoginAction extends IMPanelAction {
         SmartClient client = imPanel.getClient();
         boolean ok = true;
         if (client.isLogin()) {
-            ok = MessageDialogBuilder.yesNo("", "您已处于登录状态，确定要重新登录吗？").show() == 0;
+            ok = MessageDialogBuilder.yesNo("", "您已处于登录状态，确定要重新登录吗？").ask(getEventProject(anActionEvent));
         }
         if (ok) {
             client.setLoginCallback(new MyLoginCallback(client, imPanel));
-            new Thread() {
-                @Override public void run() {
-                    client.login();
-                }
-            }.start();
+            new Thread(client::login).start();
         } else {
             imPanel.initContacts();
         }
-        //
-        //        LoginDialog dialog = new LoginDialog(client);
-        //        dialog.setSize(200, 240);
-        //        dialog.setLocationRelativeTo(null);
-        //        dialog.pack();
-        //        dialog.setVisible(true);
-        //        LOG.info("login : " + client.isLogin());
-        //        if (client.isLogin()) {
-        //            new LoadThread(client).start();
-        //        } else {
-        //            //fillTestData(client);
-        //        }
     }
 
-    //    private void fillTestData(SmartClient client) {
-    //        client.categories = new ArrayList<>();
-    //        for (int i = 0; i < 5; i++) {
-    //            Category c = new Category();
-    //            c.setName("Cate " + i);
-    //            client.categories.add(c);
-    //            for (int j = 0; j < 5; j++) {
-    //                Friend f = new Friend();
-    //                f.setMarkname("friend " + j);
-    //                c.addFriend(f);
-    //            }
-    //        }
-    //        client.groups = new ArrayList<>();
-    //        Group g = new Group();
-    //        g.setName("Group 0");
-    //        client.groups.add(g);
-    //        smartPanel.updateContact();
-    //    }
-
     public static class MyLoginCallback extends DefaultLoginCallback {
-        private SmartClient client;
-        private IMPanel panel;
+        private final SmartClient client;
+        private final IMPanel panel;
 
         private MyLoginCallback(SmartClient client, IMPanel panel) {
             this.client = client;

@@ -9,28 +9,31 @@ import javax.swing.*;
  * Created by Jamling on 2017/7/12.
  */
 public class SmartIcons {
-    public static Icon signin = IconLoader.getIcon("/icons/sign-in.svg");
-    public static Icon signout = IconLoader.getIcon("/icons/sign-out.png");
-    public static Icon test = IconLoader.getIcon("/icons/gitlab.png");
-    public static Icon close = IconLoader.getIcon("/icons/close.svg");
-    public static Icon show = IconLoader.getIcon("/icons/eye.svg");
-    public static Icon hide = IconLoader.getIcon("/icons/eye-slash.svg");
-    public static Icon broadcast = IconLoader.getIcon("/icons/broadcast.svg");
+    private static Icon getIcon(String path) {
+        return IconLoader.findIcon(path, SmartIcons.class);
+    }
+    public static Icon signin = getIcon("/icons/sign-in.svg");
+    public static Icon signout = getIcon("/icons/sign-out.png");
+    public static Icon test = getIcon("/icons/gitlab.png");
+    public static Icon close = getIcon("/icons/close.svg");
+    public static Icon show = getIcon("/icons/eye.svg");
+    public static Icon hide = getIcon("/icons/eye-slash.svg");
+    public static Icon broadcast = getIcon("/icons/broadcast.svg");
     public static Icon settings = AllIcons.General.Settings;
 
-    public static Icon group = IconLoader.getIcon("/icons/user-circle.svg");
-    public static Icon friend = IconLoader.getIcon("/icons/user.svg");
-    public static Icon discuss = IconLoader.getIcon("/icons/user-o.svg");
-    public static Icon subscriber = IconLoader.getIcon("/icons/subscriber.svg");
-    public static Icon app3rd = IconLoader.getIcon("/icons/app.svg");
-    public static Icon wechat = IconLoader.getIcon("/icons/wechat.svg");
+    public static Icon group = getIcon("/icons/user-circle.svg");
+    public static Icon friend = getIcon("/icons/user.svg");
+    public static Icon discuss = getIcon("/icons/user-o.svg");
+    public static Icon subscriber = getIcon("/icons/subscriber.svg");
+    public static Icon app3rd = getIcon("/icons/app.svg");
+    public static Icon wechat = getIcon("/icons/wechat.svg");
 
-    public static Icon file = AllIcons.FileTypes.Any_type;//IconLoader.getIcon("/icons/File.png");
-    public static Icon projectFile = IconLoader.getIcon("/icons/folder.svg");
-    public static Icon image = IconLoader.getIcon("/icons/image.svg");
-    public static Icon face = IconLoader.getIcon("/icons/face.png");
+    public static Icon file = AllIcons.FileTypes.Any_type;//getIcon("/icons/File.png");
+    public static Icon projectFile = getIcon("/icons/folder.svg");
+    public static Icon image = getIcon("/icons/image.svg");
+    public static Icon face = getIcon("/icons/face.png");
     public static Icon lock = AllIcons.RunConfigurations.Scroll_down;
-    public static Icon clear = IconLoader.getIcon("/icons/clear_co.png");
+    public static Icon clear = getIcon("/icons/clear_co.png");
 
     public static void main(String[] args) {
         System.out.println(group);

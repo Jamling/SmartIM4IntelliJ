@@ -9,15 +9,17 @@
      上班聊天的摸鱼神器，直接在IDE中与微信好友沟通，老板以为你是在写代码？No！No！No！其实，你是在聊天，不过，作为程序猿，怎么可能有时间聊天，哈哈，如果此插件帮助了你，是否可以请我喝杯咖啡？<br/>
      about more: <a href="https://github.com/Jamling/SmartIM4Intellij/">https://github.com/Jamling/SmartIM4Intellij/</a>
     ]]></description>
-
     <change-notes><![CDATA[
+    v3.0.0.223 2024-04-20 <br/>
+    兼容IDE版本修改为2023.x - 最新，如果IDE版本过旧，请下载历史旧版本 <br/>
+    修复#93 <br/>
     v3.0.0 2024-04-05 <br/>
     微信使用PC版协议，解决大部分账号限制登录的问题 <br/>
     ]]>
     </change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-    <idea-version since-build="141.0"/>
+    <idea-version since-build="223.0"/>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to contact different products -->
@@ -31,6 +33,8 @@
                     factoryClass="cn.ieclipse.smartim.IMWindowFactory"
                     icon="/icons/im.svg">
         </toolWindow>
+        <notificationGroup id="SmartIM"
+                           displayType="BALLOON"/>
         <applicationConfigurable instance="cn.ieclipse.smartim.settings.SmartSettingsPanel" displayName="SmartIM"/>
         <applicationService serviceImplementation="cn.ieclipse.smartim.settings.SmartIMSettings"/>
     </extensions>

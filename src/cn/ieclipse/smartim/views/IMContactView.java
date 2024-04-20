@@ -5,7 +5,6 @@ import cn.ieclipse.smartim.callback.ModificationCallback;
 import cn.ieclipse.smartim.callback.ReceiveCallback;
 import cn.ieclipse.smartim.callback.SendCallback;
 import com.intellij.ui.treeStructure.Tree;
-import com.intellij.util.ui.tree.WideSelectionTreeUI;
 
 import javax.swing.*;
 import javax.swing.tree.TreeCellRenderer;
@@ -45,9 +44,6 @@ public abstract class IMContactView {
         tree.setShowsRootHandles(false);
         tree.setRootVisible(false);
         tree.addMouseListener(new IMContactDoubleClicker(getImPanel()));
-        tree.setUI(new WideSelectionTreeUI() {
-
-        });
     }
 
     public void updateTrees(Tree... trees) {
@@ -59,11 +55,7 @@ public abstract class IMContactView {
     }
 
     public void initContacts() {
-        new Thread() {
-            public void run() {
-                doLoadContacts();
-            }
-        }.start();
+        new Thread(() -> doLoadContacts()).start();
     }
 
     protected abstract SmartClient getClient();
@@ -77,21 +69,13 @@ public abstract class IMContactView {
     }
 
     protected void notifyLoadContacts(final boolean success) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override public void run() {
-                onLoadContacts(success);
-            }
-        });
+        SwingUtilities.invokeLater(() -> onLoadContacts(success));
     }
 
     public void notifyUpdateContacts(final int index, boolean force) {
         boolean notify = true;
         if (notify || force) {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override public void run() {
-                    doUpdateContacts(index);
-                }
-            });
+            SwingUtilities.invokeLater(() -> doUpdateContacts(index));
         }
     }
 

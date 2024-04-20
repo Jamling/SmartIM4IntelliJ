@@ -15,6 +15,7 @@
  */
 package cn.ieclipse.smartim.common;
 
+import cn.ieclipse.smartim.IMWindowFactory;
 import cn.ieclipse.util.XPathUtils;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
@@ -29,7 +30,7 @@ import org.w3c.dom.Element;
 import javax.swing.*;
 import javax.swing.text.html.StyleSheet;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 
 /**
  * 类/接口描述
@@ -46,11 +47,9 @@ public class RestUtils {
         if (im.equals("qq")) {
             return "因腾讯业务调整，SmartQQ于2019年1月1日起停止服务。当前暂无替代的协议，暂无法提供脑出血，敬请谅解！";
         }
-
-        final IdeaPluginDescriptor descriptor =
-                PluginManager.getPlugin(PluginId.findId("cn.ieclipse.smartqq.intellij"));
-        return String.format("欢迎使用SmartIM4IntelliJ (ver:%s)，为保障安全，请不要在公开场合讨论本插件以免被封", descriptor.getVersion());
+        return "欢迎使用SmartIM4IntelliJ，为保障安全，请不要在公开场合讨论本插件以免被封";
     }
+
 
     public static void checkUpdate() {
         new Thread(() -> {
@@ -64,16 +63,16 @@ public class RestUtils {
                     Element node = XPathUtils.findElement(doc, "/plugin-repository/category/idea-plugin[1]");
                     String latest = XPathUtils.findElement(node, "version").getTextContent();
                     String desc = XPathUtils.findElement(node, "change-notes").getTextContent();
-                    final IdeaPluginDescriptor descriptor =
-                            PluginManager.getPlugin(PluginId.findId("cn.ieclipse.smartqq.intellij"));
-                    SwingUtilities.invokeLater(() -> {
-                        if (descriptor != null && descriptor.getVersion().equals(latest)) {
-                            JOptionPane.showMessageDialog(null, "已是最新版本");
-                            return;
-                        }
-                        BalloonNotifier.notify(latest, desc);
-                        JOptionPane.showMessageDialog(null,
-                                "发现新版本" + latest + "请在File->Settings->Plugins插件页中更新SmartIM");
+                    IMWindowFactory.getPlugin().ifPresent(descriptor -> {
+                        SwingUtilities.invokeLater(() -> {
+                            if (descriptor.getVersion().equals(latest)) {
+                                JOptionPane.showMessageDialog(null, "已是最新版本");
+                                return;
+                            }
+                            BalloonNotifier.notify(latest, desc);
+                            JOptionPane.showMessageDialog(null,
+                                    "发现新版本" + latest + "请在File->Settings->Plugins插件页中更新SmartIM");
+                        });
                     });
                 }
             } catch (Exception ex) {
@@ -88,9 +87,9 @@ public class RestUtils {
 
     public static void loadStyleSync(final StyleSheet styleSheet) {
         try {
-            styleSheet.importStyleSheet(new URL(CSS_URL));
+            styleSheet.importStyleSheet(URI.create(CSS_URL).toURL());
         } catch (MalformedURLException e1) {
-            e1.printStackTrace();
+            BalloonNotifier.error("unable to load " + CSS_URL);
         }
     }
 

@@ -10,12 +10,13 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 /**
  * Created by Jamling on 2017/7/11.
  */
 public class GeneralPanel implements Configurable {
-    private JComboBox comboSend;
+    private JComboBox<String> comboSend;
     private JCheckBox chkNotify;
     private JCheckBox chkNotifyUnread;
     private JCheckBox chkSendBtn;
@@ -26,7 +27,7 @@ public class GeneralPanel implements Configurable {
     private JLabel linkUpdate;
     private JLabel linkAbout;
     private JCheckBox chkHistory;
-    private SmartIMSettings settings;
+    private final SmartIMSettings settings;
 
     public GeneralPanel(SmartIMSettings settings) {
         this.settings = settings;
@@ -56,7 +57,7 @@ public class GeneralPanel implements Configurable {
     }
 
     @Override public boolean isModified() {
-        return chkNotify.isSelected() != settings.getState().NOTIFY_MSG || chkNotifyUnread.isSelected() != settings
+        return chkNotify.isSelected() != Objects.requireNonNull(settings.getState()).NOTIFY_MSG || chkNotifyUnread.isSelected() != settings
             .getState().NOTIFY_UNREAD || chkSendBtn.isSelected() != settings.getState().SHOW_SEND
             || chkNotifyGroupMsg.isSelected() != settings.getState().NOTIFY_GROUP_MSG
             || chkNotifyUnknown.isSelected() != settings.getState().NOTIFY_UNKNOWN
@@ -65,7 +66,7 @@ public class GeneralPanel implements Configurable {
     }
 
     @Override public void apply() throws ConfigurationException {
-        settings.getState().NOTIFY_MSG = chkNotify.isSelected();
+        Objects.requireNonNull(settings.getState()).NOTIFY_MSG = chkNotify.isSelected();
         settings.getState().NOTIFY_UNREAD = chkNotifyUnread.isSelected();
         settings.getState().SHOW_SEND = chkSendBtn.isSelected();
         settings.getState().NOTIFY_GROUP_MSG = chkNotifyGroupMsg.isSelected();
@@ -76,7 +77,7 @@ public class GeneralPanel implements Configurable {
     }
 
     @Override public void reset() {
-        chkNotify.setSelected(settings.getState().NOTIFY_MSG);
+        chkNotify.setSelected(Objects.requireNonNull(settings.getState()).NOTIFY_MSG);
         chkNotifyGroupMsg.setSelected(settings.getState().NOTIFY_GROUP_MSG);
         chkSendBtn.setSelected(settings.getState().SHOW_SEND);
         chkNotifyUnread.setSelected(settings.getState().NOTIFY_UNREAD);
@@ -84,10 +85,6 @@ public class GeneralPanel implements Configurable {
         chkHideMyInput.setSelected(settings.getState().HIDE_MY_INPUT);
         chkHistory.setSelected(settings.getState().LOG_HISTORY);
         comboSend.setSelectedItem(settings.getState().KEY_SEND);
-    }
-
-    @Override public void disposeUIResources() {
-
     }
 
     private void checkUpdate() {

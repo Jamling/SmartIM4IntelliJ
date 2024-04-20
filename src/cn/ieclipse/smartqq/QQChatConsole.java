@@ -35,7 +35,7 @@ public class QQChatConsole extends IMChatConsole {
             write(raw);
             return;
         }
-        JsonObject obj = new JsonParser().parse(raw).getAsJsonObject();
+        JsonObject obj = JsonParser.parseString(raw).getAsJsonObject();
         QQMessage m = null;
         if (obj.has("group_code")) {
             m = (QQMessage)new GroupMessageHandler().handle(obj);

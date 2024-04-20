@@ -2,6 +2,7 @@ package cn.ieclipse.smartim.settings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 /**
  * Created by Jamling on 2018/2/24.
@@ -9,14 +10,14 @@ import java.awt.*;
 public class RobotPanel {
     private JCheckBox chkRobot;
     private JTextField textRobotName;
-    private JComboBox comboRobot;
+    private JComboBox<String> comboRobot;
     private JTextField textApiKey;
     private JTextField textWelcome;
     private JCheckBox chkGroupAny;
     private JCheckBox chkFriendAny;
     private JTextField textReplyEmpty;
     private JPanel panel;
-    private SmartIMSettings settings;
+    private final SmartIMSettings settings;
 
     public RobotPanel(SmartIMSettings settings) {
         this.settings = settings;
@@ -27,7 +28,7 @@ public class RobotPanel {
     }
 
     public boolean isModified() {
-        return settings.getState().ROBOT_TYPE != comboRobot.getSelectedIndex()
+        return Objects.requireNonNull(settings.getState()).ROBOT_TYPE != comboRobot.getSelectedIndex()
             || settings.getState().ROBOT_ENABLE != chkRobot.isSelected()
             || settings.getState().ROBOT_FRIEND_ANY != chkFriendAny.isSelected()
             || settings.getState().ROBOT_GROUP_ANY != chkGroupAny.isSelected() || !settings.getState().ROBOT_KEY
@@ -38,7 +39,7 @@ public class RobotPanel {
     }
 
     public void reset() {
-        int idx = settings.getState().ROBOT_TYPE;
+        int idx = Objects.requireNonNull(settings.getState()).ROBOT_TYPE;
         if (idx >= 0 && idx < comboRobot.getItemCount()) {
             comboRobot.setSelectedIndex(idx);
         }
@@ -52,7 +53,7 @@ public class RobotPanel {
     }
 
     public void apply() {
-        settings.getState().ROBOT_TYPE = comboRobot.getSelectedIndex();
+        Objects.requireNonNull(settings.getState()).ROBOT_TYPE = comboRobot.getSelectedIndex();
         settings.getState().ROBOT_ENABLE = chkRobot.isSelected();
         settings.getState().ROBOT_FRIEND_ANY = chkFriendAny.isSelected();
         settings.getState().ROBOT_GROUP_ANY = chkGroupAny.isSelected();

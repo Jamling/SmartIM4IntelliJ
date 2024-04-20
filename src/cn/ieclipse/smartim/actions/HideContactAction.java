@@ -23,11 +23,11 @@ public class HideContactAction extends ToggleAction {
         return ActionUpdateThread.BGT;
     }
 
-    @Override public boolean isSelected(AnActionEvent anActionEvent) {
+    @Override public boolean isSelected(@NotNull AnActionEvent anActionEvent) {
         return panel.isLeftHidden();
     }
 
-    @Override public void setSelected(AnActionEvent anActionEvent, boolean b) {
+    @Override public void setSelected(@NotNull AnActionEvent anActionEvent, boolean b) {
         panel.setLeftHide(b);
     }
 }

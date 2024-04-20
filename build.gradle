@@ -10,7 +10,7 @@ plugins {
 }
 
 group 'cn.ieclipse.smartim'
-version '3.0.0'
+version '3.0.0.141'
 
 repositories {
     mavenCentral()
@@ -42,7 +42,7 @@ intellij {
 }
 patchPluginXml {
     sinceBuild = '141'
-    untilBuild = '241.*'
+    untilBuild = '221.*'
 }
 publishPlugin {
     token = System.getProperty("intellijPublishToken")

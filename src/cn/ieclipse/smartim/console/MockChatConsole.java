@@ -14,6 +14,7 @@ import java.util.List;
 public class MockChatConsole extends IMChatConsole {
     public MockChatConsole(IContact target, IMPanel imPanel) {
         super(target, imPanel);
+        new Thread(this::loadHistories).start();
     }
 
     @Override public void loadHistory(String raw) {
@@ -29,21 +30,6 @@ public class MockChatConsole extends IMChatConsole {
 
     @Override public SmartClient getClient() {
         return null;
-    }
-
-    @Override public void loadHistories() {
-        List<String> ms = IMHistoryManager.getInstance().load(getHistoryDir(), getHistoryFile());
-        int size = ms.size();
-        for (int i = 0; i < size; i++) {
-            String raw = ms.get(i);
-            if (!IMUtils.isEmpty(raw)) {
-                try {
-                    loadHistory(raw);
-                } catch (Exception e) {
-                    error("历史消息记录：" + raw);
-                }
-            }
-        }
     }
 
     @Override public void send(String input) {

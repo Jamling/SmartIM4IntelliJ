@@ -13,7 +13,7 @@ import javax.swing.*;
 public class BroadcastAction extends IMPanelAction {
 
     public BroadcastAction(IMPanel panel) {
-        super(panel, "群发", "消息群发", SmartIcons.broadcast);
+        super(panel, "消息群发", "消息群发", SmartIcons.broadcast);
     }
 
     @Override public void actionPerformed(AnActionEvent anActionEvent) {

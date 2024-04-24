@@ -15,10 +15,13 @@ import cn.ieclipse.common.BareBonesBrowserLaunch;
 import cn.ieclipse.util.EncodeUtils;
 import cn.ieclipse.util.EncryptUtils;
 import cn.ieclipse.util.StringUtils;
+import com.intellij.ide.BrowserUtil;
+import com.intellij.ide.browsers.BrowserLauncher;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
+import com.intellij.ui.BrowserHyperlinkListener;
 import com.intellij.ui.JBSplitter;
 
 import javax.swing.*;
@@ -41,7 +44,6 @@ import java.util.List;
  * Created by Jamling on 2017/7/1.
  */
 public abstract class IMChatConsole extends SimpleToolWindowPanel {
-
     public static final String ENTER_KEY = "\n";
     protected IContact contact;
     protected String uin;
@@ -53,11 +55,9 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         this.uin = target.getUin();
         this.imPanel = imPanel;
         initUI();
-        new Thread() {
-            public void run() {
-                loadHistories();
-            }
-        }.start();
+        if (getClient() != null) {
+            new Thread(this::loadHistories).start();
+        }
     }
 
     public SmartClient getClient() {
@@ -92,18 +92,13 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
     }
 
     public void loadHistories() {
-        SmartClient client = getClient();
-        if (client != null) {
-            List<String> ms = IMHistoryManager.getInstance().load(getHistoryDir(), getHistoryFile());
-            int size = ms.size();
-            for (int i = 0; i < size; i++) {
-                String raw = ms.get(i);
-                if (!IMUtils.isEmpty(raw)) {
-                    try {
-                        loadHistory(raw);
-                    } catch (Exception e) {
-                        error("历史消息记录：" + raw);
-                    }
+        List<String> ms = IMHistoryManager.getInstance().load(getHistoryDir(), getHistoryFile());
+        for (String raw : ms) {
+            if (!IMUtils.isEmpty(raw)) {
+                try {
+                    loadHistory(raw);
+                } catch (Exception e) {
+                    error("历史消息记录：" + raw);
                 }
             }
         }
@@ -148,11 +143,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
             insertDocument(msg);
             IMHistoryManager.getInstance().save(getHistoryDir(), getHistoryFile(), msg);
         }
-        new Thread() {
-            @Override public void run() {
-                post(input);
-            }
-        }.start();
+        new Thread(() -> post(input)).start();
     }
 
     public void sendWithoutPost(final String msg, boolean raw) {
@@ -164,20 +155,18 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
     }
 
     public void sendFile(final String file) {
-        new Thread() {
-            public void run() {
-                uploadLock = true;
-                try {
-                    sendFileInternal(file);
-                } catch (Exception e) {
-                    LOG.error("发送文件失败 : " + e);
-                    LOG.sendNotification("发送文件失败", String.format("文件：%s(%s)", file, e.getMessage()));
-                    error(String.format("发送文件失败：%s(%s)", file, e.getMessage()));
-                } finally {
-                    uploadLock = false;
-                }
+        new Thread(() -> {
+            uploadLock = true;
+            try {
+                sendFileInternal(file);
+            } catch (Exception e) {
+                LOG.error("发送文件失败 : " + e);
+                LOG.sendNotification("发送文件失败", String.format("文件：%s(%s)", file, e.getMessage()));
+                error(String.format("发送文件失败：%s(%s)", file, e.getMessage()));
+            } finally {
+                uploadLock = false;
             }
-        }.start();
+        }).start();
     }
 
     protected void sendFileInternal(final String file) throws Exception {
@@ -331,14 +320,11 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         historyWidget.setText(initText);
         historyWidget.setEditable(false);
         historyWidget.setBackground(null);
-        historyWidget.addHyperlinkListener(new HyperlinkListener() {
-
-            @Override public void hyperlinkUpdate(HyperlinkEvent e) {
-                if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                    String desc = e.getDescription();
-                    if (!StringUtils.isEmpty(desc)) {
-                        hyperlinkActivated(desc);
-                    }
+        historyWidget.addHyperlinkListener(e -> {
+            if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                String desc = e.getDescription();
+                if (!StringUtils.isEmpty(desc)) {
+                    hyperlinkActivated(desc);
                 }
             }
         });
@@ -363,28 +349,26 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
             // TODO open file in editor and located to line
             EditorUtils.openFile(file, line);
         } else {
-            BareBonesBrowserLaunch.openURL(desc);
+            BrowserUtil.browse(desc);
         }
         return false;
     }
 
     protected void insertDocument(final String msg) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override public void run() {
-                try {
-                    HTMLEditorKit kit = (HTMLEditorKit)historyWidget.getEditorKit();
-                    HTMLDocument doc = (HTMLDocument)historyWidget.getDocument();
-                    // historyWidget.getDocument().insertString(len - offset,
-                    // trimMsg(msg), null);
-                    // Element root = doc.getDefaultRootElement();
-                    // Element body = root.getElement(1);
-                    // doc.insertBeforeEnd(body, msg);
-                    int pos = historyWidget.getCaretPosition();
-                    kit.insertHTML(doc, doc.getLength(), msg, 0, 0, null);
-                    historyWidget.setCaretPosition(scrollLock ? pos : doc.getLength());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        SwingUtilities.invokeLater(() -> {
+            try {
+                HTMLEditorKit kit = (HTMLEditorKit)historyWidget.getEditorKit();
+                HTMLDocument doc = (HTMLDocument)historyWidget.getDocument();
+                // historyWidget.getDocument().insertString(len - offset,
+                // trimMsg(msg), null);
+                // Element root = doc.getDefaultRootElement();
+                // Element body = root.getElement(1);
+                // doc.insertBeforeEnd(body, msg);
+                int pos = historyWidget.getCaretPosition();
+                kit.insertHTML(doc, doc.getLength(), msg, 0, 0, null);
+                historyWidget.setCaretPosition(scrollLock ? pos : doc.getLength());
+            } catch (Exception e) {
+                LOG.error("app chat message fail", e);
             }
         });
     }

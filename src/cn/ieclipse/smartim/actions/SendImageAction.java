@@ -6,7 +6,7 @@ import icons.SmartIcons;
 public class SendImageAction extends SendFileAction {
 
     public SendImageAction(IMChatConsole console) {
-        super(console, "图片", "发送图片", SmartIcons.image);
+        super(console, "发送图片", "发送图片", SmartIcons.image);
         this.filter = filter_image;
     }
 

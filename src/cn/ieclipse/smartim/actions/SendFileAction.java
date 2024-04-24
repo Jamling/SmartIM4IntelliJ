@@ -16,7 +16,7 @@ public class SendFileAction extends IMChatAction {
     protected FileFilter filter;
 
     public SendFileAction(IMChatConsole console) {
-        super(console, "发送", "发送文件", SmartIcons.file);
+        super(console, "发送文件", "发送文件", SmartIcons.file);
         this.dialogTitle = "请选择要发送的文件";
     }
 
@@ -44,7 +44,6 @@ public class SendFileAction extends IMChatAction {
                 console.sendFile(f.getAbsolutePath());
             }
         }
-        return;
     }
 
 }

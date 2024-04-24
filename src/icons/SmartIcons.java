@@ -29,11 +29,11 @@ public class SmartIcons {
     public static Icon wechat = getIcon("/icons/wechat.svg");
 
     public static Icon file = AllIcons.FileTypes.Any_type;//getIcon("/icons/File.png");
-    public static Icon projectFile = getIcon("/icons/folder.svg");
+    public static Icon projectFile = AllIcons.Actions.ProjectDirectory;//getIcon("/icons/folder.svg");
     public static Icon image = getIcon("/icons/image.svg");
     public static Icon face = getIcon("/icons/face.png");
     public static Icon lock = AllIcons.RunConfigurations.Scroll_down;
-    public static Icon clear = getIcon("/icons/clear_co.png");
+    public static Icon clear = AllIcons.Actions.GC;//getIcon("/icons/clear_co.png");
 
     public static void main(String[] args) {
         System.out.println(group);

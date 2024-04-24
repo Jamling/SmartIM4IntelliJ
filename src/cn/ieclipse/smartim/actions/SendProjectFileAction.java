@@ -32,7 +32,7 @@ import icons.SmartIcons;
 public class SendProjectFileAction extends SendFileAction {
 
     public SendProjectFileAction(IMChatConsole console) {
-        super(console, "Send Project File", "Send your project(workspace) file to " + console.getName(),
+        super(console, "发送项目文件", "Send your project(workspace) file to " + console.getName(),
             SmartIcons.projectFile);
     }
 

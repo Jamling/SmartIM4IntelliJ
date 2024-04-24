@@ -28,7 +28,7 @@ import icons.SmartIcons;
 public class ClearHistoryAction extends IMChatAction {
 
     public ClearHistoryAction(IMChatConsole console) {
-        super(console, "", "Clear history", SmartIcons.clear);
+        super(console, "清除聊天记录", null, SmartIcons.clear);
     }
 
     @Override public void actionPerformed(AnActionEvent anActionEvent) {

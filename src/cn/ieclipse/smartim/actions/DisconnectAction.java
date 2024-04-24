@@ -9,7 +9,7 @@ import icons.SmartIcons;
  */
 public class DisconnectAction extends IMPanelAction {
     public DisconnectAction(IMPanel panel) {
-        super(panel, "Close", "Close the connection", SmartIcons.close);
+        super(panel, "退出登录", "断开连接", SmartIcons.close);
     }
 
     @Override public void actionPerformed(AnActionEvent anActionEvent) {

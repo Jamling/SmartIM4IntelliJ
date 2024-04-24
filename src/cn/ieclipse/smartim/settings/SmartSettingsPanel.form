@@ -15,11 +15,11 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
-        <border type="none"/>
+        <border type="empty"/>
         <children>
           <scrollpane id="92798" class="com.intellij.ui.components.JBScrollPane" binding="scroll1">
             <constraints>
-              <tabbedpane title="通用"/>
+              <tabbedpane title="消息"/>
             </constraints>
             <properties>
               <maximumSize width="600" height="32767"/>
@@ -29,7 +29,7 @@
           </scrollpane>
           <scrollpane id="c12a4" class="com.intellij.ui.components.JBScrollPane" binding="scroll2">
             <constraints>
-              <tabbedpane title="聊天机器人"/>
+              <tabbedpane title="机器人"/>
             </constraints>
             <properties>
               <maximumSize width="600" height="32767"/>
@@ -39,17 +39,18 @@
           </scrollpane>
           <scrollpane id="74195" class="com.intellij.ui.components.JBScrollPane" binding="scroll3">
             <constraints>
-              <tabbedpane title="文件传输"/>
+              <tabbedpane title="文件传输" enabled="false"/>
             </constraints>
             <properties>
               <maximumSize width="600" height="32767"/>
+              <visible value="false"/>
             </properties>
             <border type="none"/>
             <children/>
           </scrollpane>
           <scrollpane id="74196" class="com.intellij.ui.components.JBScrollPane" binding="scroll4">
             <constraints>
-              <tabbedpane title="聊天窗口样式"/>
+              <tabbedpane title="对话样式"/>
             </constraints>
             <properties>
               <horizontalScrollBarPolicy value="30"/>

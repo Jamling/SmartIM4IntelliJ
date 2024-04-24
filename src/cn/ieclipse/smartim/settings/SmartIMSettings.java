@@ -13,9 +13,11 @@ import org.jetbrains.annotations.Nullable;
 
     private State myState = new State();
 
-    @Nullable @Override
-
+    @Override
     public State getState() {
+        if (myState == null) {
+            myState = new State();
+        }
         return myState;
     }
 
@@ -35,50 +37,6 @@ import org.jetbrains.annotations.Nullable;
     }
 
     private static volatile SmartIMSettings instance;
-
-    public static final String MSG_CSS_DFT =
-            """
-                    /*仅支持css 1.0规范*/
-                    /*主属性*/
-                    body {
-                        font-size: 14px; /*文字大小*/
-                        text-align: left;
-                        overflow-x: hidden;
-                    }
-
-                    /*聊天记录格式<div><span class="sender|my"><span class="time">HH:mm:ss</span> <a href="user://sender">sender</a>: </span><span class="content">Content</span></div>*/
-                    .sender { /*发送人*/
-                        display: inline;
-                        float: left;
-                    }
-
-                    .my { /*发送人为自己*/
-                        font-size: 1em;
-                        font-style: italic;
-                        float: left;
-                    }
-
-                    .content { /* 消息内容 */
-                        display: inline-block;
-                        white-space: pre-wrap;
-                        padding-left: 4px;
-                    }
-
-
-                    div.error {
-                        color: red;
-                    }
-
-                    img {
-                        max-width: 100%;
-                        display: block;
-                    }
-
-                    br {
-                        height: 1px;
-                        line-height: 1px;
-                        min-height: 1px;
-                    }""";
 
     public static class State {
         public String KEY_SEND = "Enter";
@@ -109,6 +67,5 @@ import org.jetbrains.annotations.Nullable;
         public String QN_AK = "";
         public String QN_SK = "";
         public boolean QN_TS = false;
-        public String MSG_CSS = SmartIMSettings.MSG_CSS_DFT;
     }
 }

@@ -28,15 +28,19 @@ public class SmartSettingsPanel implements Configurable {
     public SmartSettingsPanel() {
         settings = SmartIMSettings.getInstance();
         generalPanel = new GeneralPanel(settings);
+        scroll1.setBorder(null);
         scroll1.setViewportView(generalPanel.createComponent());
 
         robotPanel = new RobotPanel(settings);
+        scroll2.setBorder(null);
         scroll2.setViewportView(robotPanel.createComponent());
 
         uploadPanel = new UploadPanel(settings);
-        //scroll3.setViewportView(uploadPanel);
+        scroll3.setBorder(null);
+        scroll3.setViewportView(uploadPanel);
 
         stylePanel = new StyleConfPanel(settings);
+        scroll4.setBorder(null);
         scroll4.setViewportView(stylePanel.createComponent());
     }
 

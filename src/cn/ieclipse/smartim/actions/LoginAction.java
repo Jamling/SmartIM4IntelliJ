@@ -13,14 +13,14 @@ import icons.SmartIcons;
 public class LoginAction extends IMPanelAction {
 
     public LoginAction(IMPanel panel) {
-        super(panel, "Login", "Click to login", SmartIcons.signin);
+        super(panel, "扫码登录", null, SmartIcons.signin);
     }
 
     @Override public void actionPerformed(AnActionEvent anActionEvent) {
         SmartClient client = imPanel.getClient();
         boolean ok = true;
         if (client.isLogin()) {
-            ok = MessageDialogBuilder.yesNo("", "您已处于登录状态，确定要重新登录吗？").ask(getEventProject(anActionEvent));
+            ok = MessageDialogBuilder.yesNo("登录", "您已处于登录状态，确定要重新登录吗？").ask(getEventProject(anActionEvent));
         }
         if (ok) {
             client.setLoginCallback(new MyLoginCallback(client, imPanel));

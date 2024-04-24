@@ -14,7 +14,7 @@ public class HideContactAction extends ToggleAction {
     IMPanel panel;
 
     public HideContactAction(IMPanel panel) {
-        super("Hide Conatct", "Hide Contact Tree", SmartIcons.hide);
+        super("隐藏联系人列表", null, SmartIcons.hide);
         this.panel = panel;
     }
 

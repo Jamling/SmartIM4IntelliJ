@@ -1,15 +1,20 @@
 package cn.ieclipse.smartim.settings;
 
-import cn.ieclipse.common.BareBonesBrowserLaunch;
 import cn.ieclipse.smartim.common.RestUtils;
+import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.ui.IdeBorderFactory;
+import com.intellij.ui.TitledSeparator;
+import com.intellij.ui.components.ActionLink;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Objects;
 
 /**
@@ -24,23 +29,25 @@ public class GeneralPanel implements Configurable {
     private JCheckBox chkNotifyGroupMsg;
     private JCheckBox chkNotifyUnknown;
     private JCheckBox chkHideMyInput;
-    private JLabel linkUpdate;
-    private JLabel linkAbout;
+    private ActionLink linkUpdate;
+    private ActionLink linkAbout;
     private JCheckBox chkHistory;
+    private JPanel sendGroup;
+    private JPanel notifyGroup;
+    private JPanel otherGroup;
     private final SmartIMSettings settings;
 
     public GeneralPanel(SmartIMSettings settings) {
         this.settings = settings;
-        linkUpdate.addMouseListener(new MouseAdapter() {
-            @Override public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                RestUtils.checkUpdate();
-            }
-        });
-        linkAbout.addMouseListener(new MouseAdapter() {
-            @Override public void mouseClicked(MouseEvent e) {
-                BareBonesBrowserLaunch.openURL(RestUtils.ABOUT_URL);
-            }
+        //sendGroup.setBorder(IdeBorderFactory.createTitledBorder("发送"));
+        notifyGroup.setBorder(IdeBorderFactory.createTitledBorder("通知"));
+        linkAbout.setExternalLinkIcon();
+        linkUpdate.addActionListener(event -> RestUtils.checkUpdate());
+        linkAbout.addActionListener(event -> BrowserUtil.browse(RestUtils.ABOUT_URL));
+        chkNotify.addItemListener(e -> {
+            chkNotifyUnread.setEnabled(e.getStateChange() == ItemEvent.SELECTED);
+            chkNotifyGroupMsg.setEnabled(e.getStateChange() == ItemEvent.SELECTED);
+            chkNotifyUnknown.setEnabled(e.getStateChange() == ItemEvent.SELECTED);
         });
     }
 
@@ -87,7 +94,7 @@ public class GeneralPanel implements Configurable {
         comboSend.setSelectedItem(settings.getState().KEY_SEND);
     }
 
-    private void checkUpdate() {
-        RestUtils.checkUpdate();
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 }

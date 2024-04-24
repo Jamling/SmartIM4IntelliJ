@@ -49,6 +49,7 @@ public class IMWindowFactory implements ToolWindowFactory {
         WechatPanel wechatPanel = new WechatPanel(project, toolWindow);
         content = contentFactory.createContent(wechatPanel, "Wechat", false);
         toolWindow.getContentManager().addContent(content, 0);
+        content.setCloseable(false);
 
         if (!enableQQ) {
             return;

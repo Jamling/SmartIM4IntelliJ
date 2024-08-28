@@ -17,7 +17,7 @@ public class LoginDialog extends JDialog {
     private JTextArea errorText;
     private JBScrollPane errorPane;
     private int result;
-    private SmartClient client;
+    private final SmartClient client;
 
     public LoginDialog(SmartClient client) {
         this.client = client;

@@ -24,14 +24,17 @@ public class WXContactView extends IMContactView {
     private Tree groupTree;
     private Tree discussTree;
 
-    private WXContactTreeNode root1, root2, root3, root4;
+    private final WXContactTreeNode root1;
+    private final WXContactTreeNode root2;
+    private final WXContactTreeNode root3;
+    private final WXContactTreeNode root4;
 
     private ContactTreeMode recentModel;
     private ContactTreeMode friendModel;
     private ContactTreeMode groupModel;
     private ContactTreeMode discussModel;
 
-    private MessageInterceptor interceptor;
+    private final MessageInterceptor interceptor;
 
     public WXContactView(WechatPanel imPanel) {
         super(imPanel);

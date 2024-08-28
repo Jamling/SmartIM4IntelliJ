@@ -51,7 +51,6 @@ public class SendProjectFileAction extends SendFileAction {
         if (path != null) {
             console.send(path);
         }
-        return;
     }
 
 }

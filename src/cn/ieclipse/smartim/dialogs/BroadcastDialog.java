@@ -9,7 +9,6 @@ import com.intellij.ui.components.JBTabbedPane;
 import com.intellij.util.ui.JBUI;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -122,13 +121,7 @@ public class BroadcastDialog extends JDialog implements ActionListener {
         }
         final List<Object> targets = new ArrayList<>();
         addTarget(targets);
-        new Thread() {
-            public void run() {
-                sendInternal(text, targets);
-            }
-
-            ;
-        }.start();
+        new Thread(() -> sendInternal(text, targets)).start();
     }
 
     protected void addTarget(final List<Object> targets) {

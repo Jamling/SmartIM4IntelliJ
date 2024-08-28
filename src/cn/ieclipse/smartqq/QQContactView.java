@@ -23,7 +23,10 @@ public class QQContactView extends IMContactView {
     private Tree groupTree;
     private Tree discussTree;
 
-    private QQContactTreeNode root1, root2, root3, root4;
+    private final QQContactTreeNode root1;
+    private final QQContactTreeNode root2;
+    private final QQContactTreeNode root3;
+    private final QQContactTreeNode root4;
 
     private ContactTreeMode recentModel;
     private ContactTreeMode friendModel;

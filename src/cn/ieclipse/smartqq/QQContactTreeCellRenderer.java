@@ -16,8 +16,7 @@ import javax.swing.*;
 public class QQContactTreeCellRenderer extends ContactTreeCellRenderer {
 
     @Override public Icon getDisplayIcon(Object obj) {
-        if (obj instanceof Recent) {
-            Recent r = (Recent)obj;
+        if (obj instanceof Recent r) {
             if (r.getType() == 0) {
                 return SmartIcons.friend;
             } else if (r.getType() == 1) {

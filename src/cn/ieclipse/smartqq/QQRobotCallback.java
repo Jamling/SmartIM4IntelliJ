@@ -17,7 +17,7 @@ import java.util.Map;
 public class QQRobotCallback extends IMRobotCallback {
 
     private QQChatConsole console;
-    private SmartQQPanel fContactView;
+    private final SmartQQPanel fContactView;
 
     public QQRobotCallback(SmartQQPanel fContactView) {
         this.fContactView = fContactView;
@@ -58,7 +58,7 @@ public class QQRobotCallback extends IMRobotCallback {
         // auto reply friend
         if (from instanceof FriendFrom) {
             if (SmartIMSettings.getInstance().getState().ROBOT_FRIEND_ANY) {
-                String reply = getReply(m.getContent(), (QQContact)from.getContact(), null);
+                String reply = getReply(m.getContent(), from.getContact(), null);
                 if (reply != null) {
                     String input = robotName + reply;
                     if (console == null) {
@@ -68,9 +68,7 @@ public class QQRobotCallback extends IMRobotCallback {
                     }
                 }
             }
-            return;
-        } else if (from instanceof GroupFrom) {
-            GroupFrom gf = (GroupFrom)from;
+        } else if (from instanceof GroupFrom gf) {
             String gName = gf.getGroup().getName();
             // QQContact qqContact = client.getGroup(gf.getGroup().getId());
             if (from.isNewbie()) {
@@ -182,17 +180,13 @@ public class QQRobotCallback extends IMRobotCallback {
                 UserInfo me = getAccount();
                 long uin = Long.parseLong(me.getUin());
                 GroupUser me2 = info.getGroupUser(uin);
-                if (m.hasAt(me2.getName()) || m.hasAt(me.getNick())) {
-                    return true;
-                }
+                return m.hasAt(me2.getName()) || m.hasAt(me.getNick());
             } else if (m instanceof DiscussMessage) {
                 DiscussInfo info = ((DiscussFrom)from).getDiscuss();
                 UserInfo me = getAccount();
                 long uin = Long.parseLong(me.getUin());
                 DiscussUser me2 = info.getDiscussUser(uin);
-                if (m.hasAt(me2.getName()) || m.hasAt(me.getNick())) {
-                    return true;
-                }
+                return m.hasAt(me2.getName()) || m.hasAt(me.getNick());
             }
         }
         return false;
@@ -209,9 +203,6 @@ public class QQRobotCallback extends IMRobotCallback {
 
     private boolean isMySend(long uin) {
         UserInfo me = getAccount();
-        if (me != null && me.getUin().equals(String.valueOf(uin))) {
-            return true;
-        }
-        return false;
+        return me != null && me.getUin().equals(String.valueOf(uin));
     }
 }

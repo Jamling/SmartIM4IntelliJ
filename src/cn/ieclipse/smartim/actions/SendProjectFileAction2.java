@@ -19,7 +19,7 @@ import java.io.File;
  * Created by Jamling on 2018/2/27.
  */
 public class SendProjectFileAction2 extends GotoActionBase implements DumbAware {
-    private IMChatConsole console;
+    private final IMChatConsole console;
 
     public SendProjectFileAction2(IMChatConsole console) {
         this.console = console;
@@ -36,8 +36,7 @@ public class SendProjectFileAction2 extends GotoActionBase implements DumbAware 
     private class Callback extends GotoActionCallback<String> {
 
         @Override public void elementChosen(ChooseByNamePopup chooseByNamePopup, Object o) {
-            if (o != null && o instanceof PsiFile) {
-                PsiFile file = (PsiFile)o;
+            if (o != null && o instanceof PsiFile file) {
                 VirtualFile vf = file.getVirtualFile();
                 if (vf != null) {
                     File f = new File(vf.getCanonicalPath());

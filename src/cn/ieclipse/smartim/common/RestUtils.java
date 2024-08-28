@@ -17,9 +17,6 @@ package cn.ieclipse.smartim.common;
 
 import cn.ieclipse.smartim.IMWindowFactory;
 import cn.ieclipse.util.XPathUtils;
-import com.intellij.ide.plugins.IdeaPluginDescriptor;
-import com.intellij.ide.plugins.PluginManager;
-import com.intellij.openapi.extensions.PluginId;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -82,7 +79,7 @@ public class RestUtils {
     }
 
     public static void loadStyleAsync(final StyleSheet styleSheet) {
-        // new Thread(() -> loadStyleSync(styleSheet)).start();
+         // new Thread(() -> loadStyleSync(styleSheet)).start();
     }
 
     public static void loadStyleSync(final StyleSheet styleSheet) {

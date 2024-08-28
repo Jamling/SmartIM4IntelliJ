@@ -75,8 +75,7 @@ public class QQBroadcastDialog extends BroadcastDialog {
         int ret = 0;
         if (targets != null) {
             for (Object obj : targets) {
-                if (obj != null && obj instanceof IContact) {
-                    IContact target = (IContact)obj;
+                if (obj != null && obj instanceof IContact target) {
                     try {
                         IMessage m = createMessage(text, target, client);
                         client.sendMessage(m, target);

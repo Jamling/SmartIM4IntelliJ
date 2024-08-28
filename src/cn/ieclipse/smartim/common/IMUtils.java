@@ -15,9 +15,9 @@
  */
 package cn.ieclipse.smartim.common;
 
+import cn.ieclipse.common.Patterns;
 import cn.ieclipse.util.EncodeUtils;
 import cn.ieclipse.util.FileUtils;
-import cn.ieclipse.common.Patterns;
 import cn.ieclipse.util.StringUtils;
 
 import java.io.File;
@@ -188,7 +188,7 @@ public class IMUtils {
                 sb.delete(offset + s, offset + e);
                 String link = http == null ? g : http + g;
                 String ng = g;
-                if (IMG_EXTS.indexOf(FileUtils.getExtension(g).toLowerCase()) >= 0) {
+                if (IMG_EXTS.contains(FileUtils.getExtension(g).toLowerCase())) {
                     ng = String.format("<a href=\"%s\"><img src=\"%s\" alt=\"%s\" border=\"0\"/></a>", link, link,
                         "无法预览，请尝试点击");
                 } else {

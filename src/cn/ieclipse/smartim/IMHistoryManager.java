@@ -15,8 +15,8 @@
  */
 package cn.ieclipse.smartim;
 
-import cn.ieclipse.smartim.settings.SmartIMSettings;
 import cn.ieclipse.common.FileStorage;
+import cn.ieclipse.smartim.settings.SmartIMSettings;
 
 import java.io.File;
 import java.util.HashMap;
@@ -30,12 +30,12 @@ import java.util.Map;
  * @date 2017年10月23日
  */
 public class IMHistoryManager {
-    private Map<String, FileStorage> stores = new HashMap<>();
+    private final Map<String, FileStorage> stores = new HashMap<>();
     private static final int max = 30;
     private static final int size = 500;
     private long ts = System.currentTimeMillis();
 
-    private static IMHistoryManager instance = new IMHistoryManager();
+    private static final IMHistoryManager instance = new IMHistoryManager();
     public static final String HISTORY_NAME = "history";
 
     public static IMHistoryManager getInstance() {

@@ -23,9 +23,7 @@ public class CheckBoxTreeNodeSelectionListener extends MouseAdapter {
                 // else {
                 // tree.expandPath(path);
                 // }
-                return;
-            } else if (selectedNode instanceof CheckBoxTreeNode && event.getClickCount() == 1) {
-                CheckBoxTreeNode node = (CheckBoxTreeNode)selectedNode;
+            } else if (selectedNode instanceof CheckBoxTreeNode node && event.getClickCount() == 1) {
                 if (node != null) {
                     boolean isSelected = !node.isSelected();
                     node.setSelected(isSelected);

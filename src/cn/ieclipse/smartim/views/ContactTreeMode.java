@@ -6,7 +6,7 @@ import javax.swing.tree.DefaultTreeModel;
  * Created by Jamling on 2017/7/12.
  */
 public class ContactTreeMode extends DefaultTreeModel {
-    private ContactTreeNode root;
+    private final ContactTreeNode root;
 
     public ContactTreeMode(ContactTreeNode root) {
         super(root);

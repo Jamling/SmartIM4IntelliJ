@@ -32,7 +32,7 @@ public class IMContactDoubleClicker extends MouseAdapter {
                 return;
             }
             if (imPanel != null && e.getClickCount() == 2) {
-                imPanel.onDoubleClick(((DefaultMutableTreeNode)selectedNode).getUserObject());
+                imPanel.onDoubleClick(selectedNode.getUserObject());
             }
         }
     }

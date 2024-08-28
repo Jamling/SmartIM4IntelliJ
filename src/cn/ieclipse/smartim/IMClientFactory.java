@@ -33,7 +33,7 @@ public class IMClientFactory {
     public static final String TYPE_WECHAT = "Wechat";
     private Map<String, SmartClient> clients = null;
 
-    private static IMClientFactory instance = new IMClientFactory();
+    private static final IMClientFactory instance = new IMClientFactory();
 
     private void checkClients() {
         if (clients == null) {

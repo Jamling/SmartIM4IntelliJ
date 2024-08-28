@@ -73,8 +73,7 @@ public class WXBroadcastDialog extends BroadcastDialog {
         int ret = 0;
         if (targets != null) {
             for (Object obj : targets) {
-                if (obj instanceof Contact) {
-                    Contact target = (Contact)obj;
+                if (obj instanceof Contact target) {
                     try {
                         IMessage m = createMessage(text, target, client);
                         client.sendMessage(m, target);

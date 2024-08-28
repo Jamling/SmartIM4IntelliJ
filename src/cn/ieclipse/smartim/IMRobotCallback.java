@@ -16,14 +16,10 @@
 package cn.ieclipse.smartim;
 
 import cn.ieclipse.smartim.callback.ModificationCallback;
-import cn.ieclipse.smartim.callback.ReceiveCallback;
 import cn.ieclipse.smartim.callback.RobotCallback;
 import cn.ieclipse.smartim.robot.IRobot;
 import cn.ieclipse.smartim.robot.RobotFactory;
-import cn.ieclipse.smartim.robot.TuringRobot;
 import cn.ieclipse.smartim.settings.SmartIMSettings;
-import cn.ieclipse.util.EncodeUtils;
-import cn.ieclipse.util.EncryptUtils;
 
 /**
  * 类/接口描述

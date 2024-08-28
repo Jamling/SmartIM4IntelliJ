@@ -4,7 +4,10 @@ import cn.ieclipse.smartim.IMWindowFactory;
 import cn.ieclipse.smartim.model.IContact;
 import cn.ieclipse.smartim.views.IMPanel;
 import cn.ieclipse.util.StringUtils;
-import com.intellij.notification.*;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationGroup;
+import com.intellij.notification.NotificationGroupManager;
+import com.intellij.notification.NotificationType;
 import com.intellij.openapi.project.ProjectManager;
 
 /**

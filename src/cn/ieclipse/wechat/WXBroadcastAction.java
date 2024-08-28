@@ -11,7 +11,7 @@ public class WXBroadcastAction extends BroadcastAction {
     }
 
     @Override protected void openDialog() {
-        WXBroadcastDialog dialog = new WXBroadcastDialog((WechatPanel)imPanel);
+        WXBroadcastDialog dialog = new WXBroadcastDialog(imPanel);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setVisible(true);
     }

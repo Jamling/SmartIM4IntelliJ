@@ -47,14 +47,12 @@ public class QQReceiveCallback extends IMReceiveCallback {
             String uin = from.getContact().getUin();
             IContact qqContact = from.getContact();
             SmartQQClient client = (SmartQQClient)fContactView.getClient();
-            if (from instanceof GroupFrom) {
-                GroupFrom gf = (GroupFrom)from;
+            if (from instanceof GroupFrom gf) {
                 unknown = (gf.getGroupUser() == null || gf.getGroupUser().isUnknown());
                 uin = gf.getGroup().getUin();
                 notify = SmartIMSettings.getInstance().getState().NOTIFY_GROUP_MSG;
                 qqContact = client.getGroup(gf.getGroup().getId());
-            } else if (from instanceof DiscussFrom) {
-                DiscussFrom gf = (DiscussFrom)from;
+            } else if (from instanceof DiscussFrom gf) {
                 unknown = (gf.getDiscussUser() == null || gf.getDiscussUser().isUnknown());
                 uin = gf.getDiscuss().getUin();
                 notify = SmartIMSettings.getInstance().getState().NOTIFY_GROUP_MSG;
@@ -67,8 +65,7 @@ public class QQReceiveCallback extends IMReceiveCallback {
     @Override protected String getMsgContent(AbstractMessage message, AbstractFrom from) {
         String name = from.getName();
         String msg = null;
-        if (message instanceof QQMessage) {
-            QQMessage m = (QQMessage)message;
+        if (message instanceof QQMessage m) {
             msg = IMUtils.formatHtmlMsg(m.getTime(), name, m.getContent());
             msg = QQUtils.decodeEmoji(msg);
         }

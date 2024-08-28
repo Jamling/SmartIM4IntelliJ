@@ -12,6 +12,6 @@ public class QQSendCallback extends IMSendCallback {
     }
 
     @Override protected IMPanel getIMPanel() {
-        return (SmartQQPanel)imPanel;
+        return imPanel;
     }
 }

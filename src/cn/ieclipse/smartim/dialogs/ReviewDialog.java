@@ -87,8 +87,7 @@ public class ReviewDialog extends JDialog {
             Content[] contents = window.getContentManager().getContents();
             if (contents != null) {
                 for (Content content : contents) {
-                    if (content.getComponent() != null && content.getComponent() instanceof IMPanel) {
-                        IMPanel panel = (IMPanel)content.getComponent();
+                    if (content.getComponent() != null && content.getComponent() instanceof IMPanel panel) {
                         List<IMChatConsole> chats = panel.getConsoleList();
                         if (!chats.isEmpty()) {
                             targetPanel.add(new GroupPanel(content.getDisplayName(), chats));
@@ -99,7 +98,7 @@ public class ReviewDialog extends JDialog {
         }
     }
 
-    private List<IMChatConsole> consoles = new ArrayList<>();
+    private final List<IMChatConsole> consoles = new ArrayList<>();
 
     private void send() {
         String msg = String.format("%s(Reviews: %s)", text.getText(), styledText.getText());
@@ -123,8 +122,8 @@ public class ReviewDialog extends JDialog {
     }
 
     public class GroupPanel extends JPanel {
-        private JPanel panel;
-        private JLabel label;
+        private final JPanel panel;
+        private final JLabel label;
 
         /**
          * Create the panel.

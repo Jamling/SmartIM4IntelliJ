@@ -1,8 +1,8 @@
 package cn.ieclipse.smartim;
 
 import cn.ieclipse.smartim.callback.ReceiveCallback;
-import cn.ieclipse.smartim.common.LOG;
 import cn.ieclipse.smartim.common.BalloonNotifier;
+import cn.ieclipse.smartim.common.LOG;
 import cn.ieclipse.smartim.console.IMChatConsole;
 import cn.ieclipse.smartim.model.impl.AbstractContact;
 import cn.ieclipse.smartim.model.impl.AbstractFrom;

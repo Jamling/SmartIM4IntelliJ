@@ -5,16 +5,12 @@ import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.ui.IdeBorderFactory;
-import com.intellij.ui.TitledSeparator;
 import com.intellij.ui.components.ActionLink;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.Objects;
 
 /**

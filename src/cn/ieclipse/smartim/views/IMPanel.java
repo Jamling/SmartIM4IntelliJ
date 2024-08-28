@@ -102,7 +102,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
 
     public abstract BroadcastAction createBroadcastAction(DefaultActionGroup group);
 
-    private Map<String, IMChatConsole> consoles = new HashMap<>();
+    private final Map<String, IMChatConsole> consoles = new HashMap<>();
 
     public Map<String, IMChatConsole> getConsoles() {
         return consoles;
@@ -130,9 +130,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
 
     public boolean isCurrent(final IMChatConsole console) {
         if (console != null) {
-            if (console == tabbedChat.getSelectedComponent()) {
-                return true;
-            }
+            return console == tabbedChat.getSelectedComponent();
         }
         return false;
     }
@@ -151,8 +149,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
     public IMChatConsole findConsoleById(String id, boolean show) {
         int count = tabbedChat.getTabCount();
         for (int i = 0; i < count; i++) {
-            if (tabbedChat.getComponentAt(i) instanceof IMChatConsole) {
-                IMChatConsole t = (IMChatConsole)tabbedChat.getComponentAt(i);
+            if (tabbedChat.getComponentAt(i) instanceof IMChatConsole t) {
                 if (id.equals(t.getUin())) {
                     if (show) {
                         tabbedChat.setSelectedIndex(i);
@@ -225,8 +222,7 @@ public abstract class IMPanel extends SimpleToolWindowPanel implements ClosableT
         if (tabbedChat != null) {
             int count = tabbedChat.getTabCount();
             for (int i = 0; i < count; i++) {
-                if (tabbedChat.getComponentAt(i) instanceof IMChatConsole) {
-                    IMChatConsole t = (IMChatConsole)tabbedChat.getComponentAt(i);
+                if (tabbedChat.getComponentAt(i) instanceof IMChatConsole t) {
                     list.add(t);
                 }
             }

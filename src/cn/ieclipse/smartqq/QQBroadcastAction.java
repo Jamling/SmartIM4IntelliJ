@@ -11,7 +11,7 @@ public class QQBroadcastAction extends BroadcastAction {
     }
 
     @Override protected void openDialog() {
-        QQBroadcastDialog dialog = new QQBroadcastDialog((SmartQQPanel)imPanel);
+        QQBroadcastDialog dialog = new QQBroadcastDialog(imPanel);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setVisible(true);
     }

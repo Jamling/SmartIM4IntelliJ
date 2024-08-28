@@ -8,15 +8,15 @@ import java.awt.*;
 
 public class UploadPanel extends JPanel {
 
-    private JCheckBox chkEnable;
-    private JComboBox<String> comboZone;
-    private JTextField textAccessKey;
-    private JTextField textSecretKey;
-    private JTextField textBucket;
-    private JTextField textDomain;
-    private JCheckBox chkTs;
+    private final JCheckBox chkEnable;
+    private final JComboBox<String> comboZone;
+    private final JTextField textAccessKey;
+    private final JTextField textSecretKey;
+    private final JTextField textBucket;
+    private final JTextField textDomain;
+    private final JCheckBox chkTs;
 
-    private SmartIMSettings settings;
+    private final SmartIMSettings settings;
 
     public static final String[][] ZONE_VALUE =
         {{"自动", "autoZone"}, {"华东", "huadong"}, {"华北", "huabei"}, {"华南", "huanan"}, {"北美", "beimei"}};

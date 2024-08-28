@@ -18,8 +18,7 @@ public class EditorUtils {
         Editor editor = null;
         FileEditor[] fileEditors = FileEditorManager.getInstance(project).openFile(virtualFile, true);
         for (FileEditor fileEditor : fileEditors) {
-            if (fileEditor instanceof TextEditor) {
-                TextEditor textEditor = (TextEditor)fileEditor;
+            if (fileEditor instanceof TextEditor textEditor) {
                 editor = textEditor.getEditor();
             }
         }

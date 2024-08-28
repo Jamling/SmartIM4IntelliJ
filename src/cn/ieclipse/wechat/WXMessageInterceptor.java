@@ -12,8 +12,7 @@ public class WXMessageInterceptor implements MessageInterceptor {
     Pattern code = Pattern.compile(IMUtils.CODE_REGEX);
 
     @Override public boolean handle(IMessage message) {
-        if (message instanceof WechatMessage) {
-            WechatMessage msg = (WechatMessage)message;
+        if (message instanceof WechatMessage msg) {
             if (msg.MsgType == WechatMessage.MSGTYPE_TEXT) {
                 Matcher m = code.matcher(msg.getText());
                 if (m.find()) {

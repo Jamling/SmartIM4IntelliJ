@@ -19,7 +19,6 @@ import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.model.IContact;
 import cn.ieclipse.smartim.model.impl.AbstractFrom;
 import cn.ieclipse.util.EncodeUtils;
-import cn.ieclipse.util.StringUtils;
 import io.github.biezhi.wechat.model.Contact;
 import io.github.biezhi.wechat.model.UserFrom;
 import io.github.biezhi.wechat.model.WechatMessage;
@@ -38,8 +37,7 @@ import java.util.regex.Pattern;
  */
 public class WXUtils {
     public static char getContactChar(IContact contact) {
-        if (contact instanceof Contact) {
-            Contact c = (Contact)contact;
+        if (contact instanceof Contact c) {
             char ch = 'F';
             if (c.isPublic()) {
                 ch = 'P';
@@ -136,7 +134,7 @@ public class WXUtils {
         name = WXUtils.getPureName(name);
         String msg = null;
         String text = m.getText() == null ? "" : m.getText().toString();
-        boolean my = from.isOut() ? true : false;
+        boolean my = from.isOut();
         if (m.MsgType != WechatMessage.MSGTYPE_TEXT) {
             if (m.MsgType == WechatMessage.MSGTYPE_APP && m.AppMsgType == WechatMessage.APPMSGTYPE_ATTACH) {
                 if (m.AppMsgInfo != null) {

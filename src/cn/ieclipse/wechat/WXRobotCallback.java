@@ -15,7 +15,7 @@ public class WXRobotCallback extends IMRobotCallback {
 
     private WXChatConsole console;
     private WechatClient client;
-    private WechatPanel fContactView;
+    private final WechatPanel fContactView;
 
     public WXRobotCallback(WechatPanel fContactView) {
         this.fContactView = fContactView;
@@ -93,8 +93,7 @@ public class WXRobotCallback extends IMRobotCallback {
                     send(from, input);
                 }
             }
-        } else if (from instanceof GroupFrom) {
-            GroupFrom gf = (GroupFrom)from;
+        } else if (from instanceof GroupFrom gf) {
             // newbie
             if (from.isNewbie()) {
                 String welcome = getGroupWelcome();
@@ -180,10 +179,7 @@ public class WXRobotCallback extends IMRobotCallback {
         } else {
             name = getAccount().getName();
         }
-        if (text.contains("@" + name)) {
-            return true;
-        }
-        return false;
+        return text.contains("@" + name);
     }
 
     private Contact getAccount() {
@@ -205,14 +201,11 @@ public class WXRobotCallback extends IMRobotCallback {
     }
 
     private WechatClient getClient() {
-        return (WechatClient)IMClientFactory.getInstance().getWechatClient();
+        return IMClientFactory.getInstance().getWechatClient();
     }
 
     private boolean isMySend(String uin) {
         Contact me = getAccount();
-        if (me != null && me.getUin().equals(uin)) {
-            return true;
-        }
-        return false;
+        return me != null && me.getUin().equals(uin);
     }
 }

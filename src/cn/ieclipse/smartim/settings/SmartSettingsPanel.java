@@ -18,12 +18,12 @@ public class SmartSettingsPanel implements Configurable {
     private JBScrollPane scroll1;
     private JBScrollPane scroll2;
     private JBScrollPane scroll3;
-    private SmartIMSettings settings;
-    private GeneralPanel generalPanel;
-    private RobotPanel robotPanel;
-    private UploadPanel uploadPanel;
+    private final SmartIMSettings settings;
+    private final GeneralPanel generalPanel;
+    private final RobotPanel robotPanel;
+    private final UploadPanel uploadPanel;
     private JBScrollPane scroll4;
-    private StyleConfPanel stylePanel;
+    private final StyleConfPanel stylePanel;
 
     public SmartSettingsPanel() {
         settings = SmartIMSettings.getInstance();

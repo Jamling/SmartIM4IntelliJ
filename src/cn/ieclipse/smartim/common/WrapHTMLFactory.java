@@ -153,5 +153,4 @@ public class WrapHTMLFactory extends HTMLEditorKit.HTMLFactory {
 
     }
 
-    ;
 }

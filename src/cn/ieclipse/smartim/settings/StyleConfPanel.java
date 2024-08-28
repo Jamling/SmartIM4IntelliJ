@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class StyleConfPanel {
     private JTextPane textPane;
@@ -119,7 +120,7 @@ public class StyleConfPanel {
             if (charset != null) {
                 return new String(bytes, charset);
             }
-            return new String(bytes, Charset.forName("UTF-8"));
+            return new String(bytes, StandardCharsets.UTF_8);
         }
         return null;
     }

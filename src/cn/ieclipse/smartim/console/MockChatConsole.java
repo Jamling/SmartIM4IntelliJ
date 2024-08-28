@@ -6,8 +6,6 @@ import cn.ieclipse.smartim.common.IMUtils;
 import cn.ieclipse.smartim.model.IContact;
 import cn.ieclipse.smartim.views.IMPanel;
 
-import java.util.List;
-
 /**
  * Created by Jamling on 2018/1/3.
  */
@@ -20,7 +18,6 @@ public class MockChatConsole extends IMChatConsole {
     @Override public void loadHistory(String raw) {
         if (IMUtils.isMySendMsg(raw)) {
             write(raw);
-            return;
         }
     }
 

@@ -295,18 +295,7 @@ public abstract class IMChatConsole extends SimpleToolWindowPanel {
         styleSheet.addRule(".sender {display: inline; float: left;}");
         styleSheet.addRule(".content {display: inline-block; white-space: pre-wrap; padding-left: 4px;}");
         styleSheet.addRule(".br {height: 1px; line-height: 1px; min-height: 1px;}");
-        RestUtils.loadStyleAsync(styleSheet);
-        File f = StyleConfPanel.getCssFile();
-        try {
-            if (f.exists()) {
-                URL url = f.toURI().toURL();
-                styleSheet.importStyleSheet(url);
-            } else {
-                LOG.error("$idea.config.path not exists, smartim will use default css");
-            }
-        } catch (Exception e) {
-            LOG.error("加载SmartIM消息CSS失败", e);
-        }
+        RestUtils.loadStyleSync(styleSheet);
         HTMLDocument doc = (HTMLDocument)kit.createDefaultDocument();
         String initText = String
             .format("<html><head></head><body><div class=\"welcome\">%s</div></body></html>", imPanel.getWelcome());

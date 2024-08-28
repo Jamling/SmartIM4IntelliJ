@@ -10,8 +10,11 @@
      about more: <a href="https://github.com/Jamling/SmartIM4Intellij/">https://github.com/Jamling/SmartIM4Intellij/</a>
     ]]></description>
     <change-notes><![CDATA[
+    v3.0.1.223 2024-08-28 <br/>
+    兼容IDE版本修改为2023.x - 最新
+    Fix #99，修复修改聊天样式不生效的问题 <br/>
     v3.0.0.223 2024-04-20 <br/>
-    兼容IDE版本修改为2023.x - 最新，如果IDE版本过旧，请下载历史旧版本 <br/>
+    兼容IDE版本修改为2023.x - 2024.1，如果IDE版本过旧，请下载历史旧版本 <br/>
     修复#93 <br/>
     v3.0.0 2024-04-05 <br/>
     微信使用PC版协议，解决大部分账号限制登录的问题 <br/>

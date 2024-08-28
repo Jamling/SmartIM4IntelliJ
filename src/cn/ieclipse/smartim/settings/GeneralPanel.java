@@ -1,5 +1,6 @@
 package cn.ieclipse.smartim.settings;
 
+import cn.ieclipse.smartim.IMWindowFactory;
 import cn.ieclipse.smartim.common.RestUtils;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.options.Configurable;
@@ -31,6 +32,7 @@ public class GeneralPanel implements Configurable {
     private JPanel sendGroup;
     private JPanel notifyGroup;
     private JPanel otherGroup;
+    private JLabel version;
     private final SmartIMSettings settings;
 
     public GeneralPanel(SmartIMSettings settings) {
@@ -45,6 +47,7 @@ public class GeneralPanel implements Configurable {
             chkNotifyGroupMsg.setEnabled(e.getStateChange() == ItemEvent.SELECTED);
             chkNotifyUnknown.setEnabled(e.getStateChange() == ItemEvent.SELECTED);
         });
+        IMWindowFactory.getPlugin().ifPresent(pluginDescriptor -> version.setText("当前版本：" + pluginDescriptor.getVersion()));
     }
 
     @Nls @Override public String getDisplayName() {

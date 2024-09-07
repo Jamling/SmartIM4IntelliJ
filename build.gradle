@@ -10,7 +10,7 @@ plugins {
 }
 
 group 'cn.ieclipse.smartim'
-version '3.0.1.223'
+version '3.0.2.223'
 
 repositories {
     mavenCentral()
@@ -38,7 +38,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version = 'IU-2023.3.6'
+    version = 'IC-2023.3.6'
 }
 patchPluginXml {
     sinceBuild = '223'

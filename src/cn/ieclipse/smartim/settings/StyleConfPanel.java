@@ -135,6 +135,8 @@ public class StyleConfPanel {
                 if (f.exists()) {
                     FileInputStream fis = new FileInputStream(f);
                     textPane.setText(readString(fis, null));
+                } else {
+                    textPane.setToolTipText("如果您想要编辑样式，请先点击还原默认样式，基于默认样式进行编辑修改");
                 }
             }
             parse();

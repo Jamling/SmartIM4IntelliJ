@@ -8,7 +8,10 @@ import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
+
+import java.nio.file.Path;
 
 /**
  * Created by Jamling on 2018/1/2.
@@ -43,15 +46,12 @@ public class EditorUtils {
         return pos.line;
     }
 
-    public static VirtualFile findByPath(Project project, String path) {
-        return VFSUtils._getVirtualFile(project, path);
-    }
-
     public static void openFile(String file, int line) {
         if (IMWindowFactory.getDefault() != null) {
             Project project = IMWindowFactory.getDefault().getProject();
             if (project != null) {
-                VirtualFile vf = findByPath(project, file);
+                Path path = Path.of(project.getBasePath(), file);
+                VirtualFile vf = VfsUtil.findFile(path, false);
                 if (vf != null) {
                     Editor editor = openTextEditor(project, vf);
                     if (editor != null) {

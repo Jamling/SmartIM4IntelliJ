@@ -68,5 +68,6 @@ import org.jetbrains.annotations.NotNull;
         public String QN_AK = "";
         public String QN_SK = "";
         public boolean QN_TS = false;
+        public boolean AUTO_LOGIN = true;
     }
 }

@@ -33,6 +33,7 @@ public class GeneralPanel implements Configurable {
     private JPanel notifyGroup;
     private JPanel otherGroup;
     private JLabel version;
+    private JCheckBox chkAutoLogin;
     private final SmartIMSettings settings;
 
     public GeneralPanel(SmartIMSettings settings) {

@@ -2,6 +2,7 @@ package cn.ieclipse.smartim.actions;
 
 import cn.ieclipse.smartim.SmartClient;
 import cn.ieclipse.smartim.callback.impl.DefaultLoginCallback;
+import cn.ieclipse.smartim.settings.SmartIMSettings;
 import cn.ieclipse.smartim.views.IMPanel;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.MessageDialogBuilder;
@@ -23,6 +24,7 @@ public class LoginAction extends IMPanelAction {
             ok = MessageDialogBuilder.yesNo("登录", "您已处于登录状态，确定要重新登录吗？").ask(getEventProject(anActionEvent));
         }
         if (ok) {
+            client.setAutoLogin(SmartIMSettings.getInstance().getState().AUTO_LOGIN);
             client.setLoginCallback(new MyLoginCallback(client, imPanel));
             new Thread(client::login).start();
         } else {

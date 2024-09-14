@@ -10,7 +10,7 @@ plugins {
 }
 
 group 'cn.ieclipse.smartim'
-version '3.0.2.223'
+version '3.1.0.223'
 
 repositories {
     mavenCentral()
